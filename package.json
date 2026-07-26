@@ -1,0 +1,33 @@
+{
+  "name": "zesstnow-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official website of Zesst Now Services Private Limited",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@react-three/drei": "10.7.7",
+    "@react-three/fiber": "9.6.1",
+    "@react-three/postprocessing": "3.0.4",
+    "lenis": "1.3.25",
+    "motion": "12.42.2",
+    "next": "15.5.22",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "@types/three": "0.185.0",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.49",
+    "tailwindcss": "3.4.19",
+    "typescript": "5.7.2"
+  }
+}

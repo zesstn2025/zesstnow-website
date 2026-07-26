@@ -1,0 +1,225 @@
+import Link from "next/link";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+import Faq from "@/components/Faq";
+import HeroStage from "@/components/HeroStage";
+import TiltCard from "@/components/TiltCard";
+import ProductVisual from "@/components/ProductVisual";
+import RevealObserver from "@/components/RevealObserver";
+import { company, type Product } from "@/content/site";
+
+export default function ProductPage({ product }: { product: Product }) {
+  const accent = product.accent === "cyan" ? "#67e8f9" : "#a78bfa";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: product.name,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: product.url,
+    description: product.sub,
+    publisher: { "@type": "Organization", name: company.legalName },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <RevealObserver />
+      <Nav />
+
+      <main>
+        {/* ── HERO ─────────────────────────────────────────────── */}
+        <section className="page-hero">
+          <HeroStage
+            variant="product"
+            accent={accent}
+            className="hero-canvas"
+          />
+
+          <div className="shell" style={{ position: "relative", zIndex: 2 }}>
+            <Link href="/#products" className="back-link reveal">
+              ← All products
+            </Link>
+
+            <div style={{ marginTop: 26, maxWidth: 760 }}>
+              <span className="eyebrow reveal">{product.kicker}</span>
+
+              <h1
+                className="display reveal"
+                data-delay={80}
+                style={{ marginTop: 20, fontSize: "clamp(34px,5.6vw,68px)" }}
+              >
+                {product.headline}
+              </h1>
+
+              <p className="hero-sub reveal" data-delay={160}>
+                {product.sub}
+              </p>
+
+              <div className="hero-ctas reveal" data-delay={230}>
+                <a
+                  href={product.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pill pill-primary"
+                >
+                  Visit {product.domain} ↗
+                </a>
+                <Link href="/#contact" className="pill pill-ghost">
+                  Talk to us
+                </Link>
+              </div>
+
+              <div
+                className="reveal"
+                data-delay={300}
+                style={{ display: "flex", gap: 12, marginTop: 34, flexWrap: "wrap" }}
+              >
+                <span className="status" data-live={product.status === "Live"}>
+                  <span className="status-dot" />
+                  {product.status}
+                </span>
+                <span className="status">Built by {company.shortName}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── WHO IT'S FOR ─────────────────────────────────────── */}
+        <section className="section" style={{ paddingBlock: "clamp(40px,6vw,80px)" }}>
+          <div className="shell">
+            <div className="glass reveal" style={{ padding: "clamp(28px,3.4vw,44px)" }}>
+              <span className="eyebrow">WHO IT&rsquo;S FOR</span>
+              <p
+                style={{
+                  marginTop: 20,
+                  fontSize: "clamp(18px,2.3vw,26px)",
+                  lineHeight: 1.45,
+                  letterSpacing: "-0.02em",
+                  fontFamily: "var(--font-display), sans-serif",
+                  maxWidth: "44ch",
+                }}
+              >
+                {product.audience}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ── FEATURES ─────────────────────────────────────────── */}
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="shell">
+            <div className="section-head reveal">
+              <span className="eyebrow">CAPABILITIES</span>
+              <h2 className="section-title">What it does.</h2>
+            </div>
+
+            <div className="feat-grid feat-grid-3">
+              {product.features.map((f, i) => (
+                <TiltCard
+                  key={f.title}
+                  className="glass feat reveal"
+                  max={6}
+                  data-delay={i * 60}
+                >
+                  <h3 className="feat-t">{f.title}</h3>
+                  <p className="feat-b">{f.body}</p>
+                </TiltCard>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── HOW IT WORKS ─────────────────────────────────────── */}
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="shell">
+            <div className="section-head reveal">
+              <span className="eyebrow">HOW IT WORKS</span>
+              <h2 className="section-title">Four moves, start to filed.</h2>
+            </div>
+
+            <div className="prod" data-flip="false">
+              <div className="steps reveal" style={{ borderTop: "none" }}>
+                {product.steps.map((s, i) => (
+                  <div className="step" key={s.title} style={{ gridTemplateColumns: "60px 1fr" }}>
+                    <span className="step-no">{String(i + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3 className="step-t">{s.title}</h3>
+                      <p className="step-b" style={{ marginTop: 8 }}>
+                        {s.body}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="prod-visual reveal" data-accent={product.accent} data-delay={120}>
+                <ProductVisual product={product} />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ──────────────────────────────────────────────── */}
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="shell" style={{ maxWidth: 900 }}>
+            <div className="section-head reveal">
+              <span className="eyebrow">QUESTIONS</span>
+              <h2 className="section-title">Before you ask.</h2>
+            </div>
+            <div className="reveal">
+              <Faq items={product.faq} />
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA ──────────────────────────────────────────────── */}
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="shell">
+            <div
+              className="glass reveal"
+              style={{ padding: "clamp(36px,5vw,72px)", textAlign: "center" }}
+            >
+              <h2 className="section-title" style={{ marginTop: 0 }}>
+                Want this for your practice?
+              </h2>
+              <p
+                className="section-sub"
+                style={{ marginInline: "auto", textAlign: "center" }}
+              >
+                Tell us how you work today and we&rsquo;ll show you what changes.
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 12,
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  marginTop: 32,
+                }}
+              >
+                <Link href="/#contact" className="pill pill-primary">
+                  Start a conversation
+                </Link>
+                <a
+                  href={`https://wa.me/${company.phoneE164}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pill pill-ghost"
+                >
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  );
+}
