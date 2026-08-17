@@ -4,33 +4,45 @@
  * Nothing in components/ hardcodes user-facing text — edit it here and the whole
  * site updates.
  *
- * Lines marked `CONFIRM:` are drafted copy that has NOT been verified against the
- * real product. Replace them with the real thing before this site goes public.
+ * Provenance of everything below:
+ *   - Company registration facts: MCA records.
+ *   - BizGST Pro: read directly from bizgstpro.com (home, /pricing, /contact,
+ *     /about). Feature names, plan prices and contact details are the product's
+ *     own words.
+ *   - Contact details: bizgstpro.com/contact, which is the company's published
+ *     contact channel.
+ *
+ * Anything still marked `CONFIRM:` is NOT verified — replace before launch.
  */
 
 export const company = {
   legalName: "Zesst Now Services Private Limited",
   shortName: "Zesst Now",
   wordmark: "ZESST NOW",
-  // Verified — the company's own self-description, taken from its production code.
+  // The company's own description of itself, from bizgstpro.com/about.
   tagline:
-    "We craft world-class premium websites, AI automations, brand identities & digital experiences.",
-  // Verified against MCA records.
+    "A bootstrapped software company in Kaushambi, Uttar Pradesh — building premium websites, AI automations and SaaS products for Indian businesses.",
   cin: "U47110UP2025PTC217212",
   incorporated: "21 February 2025",
   registeredOffice: {
+    // Spelling follows the company's own published address.
+    line1: "C/O Varsha Agrawal, Bhaktan Ka Pura",
+    line2: "Osa Road, Manjhanpur",
     locality: "Manjhanpur",
     district: "Kaushambi",
     state: "Uttar Pradesh",
     pin: "212207",
     country: "India",
   },
-  // CONFIRM: no company-owned email/phone was available. This number belongs to
-  // Adv. Nitin Kumar and is used here only as a working placeholder.
-  email: "hello@zesstnow.com",
-  phone: "+91 98893 74344",
-  phoneE164: "919889374344",
-  domain: "zesstnow.com", // CONFIRM: final deployment domain
+  email: "support@bizgstpro.com",
+  phone: "+91 77538 98481",
+  phoneE164: "917753898481",
+  hours: "Mon–Sat, 10 AM – 7 PM IST",
+  instagram: "zesstnowai",
+  instagramUrl: "https://instagram.com/zesstnowai",
+  // CONFIRM: no domain is registered for Zesst Now itself yet — zesstnow.com,
+  // .ai and .in all have no DNS. Set this once the domain exists.
+  domain: "zesstnow.com",
 };
 
 export const nav = [
@@ -45,20 +57,21 @@ export const ticker = [
   "Incorporated 2025",
   "Kaushambi · Uttar Pradesh",
   "Websites · AI Automations · SaaS",
-  "Now taking projects for Q3",
+  "Data hosted in India",
+  "Bootstrapped, no outside capital",
 ];
 
 export const hero = {
   eyebrow: "ESTD 2025 · KAUSHAMBI, UTTAR PRADESH",
   titleLead: "We build digital products",
   titleEm: "businesses actually run on.",
-  sub: "Zesst Now Services Private Limited designs and engineers premium websites, AI automations and SaaS products — from the first pixel to production traffic.",
+  sub: "Zesst Now Services Private Limited designs and engineers premium websites, AI automations and SaaS products — from the first pixel to production traffic. We ship our own software too, so we know what production actually costs.",
   primaryCta: { label: "See our products", href: "/#products" },
   secondaryCta: { label: "Start a project", href: "/#contact" },
   stats: [
-    { value: "2", label: "Products shipped" },
+    { value: "12", label: "Modules shipped in BizGST Pro" },
+    { value: "₹0", label: "Where our SaaS starts" },
     { value: "100%", label: "Built in-house" },
-    { value: "2025", label: "Incorporated" },
   ],
 };
 
@@ -82,7 +95,7 @@ export const services = {
     {
       no: "03",
       title: "Product Engineering",
-      body: "Full SaaS builds end to end — architecture, backend, auth, billing, admin, deployment and the monitoring that keeps it up at 2am.",
+      body: "Full SaaS builds end to end — architecture, backend, auth, billing, admin, deployment and the monitoring that keeps it up at 2am. BizGST Pro is ours, start to finish.",
       points: ["Architecture", "Backend & APIs", "Billing & auth", "Cloud deployment"],
     },
     {
@@ -92,6 +105,15 @@ export const services = {
       points: ["Naming", "Logo systems", "Design language", "Collateral"],
     },
   ],
+};
+
+export type PricingTier = {
+  name: string;
+  price: string;
+  period?: string;
+  note: string;
+  features: string[];
+  highlight?: boolean;
 };
 
 export type Product = {
@@ -107,68 +129,166 @@ export type Product = {
   audience: string;
   features: { title: string; body: string }[];
   steps: { title: string; body: string }[];
+  pricing?: { title: string; sub: string; tiers: PricingTier[] };
   faq: { q: string; a: string }[];
 };
 
 export const products: Product[] = [
   {
     slug: "bizgstpro",
-    name: "BizGSTPro",
+    name: "BizGST Pro",
     domain: "bizgstpro.com",
     url: "https://bizgstpro.com",
     status: "Live",
     accent: "violet",
-    kicker: "GST COMPLIANCE SUITE",
-    headline: "GST filing without the spreadsheet graveyard.",
-    // CONFIRM: entire product description below is drafted from the product's
-    // name and category — bizgstpro.com was unreachable from the build sandbox.
-    sub: "BizGSTPro pulls invoices, returns, reconciliation and client management into one workspace — so a practice can file for a hundred GSTINs without losing a night to it.",
+    kicker: "GST-COMPLIANT SAAS ERP",
+    headline: "Run your business. We'll handle GST, billing and collections.",
+    sub: "Invoicing, ledger, inventory, expenses, payroll and GST returns in one app — from signup to your first GST invoice in under 120 seconds. Cheaper than Zoho, simpler than Tally, far more than a khata app.",
     audience:
-      "Built for chartered accountants, tax practitioners, GST Suvidha Kendras and the finance teams that file their own returns.",
+      "Built for Indian MSMEs — shops, traders, distributors and service businesses that bill from a phone — and for the CAs who file their returns.",
     features: [
       {
-        title: "Returns, filed in order",
-        body: "GSTR-1 and GSTR-3B prepared from your own invoice data, validated before submission so portal rejections stop being a monthly ritual.",
+        title: "GST invoicing",
+        body: "CGST, SGST and IGST calculated automatically across every slab, RCM and composition. A professional invoice in about 30 seconds.",
       },
       {
-        title: "Invoicing & e-invoicing",
-        body: "Generate compliant tax invoices, credit and debit notes, with IRN and e-way bill handling built into the same flow.",
+        title: "Customer ledger",
+        body: "Khata-style ledger showing exactly who owes what, with one-tap WhatsApp payment reminders against any outstanding balance.",
       },
       {
-        title: "ITC reconciliation",
-        body: "Match purchase registers against GSTR-2B automatically. Mismatches surface as a worklist, not as a 4,000-row export.",
+        title: "Payment recovery",
+        body: "Automatic overdue reminders on WhatsApp and email chase receivables so the owner doesn't have to.",
       },
       {
-        title: "Multi-GSTIN client desk",
-        body: "Every client, every GSTIN, every filing status on one board — with role-based access for the staff doing the work.",
+        title: "Smart inventory",
+        body: "Stock deducts itself as you invoice and rises with purchases, with low-stock alerts — no separate register to reconcile.",
       },
       {
-        title: "Deadlines that chase you",
-        body: "Automated reminders by client and return type, so a late fee is a decision rather than an accident.",
+        title: "Expense tracking",
+        body: "Twelve built-in categories with GST captured on every entry, so input credit isn't left on the table.",
       },
       {
-        title: "Audit-ready history",
-        body: "Complete filing history, challans and acknowledgements retained and exportable whenever a notice arrives.",
+        title: "P&L report",
+        body: "This month's profit or loss at a glance, without waiting for a month-end close.",
+      },
+      {
+        title: "GSTR-1 & GSTR-3B summaries",
+        body: "B2B, B2C and HSN breakups ready to read, exportable as CSV to hand straight to your CA.",
+      },
+      {
+        title: "CA portal",
+        body: "Your accountant enters an access code and sees every linked client's live GST picture read-only — invoices, GST collected, outstanding dues.",
+      },
+      {
+        title: "Leads pipeline",
+        body: "New → Contacted → Quoted → Won, so follow-ups don't die in a WhatsApp thread.",
+      },
+      {
+        title: "AI assistant",
+        body: "Ask GST questions in plain language and get an answer inside the app, instead of guessing or calling someone.",
+      },
+      {
+        title: "Payroll",
+        body: "Employees and payslips handled in the same place as the books, on the Business plan.",
+      },
+      {
+        title: "Tally import & no lock-in",
+        body: "Bring existing masters across in about five minutes. Your data exports whenever you want — leaving is always allowed.",
       },
     ],
     steps: [
-      { title: "Connect", body: "Add your GSTINs and import existing invoice data or billing exports." },
-      { title: "Reconcile", body: "The suite matches purchases to GSTR-2B and flags only what actually needs a human." },
-      { title: "File", body: "Review the prepared return, validate, and submit — with the acknowledgement stored automatically." },
-      { title: "Report", body: "Hand clients a clean monthly summary instead of a screenshot of the portal." },
+      { title: "Sign up", body: "Two minutes, no card. Free forever tier, nothing to cancel." },
+      { title: "Bill", body: "Raise a compliant GST invoice from your phone and send it on WhatsApp in one tap." },
+      { title: "Collect", body: "The ledger tracks what's outstanding and chases it automatically until it's paid." },
+      { title: "File", body: "GSTR-1 and GSTR-3B summaries export as CSV — or your CA reads them live in the portal." },
     ],
+    pricing: {
+      title: "Tally's power. Zoho's features. A lower price than either.",
+      sub: "No hidden charges, no per-invoice fees, cancel anytime. Annual billing works out to roughly two months free.",
+      tiers: [
+        {
+          name: "Free",
+          price: "₹0",
+          period: "forever",
+          note: "Try it out — no card required",
+          features: [
+            "5 invoices / month",
+            "10 customers · 10 items",
+            "GST invoice with auto CGST/SGST/IGST",
+            "Print / PDF invoice",
+            "AI assistant — 3 queries/day",
+          ],
+        },
+        {
+          name: "Basic",
+          price: "₹499",
+          period: "/mo · ₹4,999/yr",
+          note: "Complete accounting for a small business",
+          features: [
+            "150 invoices / month",
+            "500 customers · 500 items",
+            "Customer ledger + WhatsApp reminders",
+            "Expense tracking + P&L report",
+            "GSTR-1 & GSTR-3B summaries + CSV",
+            "AI assistant — 20 queries/day",
+          ],
+        },
+        {
+          name: "Pro",
+          price: "₹699",
+          period: "/mo · ₹6,999/yr",
+          note: "Everything in Basic, plus inventory and the CA portal",
+          highlight: true,
+          features: [
+            "1,000 invoices / month",
+            "5,000 customers · items",
+            "Inventory — auto stock deduction + alerts",
+            "Leads pipeline + email outreach",
+            "E-invoice (IRN) JSON export",
+            "CA Portal access",
+            "Priority WhatsApp support",
+          ],
+        },
+        {
+          name: "Business",
+          price: "₹999",
+          period: "/mo · ₹9,999/yr",
+          note: "Every feature we make — for growing teams",
+          features: [
+            "Unlimited invoices · customers · items",
+            "Payroll — employees + payslips",
+            "Team roles (Owner/Admin/Accountant/Sales)",
+            "Tally import (masters)",
+            "AI assistant — 100 queries/day",
+            "Onboarding call + data import help",
+          ],
+        },
+      ],
+    },
     faq: [
       {
-        q: "Who is BizGSTPro for?",
-        a: "Practices and businesses that file GST returns regularly — CAs, tax consultants, GST Suvidha Kendras, and in-house finance teams managing more than one GSTIN.",
+        q: "Who is BizGST Pro for?",
+        a: "Indian small and medium businesses that invoice regularly — shops, traders, distributors and service firms — plus the CAs and tax practitioners who file for them. If you're running the business off a paper khata or a plain billing app with no compliance, this is the step up.",
       },
       {
-        q: "Does it replace the GST portal?",
-        a: "No. It prepares, validates and organises everything around your filings so the time spent on the portal itself is short and predictable.",
+        q: "What does it cost to start?",
+        a: "Nothing. The free tier is free forever — 5 invoices a month, no card required. Paid plans start at ₹499/month, and annual billing works out to roughly two months free.",
       },
       {
-        q: "Can multiple staff use one account?",
-        a: "Yes — client work is assigned and access is role-based, so juniors can prepare while a partner reviews and files.",
+        q: "Where is my data stored, and can I get it out?",
+        a: "In India, on servers in Mumbai. Export everything whenever you want — there is no lock-in and no exit fee. If it isn't for you, take your data and go.",
+      },
+      {
+        q: "Can my CA see my books?",
+        a: "Yes. Give your accountant an access code and the CA Portal shows them your live GST picture, read-only — invoices, GST collected, outstanding dues. No month-end Excel chase. CAs can also join the partner program at ₹4,999/year for 10 client licences.",
+      },
+      {
+        q: "How does it compare to Tally, Zoho Books or Vyapar?",
+        a: "No large upfront licence like TallyPrime, and cloud-based so you can work from anywhere. Cheaper than Zoho Books with a built-in AI assistant they don't have. And unlike a billing-only app, it covers full accounting, inventory and payroll.",
+      },
+      {
+        q: "Does it handle e-invoicing?",
+        a: "E-invoice IRN JSON export is on the Pro plan. Live IRN generation depends on government GSP integration — sandbox mode is included and live activation is rolling out per plan. As always, have your CA verify GST calculations before filing.",
       },
     ],
   },
@@ -181,8 +301,9 @@ export const products: Product[] = [
     accent: "cyan",
     kicker: "AI FINANCIAL INTELLIGENCE",
     headline: "Your books, finally able to answer questions.",
-    // CONFIRM: cognitivecapitalsuite.com is a domain Zesst Now owns. Positioning
-    // below is a proposal, not confirmed product scope.
+    // CONFIRM: everything about this product is a proposal, not confirmed scope.
+    // The domain is registered and its DNS resolves, but it serves nothing yet,
+    // so there was no published material to work from.
     sub: "Cognitive Capital Suite reads the financial documents a business already produces and turns them into cash-flow visibility, credit readiness and reporting that writes itself.",
     audience:
       "For SMEs, lenders and advisors who need a straight answer about a business's financial position without waiting on a month-end close.",
@@ -213,11 +334,11 @@ export const products: Product[] = [
     faq: [
       {
         q: "Is Cognitive Capital Suite available today?",
-        a: "It is in active development. Early-access conversations are open — get in touch and we'll walk you through where it stands.",
+        a: "Not yet — it's in active development. Early-access conversations are open, so get in touch and we'll walk you through where it stands.",
       },
       {
-        q: "Does it work alongside BizGSTPro?",
-        a: "Yes. GST data captured in BizGSTPro feeds straight into the financial picture, so compliance and intelligence share one source of truth.",
+        q: "Does it work alongside BizGST Pro?",
+        a: "That's the intent. GST and invoice data already captured in BizGST Pro feeds the financial picture, so compliance and intelligence share one source of truth.",
       },
     ],
   },
@@ -226,7 +347,7 @@ export const products: Product[] = [
 export const productsSection = {
   eyebrow: "OUR PRODUCTS",
   title: "We don't just build for clients.",
-  sub: "Two products of our own, engineered and operated in-house — which is why we know what production actually costs.",
+  sub: "Products of our own, engineered and operated in-house — which is why we know what production actually costs.",
 };
 
 export const process = {
@@ -260,8 +381,16 @@ export const process = {
 export const work = {
   eyebrow: "SELECTED WORK",
   title: "Shipped, live, in production.",
-  sub: "A short list, honestly kept. Every entry below is a site we built and still maintain.",
+  sub: "A short list, honestly kept. Every entry below is something we built and still run.",
   items: [
+    {
+      client: "BizGST Pro",
+      url: "https://bizgstpro.com",
+      domain: "bizgstpro.com",
+      year: "2026",
+      body: "Our own SaaS ERP, built and operated end to end: twelve modules covering GST invoicing, ledgers, inventory, expenses, payroll and returns, with a read-only CA portal, an in-app AI assistant, row-level tenant isolation and data hosted in Mumbai.",
+      tags: ["SaaS", "Multi-tenant", "GST compliance", "AI assistant", "Payments"],
+    },
     {
       client: "Adv. Nitin Kumar — Legal Chambers",
       url: "https://advnitinkumar.in",
@@ -284,7 +413,8 @@ export const contact = {
     "AI automation",
     "SaaS product build",
     "Brand identity",
-    "BizGSTPro enquiry",
+    "BizGST Pro enquiry",
+    "BizGST Pro — CA partner program",
     "Cognitive Capital Suite — early access",
     "Something else",
   ],
@@ -292,5 +422,5 @@ export const contact = {
 
 export const footer = {
   blurb:
-    "A product and engineering studio in Kaushambi, Uttar Pradesh — building premium websites, AI automations and software for businesses across India.",
+    "A bootstrapped product and engineering studio in Kaushambi, Uttar Pradesh — building premium websites, AI automations and software for businesses across India.",
 };

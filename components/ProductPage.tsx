@@ -139,7 +139,7 @@ export default function ProductPage({ product }: { product: Product }) {
           <div className="shell">
             <div className="section-head reveal">
               <span className="eyebrow">HOW IT WORKS</span>
-              <h2 className="section-title">Four moves, start to filed.</h2>
+              <h2 className="section-title">Four moves, end to end.</h2>
             </div>
 
             <div className="prod" data-flip="false">
@@ -163,6 +163,59 @@ export default function ProductPage({ product }: { product: Product }) {
             </div>
           </div>
         </section>
+
+        {/* ── PRICING ──────────────────────────────────────────── */}
+        {product.pricing && (
+          <section className="section" style={{ paddingTop: 0 }} id="pricing">
+            <div className="shell">
+              <div className="section-head reveal">
+                <span className="eyebrow">PRICING</span>
+                <h2 className="section-title">{product.pricing.title}</h2>
+                <p className="section-sub">{product.pricing.sub}</p>
+              </div>
+
+              <div className="tier-grid">
+                {product.pricing.tiers.map((tier, i) => (
+                  <div
+                    key={tier.name}
+                    className="glass tier reveal"
+                    data-highlight={!!tier.highlight}
+                    data-delay={i * 70}
+                  >
+                    {tier.highlight && <span className="tier-flag">Most popular</span>}
+
+                    <h3 className="tier-name">{tier.name}</h3>
+
+                    <div className="tier-price">
+                      {tier.price}
+                      {tier.period && <span className="tier-period">{tier.period}</span>}
+                    </div>
+
+                    <p className="tier-note">{tier.note}</p>
+
+                    <ul className="tier-list">
+                      {tier.features.map((f) => (
+                        <li key={f}>{f}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              <p className="tier-foot">
+                Prices are {product.name}&rsquo;s published rates and may change —{" "}
+                <a
+                  href={`${product.url}/pricing`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  check {product.domain}/pricing
+                </a>{" "}
+                for what&rsquo;s current.
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* ── FAQ ──────────────────────────────────────────────── */}
         <section className="section" style={{ paddingTop: 0 }}>

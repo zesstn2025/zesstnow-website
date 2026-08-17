@@ -885,6 +885,133 @@ a {
 }
 
 /* ============================================================
+   PRICING TIERS
+   ============================================================ */
+.tier-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+}
+
+@media (min-width: 640px) {
+  .tier-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1080px) {
+  .tier-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px;
+}
+
+.tier[data-highlight="true"] {
+  border-color: rgba(167, 139, 250, 0.45);
+  background: rgba(109, 59, 245, 0.07);
+}
+
+.tier[data-highlight="true"]::after {
+  opacity: 1;
+}
+
+.tier-flag {
+  position: absolute;
+  top: -10px;
+  left: 24px;
+  font-family: var(--font-mono), monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 11px;
+  border-radius: 999px;
+  color: #06070f;
+  background: var(--grad);
+  font-weight: 600;
+}
+
+.tier-name {
+  font-family: var(--font-display), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--violet-lt);
+}
+
+.tier-price {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin-top: 14px;
+  line-height: 1.1;
+}
+
+.tier-period {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  margin-top: 6px;
+  font-weight: 400;
+}
+
+.tier-note {
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: var(--muted);
+  min-height: 38px;
+}
+
+.tier-list {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.tier-list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.tier-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 7px;
+  width: 9px;
+  height: 5px;
+  border-left: 1.5px solid var(--electric);
+  border-bottom: 1.5px solid var(--electric);
+  transform: rotate(-45deg);
+}
+
+.tier-foot {
+  margin-top: 26px;
+  font-size: 13px;
+  color: var(--faint);
+}
+
+.tier-foot a {
+  color: var(--violet-lt);
+  border-bottom: 1px solid rgba(167, 139, 250, 0.35);
+}
+
+/* ============================================================
    PROCESS
    ============================================================ */
 .steps {

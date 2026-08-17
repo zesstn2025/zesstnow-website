@@ -71,16 +71,34 @@ export default function ContactSection() {
                 <span className="mono-label" style={{ width: 78 }}>
                   Phone
                 </span>
-                {company.phone}
+                <span>
+                  {company.phone}
+                  <span style={{ color: "var(--faint)", marginLeft: 10, fontSize: 13 }}>
+                    {company.hours}
+                  </span>
+                </span>
+              </a>
+              <a
+                className="contact-line"
+                href={company.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="mono-label" style={{ width: 78 }}>
+                  Instagram
+                </span>
+                @{company.instagram}
               </a>
               <div className="contact-line" style={{ alignItems: "flex-start" }}>
                 <span className="mono-label" style={{ width: 78, paddingTop: 3 }}>
                   Office
                 </span>
                 <span style={{ color: "var(--muted)" }}>
-                  {company.registeredOffice.locality},{" "}
-                  {company.registeredOffice.district},
+                  {company.registeredOffice.line1},
                   <br />
+                  {company.registeredOffice.line2},
+                  <br />
+                  {company.registeredOffice.district},{" "}
                   {company.registeredOffice.state} – {company.registeredOffice.pin}
                 </span>
               </div>
