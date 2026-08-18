@@ -39,17 +39,55 @@ Used for canonical URLs, Open Graph and `sitemap.xml`. Defaults to
 `components/` hardcodes text. To change a headline, a feature list, the phone
 number or a product description, edit that one file.
 
-Lines marked `CONFIRM:` in that file are **drafted copy that has not been
-verified against the real product**. `bizgstpro.com` and
-`cognitivecapitalsuite.com` were unreachable from the build environment, so the
-product descriptions are written from the product names and category. Replace
-them before the site goes public:
+BizGST Pro's copy — features, plans, contact details — is read from the
+product's own pages (`bizgstpro.com`, `/pricing`, `/contact`, `/about`), not
+invented. Company registration facts come from MCA records.
 
-- BizGSTPro — real feature list, audience, pricing, screenshots
-- Cognitive Capital Suite — confirmed positioning and launch status
-- `company.email` — currently a placeholder (`hello@zesstnow.com`)
-- `company.phone` — currently Adv. Nitin Kumar's number, used as a stand-in
-- `company.domain` — final deployment domain
+Still marked `CONFIRM:` and needing a real answer:
+
+- `company.domain` — **no domain is registered for Zesst Now yet.** `zesstnow.com`,
+  `.ai` and `.in` all have no DNS. Set this before launch; it drives canonical
+  URLs, Open Graph and `sitemap.xml`.
+
+### On cognitivecapitalsuite.com
+
+It is **not a product** — it is a domain the company owns, and it will become
+Zesst Now's portfolio: BizGST Pro, advnitinkumar.in, and every future site, CRM
+and SaaS listed in one place. It is a **separate website**, built separately —
+nothing in this repo should present it as a product. An earlier draft of this
+site invented an "AI financial intelligence" product under that name; that was
+wrong and has been removed.
+
+## Brand
+
+The logo is generated, not hand-drawn, so the site and the exported files can
+never drift apart:
+
+```bash
+python3 brand/wordmark.py    # Sora 600 "ZESST NOW" -> outlines (needs fonttools)
+python3 brand/brandgen.py    # composes every mark and lockup
+node   brand/render.js       # PNG exports  (optional, needs playwright)
+```
+
+`brand/brandgen.py` holds the mark's geometry as numbers — change those, re-run,
+and the mark, mono cuts, favicon and lockups all follow. `components/Mark.tsx`
+inlines the same path for the site; if you edit the geometry, update that path
+too (it is the one place the value is duplicated, deliberately, to keep the nav
+free of a network request).
+
+Files land in `brand/` (SVG) and `brand/png/`:
+
+| File | Use |
+| --- | --- |
+| `zesst-now-mark.svg` | primary — gradient tile, ink Z |
+| `zesst-now-lockup.svg` | mark + wordmark, for dark backgrounds |
+| `zesst-now-lockup-mono.svg` | single colour, for light backgrounds and print |
+| `zesst-now-mark-mono.svg` | **black on transparent — the cut to file with the CA** |
+| `zesst-now-mark-mono-tile.svg` | reversed, for stamps |
+| `zesst-now-favicon.svg` | same Z, used at 32px and below |
+
+The wordmark is converted to outlines, so no file depends on Sora being
+installed anywhere.
 
 ## The 3D scene
 
@@ -78,7 +116,7 @@ app/
   layout.tsx                      fonts, metadata, Organization JSON-LD
   page.tsx                        homepage
   globals.css                     design tokens + every component style
-  products/[product]/page.tsx     one route per product
+  products/bizgstpro/page.tsx     one route per product
   sitemap.ts  robots.ts  not-found.tsx
 components/
   three/                          WebGL scene

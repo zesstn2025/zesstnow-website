@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { company, nav } from "@/content/site";
+import Mark from "./Mark";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -26,9 +27,7 @@ export default function Nav() {
       <header className={`nav${scrolled ? " scrolled" : ""}`}>
         <div className="nav-inner">
           <Link href="/" className="brand" aria-label={`${company.shortName} home`}>
-            <span className="brand-mark" aria-hidden="true">
-              Z
-            </span>
+            <Mark size={30} />
             {company.wordmark}
           </Link>
 

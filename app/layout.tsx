@@ -43,8 +43,6 @@ export const metadata: Metadata = {
     "BizGST Pro",
     "GST billing software",
     "SaaS ERP India",
-    "Cognitive Capital Suite",
-    "GST software",
     "Next.js development India",
     "brand identity design India",
   ],
@@ -67,7 +65,7 @@ export const metadata: Metadata = {
     description: company.tagline,
   },
   icons: {
-    icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236D3BF5'/%3E%3Cstop offset='1' stop-color='%2322D3EE'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='sans-serif' font-size='36' font-weight='700' fill='%2305060F'%3EZ%3C/text%3E%3C/svg%3E",
+    icon: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2096%2096%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%236D3BF5%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2322D3EE%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2296%22%20height%3D%2296%22%20rx%3D%2222%22%20fill%3D%22url%28%23g%29%22%2F%3E%3Cpath%20d%3D%22M33.5%2C20%20H70%20V30%20L43%2C66%20H70%20L62.5%2C76%20H26%20V66%20L53%2C30%20H26%20Z%22%20fill%3D%22%2305060F%22%2F%3E%3C%2Fsvg%3E",
   },
 };
 

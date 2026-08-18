@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { company, footer, nav, products } from "@/content/site";
+import Mark from "./Mark";
 
 export default function Footer() {
   return (
@@ -8,9 +9,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div>
             <div className="brand" style={{ fontSize: 16 }}>
-              <span className="brand-mark" aria-hidden="true">
-                Z
-              </span>
+              <Mark size={28} />
               {company.wordmark}
             </div>
             <p

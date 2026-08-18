@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { company } from "@/content/site";
+import Mark from "@/components/Mark";
 
 const MIN_MS = 650; // don't flash on a fast connection
 const MAX_MS = 2600; // never hold the page hostage
@@ -64,7 +65,7 @@ export default function Preloader() {
   return (
     <div className="preloader" data-done={done} role="status" aria-live="polite">
       <div className="brand" style={{ fontSize: 17 }}>
-        <span className="brand-mark">Z</span>
+        <Mark size={32} />
         {company.wordmark}
       </div>
       <div className="pre-bar">

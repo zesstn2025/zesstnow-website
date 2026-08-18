@@ -292,56 +292,6 @@ export const products: Product[] = [
       },
     ],
   },
-  {
-    slug: "cognitive-capital-suite",
-    name: "Cognitive Capital Suite",
-    domain: "cognitivecapitalsuite.com",
-    url: "https://cognitivecapitalsuite.com",
-    status: "In development",
-    accent: "cyan",
-    kicker: "AI FINANCIAL INTELLIGENCE",
-    headline: "Your books, finally able to answer questions.",
-    // CONFIRM: everything about this product is a proposal, not confirmed scope.
-    // The domain is registered and its DNS resolves, but it serves nothing yet,
-    // so there was no published material to work from.
-    sub: "Cognitive Capital Suite reads the financial documents a business already produces and turns them into cash-flow visibility, credit readiness and reporting that writes itself.",
-    audience:
-      "For SMEs, lenders and advisors who need a straight answer about a business's financial position without waiting on a month-end close.",
-    features: [
-      {
-        title: "Document intelligence",
-        body: "Bank statements, invoices, GST returns and financials parsed into structured, queryable data — no manual entry.",
-      },
-      {
-        title: "Cash-flow visibility",
-        body: "Where the money actually goes, month over month, with working-capital pressure visible before it becomes a problem.",
-      },
-      {
-        title: "Credit readiness",
-        body: "A clear read on how a lender will see the business, and exactly which numbers to fix before applying.",
-      },
-      {
-        title: "Reporting on autopilot",
-        body: "MIS packs generated on schedule and delivered to the people who need them, in the format they already expect.",
-      },
-    ],
-    steps: [
-      { title: "Ingest", body: "Upload statements and filings, or connect the sources directly." },
-      { title: "Understand", body: "The suite extracts, classifies and cross-checks every line it reads." },
-      { title: "Surface", body: "Cash flow, ratios and risk signals presented as decisions, not dashboards for their own sake." },
-      { title: "Deliver", body: "Scheduled reports to owners, advisors and lenders — automatically." },
-    ],
-    faq: [
-      {
-        q: "Is Cognitive Capital Suite available today?",
-        a: "Not yet — it's in active development. Early-access conversations are open, so get in touch and we'll walk you through where it stands.",
-      },
-      {
-        q: "Does it work alongside BizGST Pro?",
-        a: "That's the intent. GST and invoice data already captured in BizGST Pro feeds the financial picture, so compliance and intelligence share one source of truth.",
-      },
-    ],
-  },
 ];
 
 export const productsSection = {
@@ -415,7 +365,6 @@ export const contact = {
     "Brand identity",
     "BizGST Pro enquiry",
     "BizGST Pro — CA partner program",
-    "Cognitive Capital Suite — early access",
     "Something else",
   ],
 };
