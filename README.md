@@ -61,10 +61,19 @@ The logo is generated, not hand-drawn, so the site and the exported files can
 never drift apart:
 
 ```bash
-python3 brand/wordmark.py    # Sora 600 "ZESST NOW" -> outlines (needs fonttools)
-python3 brand/brandgen.py    # composes every mark and lockup
-node   brand/render.js       # PNG exports  (optional, needs playwright)
+pip install fonttools brotli
+python3 brand/wordmark.py    # Sora 600 "ZESST NOW" -> brand/wordmark.svg
+python3 brand/brandgen.py    # composes every mark and lockup from it
+node   brand/render.js       # PNG exports (optional; needs playwright)
 ```
+
+`wordmark.py` finds Sora inside `.next/static/media` after a build — those
+filenames are content hashes, so it identifies the font by its name table and
+checks the subset actually covers the letters, rather than trusting a path.
+Pass a `.woff2` explicitly to override. `render.js` uses whatever Chromium
+Playwright resolves; set `CHROMIUM_PATH` to point at another one.
+
+Re-running the two Python scripts reproduces the committed SVGs byte for byte.
 
 `brand/brandgen.py` holds the mark's geometry as numbers — change those, re-run,
 and the mark, mono cuts, favicon and lockups all follow. `components/Mark.tsx`

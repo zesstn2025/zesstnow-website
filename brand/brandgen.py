@@ -16,8 +16,8 @@ outlines, so no file depends on a font being installed.
 
 import os, re
 
-OUT = "/home/user/zesstnow-website/brand"
-os.makedirs(OUT, exist_ok=True)
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = HERE
 
 # ── mark geometry, on a 96 grid ──────────────────────────────────────────────
 # A Z built from two full-width bars and a steep diagonal. The two free
@@ -42,7 +42,6 @@ Z_OUTLINE = (
 
 # One path, no punched holes — the mark is the letter and nothing else.
 Z_CUT = Z_OUTLINE
-SLITS = ""
 
 VIOLET, CYAN, INK = "#6D3BF5", "#22D3EE", "#05060F"
 
@@ -75,7 +74,8 @@ write("zesst-now-mark-mono-tile.svg", f'''<svg xmlns="http://www.w3.org/2000/svg
   <path d="{Z_CUT}" fill="#FFFFFF"/>
 </svg>''')
 
-# ── 4. favicon — slits dropped; below ~32px they silt up and muddy the Z ─────
+# ── 4. favicon — identical geometry, kept separate so the tiny cut can
+#      diverge later without touching the primary mark ─────────────────────
 write("zesst-now-favicon.svg", f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {BOX} {BOX}" width="{BOX}" height="{BOX}" role="img" aria-label="Zesst Now">
   <defs>{GRAD}</defs>
   <rect width="{BOX}" height="{BOX}" rx="{RADIUS}" fill="url(#zg)"/>
@@ -83,8 +83,10 @@ write("zesst-now-favicon.svg", f'''<svg xmlns="http://www.w3.org/2000/svg" viewB
 </svg>''')
 
 # ── 5 & 6. lockups — mark + Sora 600 outlines ───────────────────────────────
-src = open("/tmp/claude-0/-home-user-advnitinkumar-website/"
-           "4ba61bc9-9ff3-5346-80f4-3ca54a7cd7f4/scratchpad/wordmark.svg").read()
+wordmark_svg = os.path.join(HERE, "wordmark.svg")
+if not os.path.exists(wordmark_svg):
+    raise SystemExit("brand/wordmark.svg is missing — run `python3 brand/wordmark.py` first.")
+src = open(wordmark_svg).read()
 vb = re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', src)
 WM_W, WM_H = float(vb.group(1)), float(vb.group(2))
 inner = re.search(r"<g transform=\"([^\"]+)\"[^>]*>(.*)</g>", src, re.S)

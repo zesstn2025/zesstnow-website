@@ -1,7 +1,16 @@
+/**
+ * Rasterises the brand SVGs to PNG via headless Chromium.
+ *
+ *   npm i -D playwright && npx playwright install chromium
+ *   node brand/render.js
+ *
+ * Set CHROMIUM_PATH to use a browser Playwright did not install itself.
+ */
+
 const { chromium } = require("playwright");
 const fs = require("fs"), path = require("path");
 
-const BRAND = "/home/user/zesstnow-website/brand";
+const BRAND = __dirname;
 const PNG = path.join(BRAND, "png");
 fs.mkdirSync(PNG, { recursive: true });
 
@@ -16,7 +25,10 @@ const jobs = [
 
 (async () => {
   const b = await chromium.launch({
-    executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
+    // Fall back to whatever Playwright resolves on its own.
+    ...(process.env.CHROMIUM_PATH
+      ? { executablePath: process.env.CHROMIUM_PATH }
+      : {}),
     args: ["--no-sandbox"],
   });
 
@@ -84,7 +96,7 @@ const jobs = [
     </div>
   </body></html>`);
   await sheet.waitForTimeout(400);
-  await sheet.screenshot({ path: __dirname + "/shots2/logo-sheet.png", fullPage: true });
+  await sheet.screenshot({ path: path.join(PNG, "logo-sheet.png"), fullPage: true });
 
   await b.close();
   console.log("\ncontact sheet written");
