@@ -1063,6 +1063,11 @@ a {
 /* ============================================================
    WORK
    ============================================================ */
+.portfolio-grid {
+  display: grid;
+  gap: 18px;
+}
+
 .work-card {
   display: grid;
   gap: 26px;
@@ -1071,7 +1076,12 @@ a {
 }
 
 @media (min-width: 860px) {
-  .work-card {
+  .portfolio-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.work-card {
     grid-template-columns: 1fr 1.4fr;
     gap: 48px;
   }

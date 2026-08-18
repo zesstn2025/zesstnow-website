@@ -40,16 +40,16 @@ export const company = {
   hours: "Mon–Sat, 10 AM – 7 PM IST",
   instagram: "zesstnowai",
   instagramUrl: "https://instagram.com/zesstnowai",
-  // CONFIRM: no domain is registered for Zesst Now itself yet — zesstnow.com,
-  // .ai and .in all have no DNS. Set this once the domain exists.
-  domain: "zesstnow.com",
+  // This site ships on cognitivecapitalsuite.com — the company's own domain,
+  // which doubles as its portfolio. Drives canonical URLs, OG and sitemap.xml.
+  domain: "cognitivecapitalsuite.com",
 };
 
 export const nav = [
   { label: "Services", href: "/#services" },
   { label: "Products", href: "/#products" },
   { label: "Process", href: "/#process" },
-  { label: "Work", href: "/#work" },
+  { label: "Portfolio", href: "/#portfolio" },
 ];
 
 export const ticker = [
@@ -328,10 +328,13 @@ export const process = {
   ],
 };
 
-export const work = {
-  eyebrow: "SELECTED WORK",
-  title: "Shipped, live, in production.",
-  sub: "A short list, honestly kept. Every entry below is something we built and still run.",
+// This section is the portfolio the company wants at this domain: everything
+// Zesst Now has built, product and client work alike, in one place. New sites,
+// CRMs and SaaS get appended here as they ship.
+export const portfolio = {
+  eyebrow: "PORTFOLIO",
+  title: "Everything we've shipped.",
+  sub: "Products of our own and work built for clients — live, in production, and still maintained by us. The list grows as we ship.",
   items: [
     {
       client: "BizGST Pro",

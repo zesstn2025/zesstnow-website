@@ -14,7 +14,7 @@ import {
   products,
   productsSection,
   process,
-  work,
+  portfolio,
 } from "@/content/site";
 
 export default function HomePage() {
@@ -191,16 +191,17 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── WORK ─────────────────────────────────────────────── */}
-        <section className="section" id="work">
+        {/* ── PORTFOLIO ─────────────────────────────────────────────── */}
+        <section className="section" id="portfolio">
           <div className="shell">
             <div className="section-head reveal">
-              <span className="eyebrow">{work.eyebrow}</span>
-              <h2 className="section-title">{work.title}</h2>
-              <p className="section-sub">{work.sub}</p>
+              <span className="eyebrow">{portfolio.eyebrow}</span>
+              <h2 className="section-title">{portfolio.title}</h2>
+              <p className="section-sub">{portfolio.sub}</p>
             </div>
 
-            {work.items.map((item) => (
+            <div className="portfolio-grid">
+              {portfolio.items.map((item) => (
               <a
                 key={item.domain}
                 href={item.url}
@@ -230,8 +231,9 @@ export default function HomePage() {
                     ))}
                   </div>
                 </div>
-              </a>
-            ))}
+                </a>
+              ))}
+            </div>
           </div>
         </section>
 

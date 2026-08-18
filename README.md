@@ -27,11 +27,12 @@ npm start
 Optional environment variable:
 
 ```
-NEXT_PUBLIC_SITE_URL=https://zesstnow.com
+NEXT_PUBLIC_SITE_URL=https://cognitivecapitalsuite.com
 ```
 
 Used for canonical URLs, Open Graph and `sitemap.xml`. Defaults to
-`https://zesstnow.com`; set it to the real domain before launch.
+`https://cognitivecapitalsuite.com`, so it only needs setting for preview
+deployments that should not claim the canonical domain.
 
 ## Editing content
 
@@ -43,20 +44,16 @@ BizGST Pro's copy — features, plans, contact details — is read from the
 product's own pages (`bizgstpro.com`, `/pricing`, `/contact`, `/about`), not
 invented. Company registration facts come from MCA records.
 
-Still marked `CONFIRM:` and needing a real answer:
-
-- `company.domain` — **no domain is registered for Zesst Now yet.** `zesstnow.com`,
-  `.ai` and `.in` all have no DNS. Set this before launch; it drives canonical
-  URLs, Open Graph and `sitemap.xml`.
-
 ### On cognitivecapitalsuite.com
 
-It is **not a product** — it is a domain the company owns, and it will become
-Zesst Now's portfolio: BizGST Pro, advnitinkumar.in, and every future site, CRM
-and SaaS listed in one place. It is a **separate website**, built separately —
-nothing in this repo should present it as a product. An earlier draft of this
-site invented an "AI financial intelligence" product under that name; that was
-wrong and has been removed.
+**This site ships on that domain.** It is not a product — it is the company's
+own domain, and this site is both the Zesst Now company site and its portfolio:
+BizGST Pro, advnitinkumar.in, and every future site, CRM and SaaS listed in one
+place, in the `portfolio` section of `content/site.ts`.
+
+An earlier draft of this site invented an "AI financial intelligence" product
+under that name, with features and an FAQ, none of which came from the company.
+That was wrong and has been removed.
 
 ## Brand
 
