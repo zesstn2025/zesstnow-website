@@ -41,8 +41,10 @@ export const company = {
   instagram: "zesstnowai",
   instagramUrl: "https://instagram.com/zesstnowai",
   // This site ships on cognitivecapitalsuite.com — the company's own domain,
-  // which doubles as its portfolio. Drives canonical URLs, OG and sitemap.xml.
-  domain: "cognitivecapitalsuite.com",
+  // which doubles as its portfolio. The www host is the canonical one; Vercel
+  // 308s the apex to it, so canonical URLs, OG and sitemap.xml must name www
+  // or they all point at a redirect.
+  domain: "www.cognitivecapitalsuite.com",
 };
 
 export const nav = [

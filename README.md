@@ -27,11 +27,11 @@ npm start
 Optional environment variable:
 
 ```
-NEXT_PUBLIC_SITE_URL=https://cognitivecapitalsuite.com
+NEXT_PUBLIC_SITE_URL=https://www.cognitivecapitalsuite.com
 ```
 
 Used for canonical URLs, Open Graph and `sitemap.xml`. Defaults to
-`https://cognitivecapitalsuite.com`, so it only needs setting for preview
+`https://www.cognitivecapitalsuite.com`, so it only needs setting for preview
 deployments that should not claim the canonical domain.
 
 ## Editing content
@@ -46,7 +46,7 @@ invented. Company registration facts come from MCA records.
 
 ### On cognitivecapitalsuite.com
 
-**This site ships on that domain.** It is not a product — it is the company's
+**This site ships on that domain**, on the `www` host — Vercel redirects the apex to it, so every canonical URL names `www`. It is not a product — it is the company's
 own domain, and this site is both the Zesst Now company site and its portfolio:
 BizGST Pro, advnitinkumar.in, and every future site, CRM and SaaS listed in one
 place, in the `portfolio` section of `content/site.ts`.
