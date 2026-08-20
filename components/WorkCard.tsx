@@ -21,7 +21,7 @@ export default function WorkCard({ work, index }: { work: Work; index: number })
   return (
     <article className="work" data-flip={index % 2 === 1}>
       <div className="work-shots reveal">
-        <div className="browser tilt-host">
+        <div className="browser" data-parallax="0.8">
           <div className="browser-bar" aria-hidden="true">
             <span className="browser-dot" />
             <span className="browser-dot" />

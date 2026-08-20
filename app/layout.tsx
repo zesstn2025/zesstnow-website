@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Sora, Inter, JetBrains_Mono } from "next/font/google";
 import { company } from "@/content/site";
 import SmoothScroll from "@/components/SmoothScroll";
+import FieldStage from "@/components/FieldStage";
+import Motion from "@/components/Motion";
 import "./globals.css";
 
 const display = Sora({
@@ -122,7 +124,10 @@ export default function RootLayout({
         />
       </head>
       <body>
+        {/* First in the DOM so it paints behind every positioned section. */}
+        <FieldStage />
         <SmoothScroll />
+        <Motion />
         {children}
         <div className="grain" aria-hidden="true" />
       </body>
