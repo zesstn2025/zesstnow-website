@@ -6,7 +6,7 @@ import TiltCard from "@/components/TiltCard";
 import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import Faq from "@/components/Faq";
-import { services, verticals, process, faq } from "@/content/site";
+import { services, verticals, process, faq, usps } from "@/content/site";
 
 const title = "Services — engineering, AI, compliance, funding and growth";
 const description =
@@ -37,6 +37,29 @@ export default function ServicesPage() {
           sub="A software studio that ships its own products, and a compliance and growth desk that keeps businesses running. Most clients end up using both."
         />
 
+
+        {/* ── USPs ─────────────────────────────────────────────── */}
+        <section className="section" id="promise">
+          <div className="shell">
+            <div className="section-head reveal">
+              <span className="eyebrow">{usps.eyebrow}</span>
+              <h2 className="section-title">{usps.title}</h2>
+              <p className="section-sub">{usps.sub}</p>
+            </div>
+
+            <div className="usp-grid">
+              {usps.items.map((u, i) => (
+                <div className="usp" key={u.title} data-s3d={i % 2 === 0 ? "left" : "right"}>
+                  <div className="usp-v">{u.value}</div>
+                  <h3 className="usp-t">{u.title}</h3>
+                  <p className="usp-b">{u.body}</p>
+                  {"note" in u && u.note && <p className="usp-n">{u.note}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── DIGITAL ──────────────────────────────────────────── */}
         <section className="section" id="digital">
           <div className="shell">
@@ -48,7 +71,11 @@ export default function ServicesPage() {
 
             <div className="grid-services">
               {services.items.map((item, i) => (
-                <TiltCard key={item.no} className="glass svc reveal" data-delay={i * 80}>
+                <TiltCard
+                  key={item.no}
+                  className="glass svc"
+                  data-s3d={i % 2 === 0 ? "left" : "right"}
+                >
                   <span className="svc-no">{item.no}</span>
                   <h3 className="svc-t">{item.title}</h3>
                   <p className="svc-b">{item.body}</p>
@@ -76,7 +103,12 @@ export default function ServicesPage() {
 
             <div className="grid-verticals">
               {verticals.items.map((v, i) => (
-                <TiltCard key={v.no} className="glass vert reveal" max={6} data-delay={i * 80}>
+                <TiltCard
+                  key={v.no}
+                  className="glass vert"
+                  max={6}
+                  data-s3d={i % 2 === 0 ? "left" : "right"}
+                >
                   <div className="vert-head">
                     <span className="svc-no">{v.no}</span>
                     <div>
@@ -115,7 +147,7 @@ export default function ServicesPage() {
 
             <div className="steps">
               {process.steps.map((step, i) => (
-                <div className="step reveal" key={step.no} data-delay={i * 70}>
+                <div className="step" key={step.no} data-s3d="up">
                   <span className="step-no">{step.no}</span>
                   <h3 className="step-t">{step.title}</h3>
                   <p className="step-b">{step.body}</p>

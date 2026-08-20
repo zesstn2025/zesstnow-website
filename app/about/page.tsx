@@ -58,9 +58,9 @@ export default function AboutPage() {
                   ))}
                 </dl>
                 <p className="about-facts-note">
-                  Registered with the Registrar of Companies, Kanpur. Directors&apos;
-                  names are on the public MCA record and are deliberately not
-                  republished here.
+                  Registered with the Registrar of Companies, Kanpur. Full
+                  directorship details are on the public MCA record against the
+                  CIN above.
                 </p>
               </aside>
             </div>
@@ -98,7 +98,7 @@ export default function AboutPage() {
 
             <div className="steps">
               {process.steps.map((step, i) => (
-                <div className="step reveal" key={step.no} data-delay={i * 70}>
+                <div className="step" key={step.no} data-s3d="up">
                   <span className="step-no">{step.no}</span>
                   <h3 className="step-t">{step.title}</h3>
                   <p className="step-b">{step.body}</p>

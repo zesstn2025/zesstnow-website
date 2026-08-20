@@ -16,6 +16,7 @@ import {
   verticals,
   products,
   productsSection,
+  usps,
   roadmap,
   process,
   portfolio,
@@ -77,6 +78,28 @@ export default function HomePage() {
 
         <Ticker />
 
+        {/* ── USPs ─────────────────────────────────────────────── */}
+        <section className="section" id="promise">
+          <div className="shell">
+            <div className="section-head reveal">
+              <span className="eyebrow">{usps.eyebrow}</span>
+              <h2 className="section-title">{usps.title}</h2>
+              <p className="section-sub">{usps.sub}</p>
+            </div>
+
+            <div className="usp-grid">
+              {usps.items.map((u, i) => (
+                <div className="usp" key={u.title} data-s3d={i % 2 === 0 ? "left" : "right"}>
+                  <div className="usp-v">{u.value}</div>
+                  <h3 className="usp-t">{u.title}</h3>
+                  <p className="usp-b">{u.body}</p>
+                  {"note" in u && u.note && <p className="usp-n">{u.note}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── SERVICES ─────────────────────────────────────────── */}
         <section className="section" id="services">
           <div className="shell">
@@ -88,7 +111,11 @@ export default function HomePage() {
 
             <div className="grid-services">
               {services.items.map((item, i) => (
-                <TiltCard key={item.no} className="glass svc reveal" data-delay={i * 80}>
+                <TiltCard
+                  key={item.no}
+                  className="glass svc"
+                  data-s3d={i % 2 === 0 ? "left" : "right"}
+                >
                   <span className="svc-no">{item.no}</span>
                   <h3 className="svc-t">{item.title}</h3>
                   <p className="svc-b">{item.body}</p>
@@ -116,7 +143,12 @@ export default function HomePage() {
 
             <div className="grid-verticals">
               {verticals.items.map((v, i) => (
-                <TiltCard key={v.no} className="glass vert reveal" max={6} data-delay={i * 80}>
+                <TiltCard
+                  key={v.no}
+                  className="glass vert"
+                  max={6}
+                  data-s3d={i % 2 === 0 ? "left" : "right"}
+                >
                   <div className="vert-head">
                     <span className="svc-no">{v.no}</span>
                     <div>
@@ -181,14 +213,16 @@ export default function HomePage() {
                     <Link href={`/products/${product.slug}`} className="pill pill-primary">
                       Explore {product.name}
                     </Link>
-                    <a
-                      href={product.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="pill pill-ghost"
-                    >
-                      Visit site ↗
-                    </a>
+                    {product.url && (
+                      <a
+                        href={product.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pill pill-ghost"
+                      >
+                        Visit site ↗
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -230,7 +264,7 @@ export default function HomePage() {
                 {item.courses.length > 0 && (
                   <div className="course-grid">
                     {item.courses.map((c) => (
-                      <div className="course" key={c.no}>
+                      <div className="course" key={c.no} data-s3d="up">
                         <span className="svc-no">{c.no}</span>
                         <h4 className="svc-t">{c.title}</h4>
                         <p className="svc-b">{c.body}</p>
@@ -254,7 +288,7 @@ export default function HomePage() {
 
             <div className="steps">
               {process.steps.map((step, i) => (
-                <div className="step reveal" key={step.no} data-delay={i * 70}>
+                <div className="step" key={step.no} data-s3d="up">
                   <span className="step-no">{step.no}</span>
                   <h3 className="step-t">{step.title}</h3>
                   <p className="step-b">{step.body}</p>

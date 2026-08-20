@@ -67,14 +67,16 @@ export default function ProductsPage() {
                     <Link href={`/products/${product.slug}`} className="pill pill-primary">
                       Explore {product.name}
                     </Link>
-                    <a
-                      href={product.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="pill pill-ghost"
-                    >
-                      Visit site ↗
-                    </a>
+                    {product.url && (
+                      <a
+                        href={product.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pill pill-ghost"
+                      >
+                        Visit site ↗
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -116,7 +118,7 @@ export default function ProductsPage() {
                 {item.courses.length > 0 && (
                   <div className="course-grid">
                     {item.courses.map((c) => (
-                      <div className="course" key={c.no}>
+                      <div className="course" key={c.no} data-s3d="up">
                         <span className="svc-no">{c.no}</span>
                         <h4 className="svc-t">{c.title}</h4>
                         <p className="svc-b">{c.body}</p>

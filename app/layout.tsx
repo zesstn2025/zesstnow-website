@@ -1,21 +1,34 @@
 import type { Metadata, Viewport } from "next";
-import { Sora, Inter, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Manrope, JetBrains_Mono } from "next/font/google";
 import { company } from "@/content/site";
 import SmoothScroll from "@/components/SmoothScroll";
 import FieldStage from "@/components/FieldStage";
 import Motion from "@/components/Motion";
 import "./globals.css";
 
-const display = Sora({
+/**
+ * A high-contrast serif carries the headlines and a refined grotesque carries
+ * the text. That pairing is what reads as expensive — the previous geometric
+ * sans on its own read like every other SaaS template.
+ *
+ * Fraunces is variable on more than weight: SOFT 0 and WONK 0 keep the terminals
+ * sharp and the italics upright, so it stays modern rather than turning
+ * artisanal, and the optical size axis is what keeps a 70px headline from
+ * looking like scaled-up body text.
+ */
+const display = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  // Loaded as a variable font — next/font rejects `axes` alongside a fixed
+  // weight list, and the optical-size axis is the point of using Fraunces.
+  weight: "variable",
+  axes: ["SOFT", "WONK", "opsz"],
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Inter({
+const body = Manrope({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-body",
   display: "swap",
 });

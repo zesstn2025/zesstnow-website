@@ -52,7 +52,7 @@ export default function Footer() {
 
         <div className="legal">
           <span>
-            © {new Date().getFullYear()} {company.legalName}
+            © {new Date().getFullYear()} {company.legalName}. {footer.rights}
           </span>
           <span>CIN {company.cin}</span>
           <span>

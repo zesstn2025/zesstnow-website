@@ -22,10 +22,19 @@
 
   --line: rgba(140, 150, 255, 0.14);
   --line-strong: rgba(140, 150, 255, 0.28);
-  --panel: rgba(11, 14, 32, 0.72);
+  --panel: rgba(10, 12, 28, 0.74);
   --panel-hi: rgba(19, 23, 48, 0.82);
 
+  /* Champagne. The violet-to-cyan gradient belongs to the 3D and the primary
+     CTA; gold is reserved for typographic detail — eyebrows, hairlines, figures.
+     Keeping the two jobs separate is what stops the page looking like a
+     gradient demo and starts it looking expensive. */
+  --gold: #c9a961;
+  --gold-lt: #e8d9a8;
+  --gold-dim: rgba(201, 169, 97, 0.35);
+
   --grad: linear-gradient(100deg, var(--violet-lt), var(--electric));
+  --grad-gold: linear-gradient(100deg, var(--gold-lt), var(--gold));
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   --nav-h: 68px;
@@ -114,33 +123,39 @@ a {
   gap: 10px;
   font-family: var(--font-mono), monospace;
   font-size: 11px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--violet-lt);
+  color: var(--gold);
 }
 
 .eyebrow::before {
   content: "";
-  width: 22px;
+  width: 26px;
   height: 1px;
-  background: var(--grad);
+  background: var(--grad-gold);
 }
 
 .display {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 600;
+  font-family: var(--font-display), Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 120;
+  font-weight: 500;
   line-height: 1.02;
-  letter-spacing: -0.035em;
-  font-size: clamp(36px, 5.6vw, 70px);
+  /* A high-contrast serif needs far less negative tracking than a grotesque —
+     at -0.035em Fraunces' thin strokes start colliding. */
+  letter-spacing: -0.018em;
+  font-size: clamp(38px, 5.8vw, 78px);
+  text-wrap: balance;
 }
 
 .section-title {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  font-size: clamp(30px, 4.6vw, 54px);
-  margin-top: 20px;
+  font-family: var(--font-display), Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 72;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  font-size: clamp(32px, 4.8vw, 58px);
+  margin-top: 22px;
+  text-wrap: balance;
 }
 
 .section-sub {
@@ -160,9 +175,10 @@ a {
 .mono-label {
   font-family: var(--font-mono), monospace;
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--faint);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================================
@@ -426,7 +442,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 11px;
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-weight: 600;
   font-size: 15px;
   letter-spacing: 0.14em;
@@ -666,10 +682,16 @@ a {
 }
 
 .hero-stat-v {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(26px, 3.4vw, 38px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display), Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 48;
+  font-size: clamp(28px, 3.6vw, 42px);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  font-variant-numeric: tabular-nums;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .hero-stat-l {
@@ -741,7 +763,7 @@ a {
 }
 
 .svc-t {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: clamp(21px, 2.3vw, 27px);
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -815,7 +837,7 @@ a {
 }
 
 .prod-name {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: clamp(28px, 3.6vw, 44px);
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -944,7 +966,7 @@ a {
 }
 
 .tier-name {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -952,7 +974,7 @@ a {
 }
 
 .tier-price {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: clamp(28px, 3vw, 36px);
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -1054,7 +1076,7 @@ a {
 }
 
 .step-t {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: clamp(20px, 2.2vw, 26px);
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -1981,7 +2003,7 @@ a {
 }
 
 .work-name {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: clamp(26px, 3.4vw, 40px);
   font-weight: 600;
   letter-spacing: -0.025em;
@@ -2005,7 +2027,7 @@ a {
 }
 
 .work-hl-v {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: clamp(17px, 2vw, 22px);
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -2147,7 +2169,7 @@ a {
 }
 
 .channel strong {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -2168,7 +2190,7 @@ a {
 }
 
 .prose h2 {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   font-size: clamp(20px, 2.4vw, 26px);
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -2323,4 +2345,171 @@ a {
       linear-gradient(180deg, rgba(4, 5, 13, 0.94) 0%, rgba(4, 5, 13, 0.7) 45%, rgba(4, 5, 13, 0.92) 100%),
       radial-gradient(ellipse 90% 50% at 50% 40%, transparent, rgba(4, 5, 13, 0.5));
   }
+}
+
+/* ============================================================
+   SCROLL-DRIVEN CARD MOTION
+   Two writers, two custom properties, one transform: Motion.tsx
+   owns --s3d (scroll), TiltCard owns --tilt (hover). Writing both
+   to style.transform would mean the last one to fire wins and the
+   other silently vanishes.
+   ============================================================ */
+[data-s3d] {
+  --s3d: translate3d(0, 0, 0);
+  --tilt: rotateX(0deg);
+  --s3d-o: 1;
+  transform: perspective(1400px) var(--s3d) var(--tilt);
+  opacity: var(--s3d-o);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  /* Only the hover half is eased — the scroll half is already smooth because
+     it is recomputed every frame, and easing it would make it lag the page. */
+  transition: box-shadow 0.5s var(--ease), border-color 0.5s var(--ease);
+}
+
+/* A card driven by scroll must not also be driven by the reveal observer;
+   they would set the same transform from two directions. */
+[data-s3d].reveal,
+[data-s3d].reveal.in {
+  opacity: var(--s3d-o);
+  transform: perspective(1400px) var(--s3d) var(--tilt);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-s3d] {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   CONTACT — the "ready to send" panel
+   ============================================================ */
+.sent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.sent-tick {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  color: var(--ink);
+  background: var(--grad-gold);
+}
+
+.sent-title {
+  font-family: var(--font-display), Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 40;
+  font-size: clamp(21px, 2.4vw, 27px);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+
+.sent-sub {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 46ch;
+}
+
+.sent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sent-body {
+  width: 100%;
+  max-height: 210px;
+  overflow: auto;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.32);
+  font-family: var(--font-mono), monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.sent-note {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+
+/* ============================================================
+   THE PROMISE — fixed commitments, stated as figures
+   ============================================================ */
+.usp-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .usp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .usp-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.usp {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(26px, 3vw, 34px) clamp(22px, 2.4vw, 28px) clamp(28px, 3vw, 34px);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  /* A hairline of gold along the top edge — the same detail the eyebrows use,
+     which is what ties the "expensive" cues together across the page. */
+  box-shadow: inset 0 1px 0 var(--gold-dim);
+}
+
+.usp-v {
+  font-family: var(--font-display), Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 48;
+  font-size: clamp(30px, 3.4vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.usp-t {
+  margin-top: 16px;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.usp-b {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.usp-n {
+  margin-top: auto;
+  padding-top: 16px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--faint);
 }

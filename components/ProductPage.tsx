@@ -17,7 +17,7 @@ export default function ProductPage({ product }: { product: Product }) {
     name: product.name,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    url: product.url,
+    ...(product.url ? { url: product.url } : {}),
     description: product.sub,
     publisher: { "@type": "Organization", name: company.legalName },
   };
@@ -61,17 +61,32 @@ export default function ProductPage({ product }: { product: Product }) {
               </p>
 
               <div className="hero-ctas reveal" data-delay={230}>
-                <a
-                  href={product.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="pill pill-primary"
-                >
-                  Visit {product.domain} ↗
-                </a>
-                <Link href="/#contact" className="pill pill-ghost">
-                  Talk to us
-                </Link>
+                {/* Products that live on this domain have nowhere external to
+                    send the visitor, so the enquiry becomes the primary action. */}
+                {product.url ? (
+                  <>
+                    <a
+                      href={product.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pill pill-primary"
+                    >
+                      Visit {product.domain} ↗
+                    </a>
+                    <Link href="/contact" className="pill pill-ghost">
+                      Talk to us
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/contact" className="pill pill-primary">
+                      Request access
+                    </Link>
+                    <Link href="/work" className="pill pill-ghost">
+                      See our work
+                    </Link>
+                  </>
+                )}
               </div>
 
               <div
@@ -202,17 +217,25 @@ export default function ProductPage({ product }: { product: Product }) {
                 ))}
               </div>
 
-              <p className="tier-foot">
-                Prices are {product.name}&rsquo;s published rates and may change —{" "}
-                <a
-                  href={`${product.url}/pricing`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  check {product.domain}/pricing
-                </a>{" "}
-                for what&rsquo;s current.
-              </p>
+              {product.url ? (
+                <p className="tier-foot">
+                  Prices are {product.name}&rsquo;s published rates and may change —{" "}
+                  <a
+                    href={`${product.url}/pricing`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    check {product.domain}/pricing
+                  </a>{" "}
+                  for what&rsquo;s current.
+                </p>
+              ) : (
+                <p className="tier-foot">
+                  Every engagement is quoted after a call, in writing, before any
+                  work starts. <Link href="/contact">Tell us what you need</Link>{" "}
+                  and we&rsquo;ll come back with a number and a timeline.
+                </p>
+              )}
             </div>
           </section>
         )}

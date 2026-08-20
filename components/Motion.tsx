@@ -52,27 +52,108 @@ export default function Motion() {
       });
     }
 
-    /* ── magnetic buttons ────────────────────────────────────── */
+    /* ── magnetic buttons ─────────────────────────────────────
+       The pull has to stay small. An earlier version used 0.28 of
+       the distance from centre with no clamp, which let a 154px
+       button slide ~21px away from the cursor — far enough that
+       pointerdown landed outside it and the click never reached the
+       link. So: a gentle factor, a hard clamp well inside the
+       button's own bounds, and a reset on pointerdown so the target
+       is always at rest at the moment of the click. */
     if (fine) {
-      const magnets = document.querySelectorAll<HTMLElement>(".pill");
+      const PULL = 0.12;
+      const MAX = 5; // px — small enough that the cursor stays over the button
 
-      magnets.forEach((el) => {
+      const clamp = (v: number) => Math.max(-MAX, Math.min(MAX, v));
+
+      document.querySelectorAll<HTMLElement>(".pill").forEach((el) => {
         const onMove = (e: PointerEvent) => {
           const r = el.getBoundingClientRect();
-          const dx = (e.clientX - (r.left + r.width / 2)) * 0.28;
-          const dy = (e.clientY - (r.top + r.height / 2)) * 0.34;
+          const dx = clamp((e.clientX - (r.left + r.width / 2)) * PULL);
+          const dy = clamp((e.clientY - (r.top + r.height / 2)) * PULL);
           el.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
         };
-        const onLeave = () => {
+        const rest = () => {
           el.style.transform = "";
         };
 
         el.addEventListener("pointermove", onMove);
-        el.addEventListener("pointerleave", onLeave);
+        el.addEventListener("pointerleave", rest);
+        // Settle before the click resolves — never let the button move away
+        // from a press that has already started.
+        el.addEventListener("pointerdown", rest);
+
         cleanups.push(() => {
           el.removeEventListener("pointermove", onMove);
-          el.removeEventListener("pointerleave", onLeave);
-          el.style.transform = "";
+          el.removeEventListener("pointerleave", rest);
+          el.removeEventListener("pointerdown", rest);
+          rest();
+        });
+      });
+    }
+
+    /* ── scroll-driven card motion ────────────────────────────
+       Cards do not just fade in once and freeze — they travel. A card
+       approaches slightly small and pitched back, settles upright as it
+       reaches the middle of the viewport, then recedes as it leaves.
+       `data-s3d="left"` / `"right"` add a yaw so a card also swings in
+       from its side.
+
+       The value goes into a `--s3d` custom property, never `style.transform`,
+       so it composes with TiltCard's `--tilt` instead of overwriting it. */
+    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-s3d]"));
+
+    if (cards.length) {
+      let raf = 0;
+      let queued = false;
+
+      const paint = () => {
+        queued = false;
+        const vh = window.innerHeight;
+
+        for (const el of cards) {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -240 || r.top > vh + 240) continue;
+
+          // -1 just below the fold, 0 dead centre, +1 just above the top.
+          const centre = r.top + r.height / 2;
+          const t = Math.max(-1, Math.min(1, (vh / 2 - centre) / (vh / 2 + r.height / 2)));
+          const away = Math.abs(t);
+
+          const scale = 1 - away * 0.07;
+          const lift = t * -22;
+          const pitch = t * -7;
+          const dir = el.dataset.s3d;
+          const yaw = dir === "left" ? away * 9 : dir === "right" ? away * -9 : 0;
+          const slide = dir === "left" ? away * -26 : dir === "right" ? away * 26 : 0;
+
+          el.style.setProperty(
+            "--s3d",
+            `translate3d(${slide.toFixed(1)}px, ${lift.toFixed(1)}px, 0)` +
+              ` rotateX(${pitch.toFixed(2)}deg) rotateY(${yaw.toFixed(2)}deg)` +
+              ` scale(${scale.toFixed(4)})`
+          );
+          el.style.setProperty("--s3d-o", String((1 - away * 0.35).toFixed(3)));
+        }
+      };
+
+      const onScroll = () => {
+        if (queued) return;
+        queued = true;
+        raf = requestAnimationFrame(paint);
+      };
+
+      paint();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+
+      cleanups.push(() => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+        cancelAnimationFrame(raf);
+        cards.forEach((el) => {
+          el.style.removeProperty("--s3d");
+          el.style.removeProperty("--s3d-o");
         });
       });
     }

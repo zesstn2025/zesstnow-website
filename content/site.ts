@@ -37,7 +37,10 @@ export const company = {
     pin: "212207",
     country: "India",
   },
-  email: "support@bizgstpro.com",
+  // The company's own address, not the product's. BizGST Pro keeps
+  // support@bizgstpro.com on its own site for existing subscribers; anything
+  // addressed to Zesst Now itself comes here.
+  email: "zesstn@gmail.com",
   phone: "+91 77538 98481",
   phoneE164: "917753898481",
   hours: "Mon–Sat, 10 AM – 7 PM IST",
@@ -65,6 +68,7 @@ export const ticker = [
   "Websites · AI Automations · SaaS",
   "GST & Tax Compliance",
   "Loans · Insurance · Leads",
+  "Websites live in 48 hours",
   "Data hosted in India",
   "Bootstrapped, no outside capital",
 ];
@@ -77,17 +81,17 @@ export const hero = {
   primaryCta: { label: "See our work", href: "/work" },
   secondaryCta: { label: "Start a project", href: "/contact" },
   stats: [
+    { value: "48 hrs", label: "Website live, start to finish" },
+    { value: "25–45", label: "Days to loan disbursement" },
     { value: "12", label: "Modules shipped in BizGST Pro" },
-    { value: "2", label: "Live products & sites" },
-    { value: "4", label: "Business service verticals" },
     { value: "100%", label: "Built in-house" },
   ],
 };
 
 export const services = {
   eyebrow: "WHAT WE DO",
-  title: "Four disciplines, one team.",
-  sub: "No handoffs between agencies. Strategy, design and engineering sit in the same room.",
+  title: "Six disciplines, one team.",
+  sub: "No handoffs between agencies. Strategy, design and engineering sit in the same room — and the same team stays on it after launch.",
   items: [
     {
       no: "01",
@@ -109,9 +113,57 @@ export const services = {
     },
     {
       no: "04",
+      title: "Apps — Native & Installable",
+      body: "Mobile and desktop apps designed native to each platform, not one layout stretched across both. Shipped to the stores when you want that, and installable straight from your own link when you don't — no Play Store review, no waiting.",
+      points: ["iOS & Android", "Windows & macOS", "Direct install", "Offline-capable"],
+    },
+    {
+      no: "05",
+      title: "Social Media Automation",
+      body: "Content planned, produced, scheduled and posted across channels on a calendar you can see — with replies, comments and DMs routed to one inbox so leads don't die in a notification.",
+      points: ["Content calendar", "Scheduling", "Unified inbox", "Reporting"],
+    },
+    {
+      no: "06",
       title: "Brand Identity",
       body: "Naming, logo systems, type and colour — a design language that makes a young company look like the obvious choice.",
       points: ["Naming", "Logo systems", "Design language", "Collateral"],
+    },
+  ],
+};
+
+/**
+ * The promises the company is willing to be held to.
+ *
+ * Only two numbers are fixed anywhere on this site — the 48-hour website and the
+ * 25–45 day loan window. Everything else is quoted per scope, deliberately, and
+ * the copy has to keep saying so rather than implying a rate card exists.
+ */
+export const usps = {
+  eyebrow: "WHAT YOU GET FROM US",
+  title: "Fixed where it matters. Honest everywhere else.",
+  sub: "Most studios hide behind a vague timeline and a padded quote. We do the opposite — a hard commitment where we can make one, and a real number in writing before anything starts.",
+  items: [
+    {
+      value: "48 hrs",
+      title: "Your website, live",
+      body: "A complete, production website inside 48 hours of the brief being agreed — designed, built, deployed and handed over. Not a template with your logo dropped in.",
+    },
+    {
+      value: "25–45 days",
+      title: "Loan disbursement",
+      body: "From a complete file to money in the account, typically 25 to 45 days. We prepare the paperwork and stay on the bank until it moves.",
+      note: "Timeline assumes complete documents and a clean profile. Sanction and disbursement are the lender's decision, not ours.",
+    },
+    {
+      value: "Locked",
+      title: "Every other project, time-locked",
+      body: "Bigger builds don't get a made-up date. We scope the work first, then lock a delivery date in writing — and if something slips, you hear it the week we find out, not at the deadline.",
+    },
+    {
+      value: "Quoted",
+      title: "Never a rate card",
+      body: "No fixed price list, because no two projects are the same job. We understand what you need, then give you one number in writing that does not move unless you change the scope.",
     },
   ],
 };
@@ -152,8 +204,8 @@ export const verticals = {
     {
       no: "02",
       title: "Loan Facilitation",
-      lead: "The paperwork and the follow-up, not the lending.",
-      body: "We help businesses and families get bank-ready and stay on top of the file: home and commercial property loans, loan against property, cash credit and overdraft limits, personal, business, education and vehicle loans — plus CIBIL clean-up before you apply.",
+      lead: "Complete file to disbursement, typically 25–45 days.",
+      body: "We help businesses and families get bank-ready and stay on top of the file: home and commercial property loans, loan against property, cash credit and overdraft limits, personal, business, education and vehicle loans — plus CIBIL clean-up before you apply. Once the file is complete we chase the bank until the money moves, and most cases disburse inside 25 to 45 days.",
       points: [
         "Home & commercial property loans",
         "Loan Against Property (LAP)",
@@ -187,11 +239,13 @@ export const verticals = {
       no: "04",
       title: "Leads & Marketing",
       lead: "Customers in the pipeline, not just impressions bought.",
-      body: "Lead generation and performance marketing wired into a pipeline you can actually work — landing pages, search and social campaigns, WhatsApp-first capture, and a New → Contacted → Quoted → Won pipeline so follow-ups stop dying in a chat thread. The same pipeline ships inside BizGST Pro.",
+      body: "Lead generation and performance marketing wired into a pipeline you can actually work — landing pages, search and social campaigns, WhatsApp-first capture, and a New → Contacted → Quoted → Won pipeline so follow-ups stop dying in a chat thread. We also buy and sell verified leads at the prevailing market rate, and run social media end to end: content calendar, scheduling, posting and a single inbox for every reply.",
       points: [
         "Lead generation campaigns",
+        "Buy & sell verified leads at market rate",
         "Landing pages built to convert",
         "Search & social performance marketing",
+        "Social media automation & scheduling",
         "WhatsApp-first capture & nurture",
         "CRM pipeline setup",
         "Content, SEO & local search",
@@ -213,8 +267,10 @@ export type Product = {
   slug: string;
   name: string;
   domain: string;
-  url: string;
-  status: "Live" | "In development";
+  /** External site, when the product has one. Omitted for products that live
+   *  on this domain — there is nowhere else to send the visitor. */
+  url?: string;
+  status: "Live" | "Private beta" | "In development";
   accent: "violet" | "cyan";
   kicker: string;
   headline: string;
@@ -385,6 +441,155 @@ export const products: Product[] = [
       },
     ],
   },
+
+  /**
+   * Cognitive Capital Suite — the AI SDR agent.
+   *
+   * Copy is drawn from the company's own English pitch deck. The Hindi deck
+   * covering the same product is explicitly internal ("apne aap ko aur partner
+   * ko samjhane ke liye") and carries tool costs, margins and investor asks —
+   * none of that belongs on a public page and none of it is used here.
+   *
+   * Prices are deliberately absent: the company quotes per scope after a call.
+   */
+  {
+    slug: "cognitive-capital-suite",
+    name: "Cognitive Capital Suite",
+    domain: "cognitivecapitalsuite.com",
+    status: "Private beta",
+    accent: "cyan",
+    kicker: "AI SALES AGENT FOR B2B SAAS",
+    headline: "Your outbound pipeline, running while you sleep.",
+    sub: "An AI sales agent that finds your ideal customers, researches each one, writes a genuinely personalised email — not a template — follows up, reads the replies, and books qualified meetings straight into your calendar. You show up to the demo.",
+    audience:
+      "Built for bootstrapped B2B SaaS founders between $500K and $5M ARR with no dedicated SDR yet, and for agencies who want to offer outbound to their own clients white-labelled.",
+    features: [
+      {
+        title: "Lead discovery",
+        body: "Pulls a steady stream of qualified accounts matching your ideal customer profile — around 100 a day — instead of you scrolling LinkedIn.",
+      },
+      {
+        title: "Real-time enrichment",
+        body: "Every company is researched before anything is written: what they do, how they're funded, what changed recently. That research is what makes the email land.",
+      },
+      {
+        title: "Genuine personalisation",
+        body: "One unique email per lead, written from that research. Not a merge field dropped into a template — the difference is the reply rate.",
+      },
+      {
+        title: "Deliverability that holds",
+        body: "Warmed sending domains and paced delivery, so your mail keeps reaching inboxes instead of quietly landing in spam after week two.",
+      },
+      {
+        title: "Reply intelligence",
+        body: "Replies are read and classified — interested, not now, wrong person, unsubscribe — and routed or answered accordingly, without you triaging an inbox.",
+      },
+      {
+        title: "Automatic follow-up",
+        body: "The sequence keeps going on its own schedule. Most replies come from follow-ups, and follow-ups are exactly what a busy founder stops doing.",
+      },
+      {
+        title: "Meetings booked, CRM updated",
+        body: "Qualified conversations become calendar invites and CRM records without a handoff step, so nothing sits in someone's head.",
+      },
+      {
+        title: "Weekly report",
+        body: "What went out, what came back, what's booked. One page, every week, so you can tell whether it is working.",
+      },
+    ],
+    steps: [
+      {
+        title: "Monday",
+        body: "The agent finds qualified leads, researches each company, writes a unique email for every one, and sends the first batch.",
+      },
+      {
+        title: "Wednesday",
+        body: "Follow-ups go out automatically. Interested replies are detected and answered; the rest are classified and filed.",
+      },
+      {
+        title: "Friday",
+        body: "Meetings land in your calendar, the CRM is updated, and a weekly report tells you what actually happened.",
+      },
+      {
+        title: "Your part",
+        body: "Take the demo. Close the deal. That is the whole job description.",
+      },
+    ],
+    pricing: {
+      title: "Three ways to run it.",
+      sub: "Every engagement is scoped and quoted on a call — volume, sending domains and how much of the pipeline you want handled all move the number. No public price list, no surprise line items.",
+      tiers: [
+        {
+          name: "Starter",
+          price: "On enquiry",
+          note: "One campaign, for a founder testing outbound properly",
+          features: [
+            "One active campaign",
+            "Managed lead discovery & enrichment",
+            "Personalised sequences with follow-up",
+            "Meeting booking + CRM sync",
+            "Weekly report",
+          ],
+        },
+        {
+          name: "Growth",
+          price: "On enquiry",
+          period: "most chosen",
+          note: "Several campaigns running against different segments",
+          highlight: true,
+          features: [
+            "Multiple active campaigns",
+            "Higher monthly lead volume",
+            "Advanced multi-step sequences",
+            "Reply classification & routing",
+            "Priority support",
+          ],
+        },
+        {
+          name: "Agency",
+          price: "On enquiry",
+          note: "Offer outbound to your own clients, under your own brand",
+          features: [
+            "White-label ready",
+            "Multi-client dashboard",
+            "Unlimited campaigns",
+            "Dedicated account manager",
+            "Partner revenue share",
+          ],
+        },
+      ],
+    },
+    faq: [
+      {
+        q: "How is this different from hiring an SDR?",
+        a: "An SDR costs a salary whether or not the pipeline moves, sends perhaps 50–80 emails a day, works eight hours, needs three to four months of ramp, and half of them leave within a year. The agent runs continuously, sends at a far higher volume, is consistent on a bad week, and is live in days rather than months. It does not replace a closer — you still take the calls.",
+      },
+      {
+        q: "Are these mail-merge templates?",
+        a: "No, and that is the whole point. Each company is researched first and the email is written from that research, so it reads like someone actually looked at the business. Templates are why 95% of cold email gets ignored.",
+      },
+      {
+        q: "Will this get my domain blacklisted?",
+        a: "Not if it is set up properly. We send from separate warmed domains rather than your primary one, pace the volume, and monitor deliverability — so your company mail is never the thing at risk.",
+      },
+      {
+        q: "How long does setup take?",
+        a: "Around 48 hours to configure and go live, with no engineering work needed from your side. Sending domains need a warm-up period before volume ramps, which we handle.",
+      },
+      {
+        q: "What does it cost?",
+        a: "It is quoted after a short call, because volume, number of campaigns and how much of the pipeline you want managed change the answer significantly. We will give you a fixed number in writing before anything starts.",
+      },
+      {
+        q: "Can an agency resell this?",
+        a: "Yes. The Agency engagement is white-label with a multi-client dashboard and a revenue share, so you can offer outbound as your own service without building the machinery.",
+      },
+      {
+        q: "Who is it not for?",
+        a: "Anyone selling to consumers, anyone whose buyers are not reachable by email, and anyone with no offer worth booking a meeting about. Outbound amplifies a proposition — it does not create one.",
+      },
+    ],
+  },
 ];
 
 export const productsSection = {
@@ -404,7 +609,7 @@ export const productsSection = {
 export const roadmap = {
   eyebrow: "IN DEVELOPMENT",
   title: "What we're building next.",
-  sub: "Cognitive Capital is the umbrella this site sits on — the company's own domain, and where our next products land. Dates aren't promised; these ship when they're good.",
+  sub: "Everything below is being built now. Dates aren't promised; these ship when they're good.",
   items: [
     {
       name: "Zesst AI Academy",
@@ -436,10 +641,10 @@ export const roadmap = {
       ],
     },
     {
-      name: "Cognitive Capital Suite",
+      name: "One account for everything",
       status: "In development",
       kicker: "PLATFORM",
-      body: "Bringing the compliance desk, the lead pipeline and our SaaS into one account, so a business owner sees filings, funding and customers on a single screen instead of four apps and a WhatsApp thread.",
+      body: "Bringing the compliance desk, the lead pipeline and our SaaS into a single login, so a business owner sees filings, funding and customers on one screen instead of four apps and a WhatsApp thread.",
       courses: [],
     },
   ],
@@ -576,6 +781,7 @@ export const about = {
     },
   ],
   facts: [
+    { label: "Founder & CEO", value: "Sonu Sharma" },
     { label: "Legal name", value: company.legalName },
     { label: "CIN", value: company.cin },
     { label: "Incorporated", value: company.incorporated },
@@ -625,11 +831,15 @@ export const contact = {
     "Website / web app",
     "AI automation",
     "SaaS product build",
+    "Mobile / desktop app",
+    "Social media automation",
     "Brand identity",
     "GST & tax compliance",
     "Loan facilitation",
     "Business / MSME registration",
     "Leads & marketing",
+    "Buy or sell leads",
+    "Cognitive Capital Suite — AI sales agent",
     "BizGST Pro enquiry",
     "BizGST Pro — CA partner program",
     "Zesst AI Academy — waitlist",
@@ -638,6 +848,7 @@ export const contact = {
 };
 
 export const footer = {
+  rights: "All rights reserved.",
   blurb:
     "A bootstrapped product and engineering studio in Kaushambi, Uttar Pradesh — building premium websites, AI automations and software for businesses across India, and running the compliance, funding and marketing desk behind them.",
   columns: [

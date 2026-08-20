@@ -136,9 +136,12 @@ export default function Scene({
 
         {/* On the home page the subject sits to the right of the headline —
             the copy owns the left half, exactly as in the reference layout. */}
+        {/* The copy owns the left half on every page, so the subject sits to
+            the right of it — centred, it renders straight through the headline
+            and the scrim has to work far too hard. */}
         <group
-          position={variant === "hero" ? [2.25, 0.15, 0] : [0, 0, 0]}
-          scale={variant === "hero" ? 0.82 : 1}
+          position={variant === "hero" ? [2.25, 0.15, 0] : [1.75, 0.1, 0]}
+          scale={variant === "hero" ? 0.82 : 0.9}
         >
           <Core accent={accent} />
           {variant === "hero" && <Satellites />}
