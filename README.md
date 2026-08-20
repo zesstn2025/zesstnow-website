@@ -48,8 +48,12 @@ invented. Company registration facts come from MCA records.
 
 **This site ships on that domain**, on the `www` host — Vercel redirects the apex to it, so every canonical URL names `www`. It is not a product — it is the company's
 own domain, and this site is both the Zesst Now company site and its portfolio:
-BizGST Pro, advnitinkumar.in, and every future site, CRM and SaaS listed in one
+BizGST Pro, adnitinkumar.in, and every future site, CRM and SaaS listed in one
 place, in the `portfolio` section of `content/site.ts`.
+
+The advocate site's domain is **adnitinkumar.in** — no `v`. An earlier version of
+this repo said `advnitinkumar.in`, which does not resolve; the correct spelling is
+noted in `content/site.ts` so it does not get "corrected" back.
 
 An earlier draft of this site invented an "AI financial intelligence" product
 under that name, with features and an FAQ, none of which came from the company.
@@ -95,16 +99,29 @@ Files land in `brand/` (SVG) and `brand/png/`:
 The wordmark is converted to outlines, so no file depends on Sora being
 installed anywhere.
 
-## The 3D scene
+## The 3D
 
-The hero canvas is decoration, never content. Everything the page says is real
-HTML that reads correctly with the canvas absent.
+Both canvases are decoration, never content. Everything the page says is real
+HTML that reads correctly with them absent.
+
+**The hero canvas** — one per route, expensive, carries the glass subject:
 
 - `components/three/Scene.tsx` — canvas, camera rig, lighting, performance guards
 - `components/three/Core.tsx` — the refractive centrepiece
 - `components/three/Satellites.tsx` — orbiting glass chips and shards
 - `components/three/AuroraRibbons.tsx` — shader ribbons (custom GLSL)
 - `components/three/Effects.tsx` — bloom, chromatic aberration, vignette
+
+**The ambient field** — `components/three/Field.tsx`, mounted once in the layout
+and fixed behind every page. A 1500-point GPU starfield and a few wireframe
+solids, both driven by scroll, so the site feels like it is moving below the
+hero as well as inside it. Deliberately cheap — points and unlit meshes only, no
+transmission, no postprocessing, no environment map, DPR capped at 1.25.
+
+`components/Motion.tsx` adds the pointer layer: a cursor glow, magnetic pills and
+scroll parallax on the portfolio frames. Each effect writes a transform to a
+*leaf* element — a transform on a container would break the `position: sticky`
+panel on the about page.
 
 Guards that keep it honest on slow hardware:
 
@@ -119,18 +136,45 @@ Guards that keep it honest on slow hardware:
 
 ```
 app/
-  layout.tsx                      fonts, metadata, Organization JSON-LD
+  layout.tsx                      fonts, metadata, Organization JSON-LD,
+                                  FieldStage + Motion mounted once for every route
   page.tsx                        homepage
   globals.css                     design tokens + every component style
+  about/  services/  work/  contact/  products/
   products/bizgstpro/page.tsx     one route per product
+  legal/[slug]/page.tsx           privacy · terms · refunds, from content/site.ts
   sitemap.ts  robots.ts  not-found.tsx
 components/
-  three/                          WebGL scene
-  Nav Footer Ticker Preloader Stage HeroStage
-  TiltCard Faq ContactSection ProductVisual ProductPage RevealObserver
+  three/Scene Core Satellites AuroraRibbons Effects    hero canvas
+  three/Field                                          site-wide ambient canvas
+  Nav Footer Ticker Preloader Stage HeroStage PageHero
+  WorkCard Motion TiltCard Faq ContactSection ProductVisual ProductPage
 content/site.ts                   ★ all copy
 lib/motion.ts                     3D gating, reveal + scroll hooks
+scripts/                          portfolio screenshot pipeline
+public/portfolio/                 the screenshots it produces
 ```
+
+## Portfolio screenshots
+
+The portfolio shows **real screenshots of the live sites**, not mockups. They are
+regenerated, not hand-collected:
+
+```bash
+python3 scripts/mirror.py https://bizgstpro.com out / /pricing
+cd out && python3 -m http.server 8801
+node scripts/shots.js public/portfolio
+```
+
+`mirror.py` pulls a page and its same-origin asset tree down with curl and serves
+it from localhost; `shots.js` drives headless Chromium over the local copy and
+writes JPEGs. The detour through a local mirror exists because a sandboxed
+Chromium often cannot use an egress proxy that curl can — screenshotting
+localhost sidesteps the problem entirely. Point `shots.js` at the live URLs
+directly if your environment has no such restriction.
+
+Output is JPEG at quality 82: these render at card size, and PNG screenshots of a
+dark gradient page run to 3 MB each.
 
 ## Notes
 
@@ -138,3 +182,8 @@ lib/motion.ts                     3D gating, reveal + scroll hooks
   nothing is stored or transmitted by this site.
 - The footer carries the legal name and CIN. Directors' names are deliberately
   not published.
+- Loan and insurance copy says *facilitation* throughout, and each card carries a
+  disclaimer: the company sources and documents, it does not lend or underwrite.
+  Do not loosen that wording — it is what keeps the claims accurate.
+- The four AI Academy course titles in `roadmap` are marked `CONFIRM:` and are
+  descriptive placeholders. Replace them with the real course names.
