@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { company, footer, nav, products } from "@/content/site";
+import { company, footer } from "@/content/site";
 import Mark from "./Mark";
 
 export default function Footer() {
@@ -12,41 +12,42 @@ export default function Footer() {
               <Mark size={28} />
               {company.wordmark}
             </div>
-            <p
-              style={{
-                marginTop: 18,
-                color: "var(--muted)",
-                fontSize: 14.5,
-                maxWidth: "44ch",
-              }}
-            >
-              {footer.blurb}
-            </p>
-          </div>
+            <p className="footer-blurb">{footer.blurb}</p>
 
-          <div>
-            <h4>Company</h4>
-            <div className="footer-links">
-              {nav.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  {item.label}
-                </Link>
-              ))}
-              <Link href="/#contact">Contact</Link>
-            </div>
-          </div>
-
-          <div>
-            <h4>Products</h4>
-            <div className="footer-links">
-              {products.map((p) => (
-                <Link key={p.slug} href={`/products/${p.slug}`}>
-                  {p.name}
-                </Link>
-              ))}
+            <div className="footer-contact">
+              <a href={`https://wa.me/${company.phoneE164}`} target="_blank" rel="noopener noreferrer">
+                {company.phone}
+              </a>
               <a href={`mailto:${company.email}`}>{company.email}</a>
+              <a href={company.instagramUrl} target="_blank" rel="noopener noreferrer">
+                @{company.instagram}
+              </a>
             </div>
           </div>
+
+          {footer.columns.map((col) => (
+            <div key={col.title}>
+              <h4>{col.title}</h4>
+              <div className="footer-links">
+                {col.links.map((link) =>
+                  link.href.startsWith("http") ? (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {link.label} ↗
+                    </a>
+                  ) : (
+                    <Link key={link.href} href={link.href}>
+                      {link.label}
+                    </Link>
+                  )
+                )}
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="legal">

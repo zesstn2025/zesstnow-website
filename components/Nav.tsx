@@ -40,7 +40,7 @@ export default function Nav() {
           </nav>
 
           <div className="nav-right">
-            <Link href="/#contact" className="pill pill-primary pill-sm">
+            <Link href="/contact" className="pill pill-primary pill-sm">
               Start a project
             </Link>
             <button
@@ -64,8 +64,8 @@ export default function Nav() {
             {item.label}
           </Link>
         ))}
-        <Link href="/#contact" onClick={() => setOpen(false)}>
-          Contact
+        <Link href="/contact" onClick={() => setOpen(false)} className="mobile-cta">
+          Start a project →
         </Link>
       </div>
     </>

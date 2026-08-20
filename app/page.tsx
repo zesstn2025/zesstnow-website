@@ -5,16 +5,21 @@ import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
 import HeroStage from "@/components/HeroStage";
 import TiltCard from "@/components/TiltCard";
+import WorkCard from "@/components/WorkCard";
 import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import ProductVisual from "@/components/ProductVisual";
+import Faq from "@/components/Faq";
 import {
   hero,
   services,
+  verticals,
   products,
   productsSection,
+  roadmap,
   process,
   portfolio,
+  faq,
 } from "@/content/site";
 
 export default function HomePage() {
@@ -83,11 +88,7 @@ export default function HomePage() {
 
             <div className="grid-services">
               {services.items.map((item, i) => (
-                <TiltCard
-                  key={item.no}
-                  className="glass svc reveal"
-                  data-delay={i * 80}
-                >
+                <TiltCard key={item.no} className="glass svc reveal" data-delay={i * 80}>
                   <span className="svc-no">{item.no}</span>
                   <h3 className="svc-t">{item.title}</h3>
                   <p className="svc-b">{item.body}</p>
@@ -104,6 +105,45 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── VERTICALS ────────────────────────────────────────── */}
+        <section className="section section-alt" id="verticals">
+          <div className="shell">
+            <div className="section-head reveal">
+              <span className="eyebrow">{verticals.eyebrow}</span>
+              <h2 className="section-title">{verticals.title}</h2>
+              <p className="section-sub">{verticals.sub}</p>
+            </div>
+
+            <div className="grid-verticals">
+              {verticals.items.map((v, i) => (
+                <TiltCard key={v.no} className="glass vert reveal" max={6} data-delay={i * 80}>
+                  <div className="vert-head">
+                    <span className="svc-no">{v.no}</span>
+                    <div>
+                      <h3 className="svc-t">{v.title}</h3>
+                      <p className="vert-lead">{v.lead}</p>
+                    </div>
+                  </div>
+
+                  <p className="svc-b">{v.body}</p>
+
+                  <ul className="vert-list">
+                    {v.points.map((p) => (
+                      <li key={p}>{p}</li>
+                    ))}
+                  </ul>
+
+                  {"disclaimer" in v && v.disclaimer && (
+                    <p className="vert-note">{v.disclaimer}</p>
+                  )}
+                </TiltCard>
+              ))}
+            </div>
+
+            <p className="reveal note-line">{verticals.note}</p>
+          </div>
+        </section>
+
         {/* ── PRODUCTS ─────────────────────────────────────────── */}
         <section className="section" id="products">
           <div className="shell">
@@ -114,11 +154,7 @@ export default function HomePage() {
             </div>
 
             {products.map((product, i) => (
-              <article
-                className="prod"
-                data-flip={i % 2 === 1}
-                key={product.slug}
-              >
+              <article className="prod" data-flip={i % 2 === 1} key={product.slug}>
                 <div className="reveal">
                   <span className="status" data-live={product.status === "Live"}>
                     <span className="status-dot" />
@@ -127,10 +163,7 @@ export default function HomePage() {
 
                   <h3 className="prod-name">{product.name}</h3>
 
-                  <p
-                    className="mono-label"
-                    style={{ marginTop: 10, color: "var(--electric)" }}
-                  >
+                  <p className="mono-label" style={{ marginTop: 10, color: "var(--electric)" }}>
                     {product.domain}
                   </p>
 
@@ -145,10 +178,7 @@ export default function HomePage() {
                   </div>
 
                   <div style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
-                    <Link
-                      href={`/products/${product.slug}`}
-                      className="pill pill-primary"
-                    >
+                    <Link href={`/products/${product.slug}`} className="pill pill-primary">
                       Explore {product.name}
                     </Link>
                     <a
@@ -166,6 +196,49 @@ export default function HomePage() {
                   <ProductVisual product={product} />
                 </div>
               </article>
+            ))}
+          </div>
+        </section>
+
+        {/* ── ROADMAP ──────────────────────────────────────────── */}
+        <section className="section section-alt" id="roadmap">
+          <div className="shell">
+            <div className="section-head reveal">
+              <span className="eyebrow">{roadmap.eyebrow}</span>
+              <h2 className="section-title">{roadmap.title}</h2>
+              <p className="section-sub">{roadmap.sub}</p>
+            </div>
+
+            {roadmap.items.map((item, i) => (
+              <div className="glass upcoming reveal" key={item.name} data-delay={i * 90}>
+                <div className="upcoming-head">
+                  <div>
+                    <span className="status">
+                      <span className="status-dot" />
+                      {item.status}
+                    </span>
+                    <h3 className="prod-name" style={{ marginTop: 16 }}>
+                      {item.name}
+                    </h3>
+                    <p className="mono-label" style={{ marginTop: 10, color: "var(--electric)" }}>
+                      {item.kicker}
+                    </p>
+                  </div>
+                  <p className="svc-b upcoming-body">{item.body}</p>
+                </div>
+
+                {item.courses.length > 0 && (
+                  <div className="course-grid">
+                    {item.courses.map((c) => (
+                      <div className="course" key={c.no}>
+                        <span className="svc-no">{c.no}</span>
+                        <h4 className="svc-t">{c.title}</h4>
+                        <p className="svc-b">{c.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         </section>
@@ -191,8 +264,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── PORTFOLIO ─────────────────────────────────────────────── */}
-        <section className="section" id="portfolio">
+        {/* ── PORTFOLIO ────────────────────────────────────────── */}
+        <section className="section section-alt" id="portfolio">
           <div className="shell">
             <div className="section-head reveal">
               <span className="eyebrow">{portfolio.eyebrow}</span>
@@ -200,39 +273,23 @@ export default function HomePage() {
               <p className="section-sub">{portfolio.sub}</p>
             </div>
 
-            <div className="portfolio-grid">
-              {portfolio.items.map((item) => (
-              <a
-                key={item.domain}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass work-card reveal"
-                style={{ display: "grid" }}
-              >
-                <div>
-                  <span className="mono-label">{item.year}</span>
-                  <h3 className="svc-t" style={{ marginTop: 12 }}>
-                    {item.client}
-                  </h3>
-                  <p className="work-domain" style={{ marginTop: 10 }}>
-                    {item.domain} ↗
-                  </p>
-                </div>
-                <div>
-                  <p className="svc-b" style={{ marginTop: 0 }}>
-                    {item.body}
-                  </p>
-                  <div className="svc-pts">
-                    {item.tags.map((t) => (
-                      <span className="chip" key={t}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                </a>
+            <div className="work-list">
+              {portfolio.items.map((item, i) => (
+                <WorkCard key={item.domain} work={item} index={i} />
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ──────────────────────────────────────────────── */}
+        <section className="section">
+          <div className="shell shell-narrow">
+            <div className="section-head reveal">
+              <span className="eyebrow">{faq.eyebrow}</span>
+              <h2 className="section-title">{faq.title}</h2>
+            </div>
+            <div className="reveal">
+              <Faq items={faq.items} />
             </div>
           </div>
         </section>
