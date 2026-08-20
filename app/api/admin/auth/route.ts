@@ -14,13 +14,37 @@ import { NextResponse, type NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 
 export function GET(request: NextRequest) {
-  const clientId = process.env.GITHUB_OAUTH_CLIENT_ID;
+  const clientId = process.env.GITHUB_OAUTH_CLIENT_ID?.trim();
+  const clientSecret = process.env.GITHUB_OAUTH_CLIENT_SECRET?.trim();
 
-  if (!clientId) {
+  if (!clientId || !clientSecret) {
+    // "It is missing" is not a useful answer when someone has just set it —
+    // the real causes are a variable scoped to the wrong environment, a
+    // mistyped name, or a value that never saved. Report which of those it is,
+    // by name and length only. Values are never echoed.
+    const seen = Object.keys(process.env)
+      .filter((k) => k.startsWith("GITHUB_"))
+      .sort()
+      .map((k) => `  ${k} = ${(process.env[k] ?? "").trim().length} characters`);
+
     return new NextResponse(
-      "Admin sign-in is not configured: GITHUB_OAUTH_CLIENT_ID is missing. " +
-        "Add it in the Vercel project settings and redeploy.",
-      { status: 500, headers: { "content-type": "text/plain" } }
+      [
+        "Admin sign-in is not configured.",
+        "",
+        `  GITHUB_OAUTH_CLIENT_ID     ${clientId ? "found" : "MISSING or empty"}`,
+        `  GITHUB_OAUTH_CLIENT_SECRET ${clientSecret ? "found" : "MISSING or empty"}`,
+        "",
+        "GITHUB_* variables this deployment can actually see:",
+        seen.length ? seen.join("\n") : "  (none)",
+        "",
+        "If the list above is empty, the variables were not attached to the",
+        "Production environment, or the deployment predates them. In Vercel:",
+        "Settings > Environment Variables — tick Production, save, then",
+        "Deployments > latest > ... > Redeploy.",
+        "",
+        `Deployment region ${process.env.VERCEL_REGION ?? "unknown"}, env ${process.env.VERCEL_ENV ?? "unknown"}.`,
+      ].join("\n"),
+      { status: 500, headers: { "content-type": "text/plain; charset=utf-8" } }
     );
   }
 
