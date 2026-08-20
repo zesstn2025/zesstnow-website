@@ -5,7 +5,8 @@ import PageHero from "@/components/PageHero";
 import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import Faq from "@/components/Faq";
-import { company, faq } from "@/content/site";
+import { company, faq, social } from "@/content/site";
+import SocialLinks from "@/components/SocialLinks";
 
 const title = "Contact Zesst Now";
 const description = `Talk to us about a website, an AI automation, a product build, GST and tax work, or a loan file. WhatsApp ${company.phone}, or email ${company.email}. ${company.hours}.`;
@@ -101,6 +102,14 @@ export default function ContactPage() {
                 Walk-in GST and ITR services run from Nitin GST Suvidha Kendra,
                 in front of Axis Bank, Sirathu Road, Manjhanpur, Kaushambi.
               </p>
+
+              <div style={{ marginTop: 24 }}>
+                <SocialLinks profiles={social.company} label="FOLLOW THE COMPANY" />
+                <SocialLinks
+                  profiles={social.founder}
+                  label={`${company.founder.toUpperCase()} — ${company.founderRole.toUpperCase()}`}
+                />
+              </div>
             </div>
           </div>
         </section>

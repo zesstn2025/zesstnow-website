@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Zesst Now — Admin</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='22' fill='%236D3BF5'/%3E%3Cpath d='M33.5,20 H70 V30 L43,66 H70 L62.5,76 H26 V66 L53,30 H26 Z' fill='%2305060F'/%3E%3C/svg%3E"
+    />
+    <style>
+      /* Shown until the CMS boots, and left visible if it cannot. */
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-content: center;
+        gap: 14px;
+        text-align: center;
+        padding: 24px;
+        background: #04050d;
+        color: #e9ebfa;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      #boot h1 {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+      }
+      #boot p {
+        margin: 0;
+        font-size: 14px;
+        color: rgba(233, 235, 250, 0.6);
+        max-width: 46ch;
+        line-height: 1.7;
+      }
+      #boot a {
+        color: #67e8f9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="boot">
+      <h1>Zesst Now — Admin</h1>
+      <p>Loading the editor. Sign in with the GitHub account that has access to the website repository.</p>
+      <p><a href="/">← Back to the site</a></p>
+    </div>
+
+    <!-- Sveltia CMS: reads the same config.yml format as Decap, with a better
+         editor. Pinned to a major version so an upstream release cannot change
+         the admin under the owner without us testing it first. -->
+    <script src="https://unpkg.com/@sveltia/cms@0/dist/sveltia-cms.js" type="module"></script>
+
+    <script>
+      // If the CMS mounted, it replaces the body content; if it never loads,
+      // the message above stays on screen instead of a blank page.
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          var boot = document.getElementById("boot");
+          if (boot && document.querySelector("#nc-root, #app, .sveltia-cms")) {
+            boot.remove();
+          }
+        }, 2500);
+      });
+    </script>
+  </body>
+</html>

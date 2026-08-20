@@ -46,6 +46,11 @@ export const company = {
   hours: "Mon–Sat, 10 AM – 7 PM IST",
   instagram: "zesstnowai",
   instagramUrl: "https://instagram.com/zesstnowai",
+  founder: "Sonu Sharma",
+  founderRole: "Founder & CEO",
+  // Both directors on the MCA record. Naming them is deliberate — an anonymous
+  // company converts badly with the clients this site is aimed at.
+  directors: ["Sonu Sharma", "Rani Devi"],
   // This site ships on cognitivecapitalsuite.com — the company's own domain,
   // which doubles as its portfolio. The www host is the canonical one; Vercel
   // 308s the apex to it, so canonical URLs, OG and sitemap.xml must name www
@@ -53,10 +58,39 @@ export const company = {
   domain: "www.cognitivecapitalsuite.com",
 };
 
+/**
+ * Social profiles.
+ *
+ * A profile with an empty `url` is rendered nowhere — the components skip it.
+ * That is deliberate: a guessed facebook.com/... or linkedin.com/in/... slug
+ * lands on the wrong person or a 404, which is worse than no link at all. Fill
+ * the real URLs in and they appear everywhere at once.
+ */
+export type Profile = { network: string; handle: string; url: string };
+
+export const social: { company: Profile[]; founder: Profile[] } = {
+  company: [
+    { network: "Instagram", handle: "@zesstnowai", url: "https://instagram.com/zesstnowai" },
+    // TODO: paste the page URL — facebook.com/<page>
+    { network: "Facebook", handle: "Zesst Now Services Private Limited", url: "" },
+  ],
+  founder: [
+    {
+      network: "Instagram",
+      handle: "@sonu_sharma_entreprenuar",
+      url: "https://instagram.com/sonu_sharma_entreprenuar",
+    },
+    // TODO: paste the profile URLs
+    { network: "Facebook", handle: "Sonu Kumar", url: "" },
+    { network: "LinkedIn", handle: "Sonu Sharma", url: "" },
+  ],
+};
+
 export const nav = [
   { label: "Services", href: "/services" },
   { label: "Products", href: "/products" },
   { label: "Work", href: "/work" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -781,7 +815,8 @@ export const about = {
     },
   ],
   facts: [
-    { label: "Founder & CEO", value: "Sonu Sharma" },
+    { label: "Founder & CEO", value: company.founder },
+    { label: "Directors", value: company.directors.join(" · ") },
     { label: "Legal name", value: company.legalName },
     { label: "CIN", value: company.cin },
     { label: "Incorporated", value: company.incorporated },
@@ -858,6 +893,8 @@ export const footer = {
         { label: "About", href: "/about" },
         { label: "Services", href: "/services" },
         { label: "Work", href: "/work" },
+        { label: "Blog", href: "/blog" },
+        { label: "Announcements", href: "/announcements" },
         { label: "Contact", href: "/contact" },
       ],
     },

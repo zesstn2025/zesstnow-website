@@ -36,9 +36,35 @@ deployments that should not claim the canonical domain.
 
 ## Editing content
 
-**All user-facing copy lives in [`content/site.ts`](content/site.ts).** Nothing in
-`components/` hardcodes text. To change a headline, a feature list, the phone
-number or a product description, edit that one file.
+**Structural copy lives in [`content/site.ts`](content/site.ts)** — headlines,
+services, products, verticals, legal pages. Nothing in `components/` hardcodes
+text.
+
+**Blog posts and announcements are markdown files** in `content/blog/` and
+`content/announcements/`, edited through the admin at `/admin` or directly in
+the repo. Publishing is a git commit, so the live site always matches what is in
+version control.
+
+### The admin
+
+`/admin` runs Sveltia CMS against this repository over GitHub OAuth. Anyone with
+push access can publish; nobody else can, so the repo's collaborator list is the
+access control and there is no separate user table to maintain.
+
+It needs two environment variables in the Vercel project, from a GitHub OAuth
+App whose callback is `https://www.cognitivecapitalsuite.com/api/admin/callback`:
+
+```
+GITHUB_OAUTH_CLIENT_ID
+GITHUB_OAUTH_CLIENT_SECRET
+```
+
+`app/api/admin/auth` and `app/api/admin/callback` implement the handshake. The
+token is passed to the CMS tab and never stored server-side.
+
+Deliberately **not** a database: the company already runs two Supabase projects
+for its other products, and a free-tier org only keeps two active. A third would
+have put those at risk for no gain here.
 
 BizGST Pro's copy — features, plans, contact details — is read from the
 product's own pages (`bizgstpro.com`, `/pricing`, `/contact`, `/about`), not

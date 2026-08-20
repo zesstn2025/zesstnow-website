@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { company, footer } from "@/content/site";
+import { company, footer, social } from "@/content/site";
+import SocialLinks from "./SocialLinks";
 import Mark from "./Mark";
 
 export default function Footer() {
@@ -19,10 +20,9 @@ export default function Footer() {
                 {company.phone}
               </a>
               <a href={`mailto:${company.email}`}>{company.email}</a>
-              <a href={company.instagramUrl} target="_blank" rel="noopener noreferrer">
-                @{company.instagram}
-              </a>
             </div>
+
+            <SocialLinks profiles={social.company} />
           </div>
 
           {footer.columns.map((col) => (

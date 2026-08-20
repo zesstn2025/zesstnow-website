@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope, JetBrains_Mono } from "next/font/google";
-import { company } from "@/content/site";
+import { company, social } from "@/content/site";
 import SmoothScroll from "@/components/SmoothScroll";
 import FieldStage from "@/components/FieldStage";
 import Motion from "@/components/Motion";
+import AnnouncementBar from "@/components/AnnouncementBar";
+import { activeAnnouncement } from "@/lib/content";
 import "./globals.css";
 
 /**
@@ -107,6 +109,11 @@ const orgJsonLd = {
   },
   email: company.email,
   telephone: `+${company.phoneE164}`,
+  sameAs: [
+    ...social.company.filter((p) => p.url).map((p) => p.url),
+    "https://bizgstpro.com",
+  ],
+  founder: { "@type": "Person", name: company.founder, jobTitle: company.founderRole },
   knowsAbout: [
     "Web development",
     "AI automation",
@@ -125,6 +132,10 @@ const orgJsonLd = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Read at build time from the pinned announcement, so a launch reaches every
+  // page without touching a component.
+  const ann = activeAnnouncement();
+
   return (
     <html
       lang="en-IN"
@@ -141,6 +152,15 @@ export default function RootLayout({
         <FieldStage />
         <SmoothScroll />
         <Motion />
+        {ann && (
+          <AnnouncementBar
+            id={ann.slug}
+            kind={ann.kind}
+            title={ann.title}
+            href="/announcements"
+            cta={ann.cta?.label ?? "Read more"}
+          />
+        )}
         {children}
         <div className="grain" aria-hidden="true" />
       </body>

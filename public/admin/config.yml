@@ -1,0 +1,172 @@
+# Admin CMS configuration.
+#
+# Publishing writes a markdown file into this repository and Vercel rebuilds the
+# site, so what is live is always exactly what is in version control. Access is
+# controlled by the repository's collaborator list — anyone who can push can
+# publish, and nobody else can.
+
+backend:
+  name: github
+  repo: zesstn2025/zesstnow-website
+  branch: main
+  base_url: https://www.cognitivecapitalsuite.com
+  auth_endpoint: api/admin/auth
+
+# Edits go straight to main. There is one author; a review queue would only add
+# a step nobody else is waiting on.
+publish_mode: simple
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: blog
+    label: Blog posts
+    label_singular: Blog post
+    folder: content/blog
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}} — {{category}}"
+    sortable_fields: [date, title, category]
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        hint: The headline. This is what shows in Google results — write it as the question someone would search.
+
+      - label: Description
+        name: description
+        widget: text
+        hint: One or two sentences. Google shows this under the title, so make it a reason to click.
+
+      - label: Published date
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
+
+      - label: Last updated
+        name: updated
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
+        required: false
+        hint: Set this when you meaningfully revise an old post.
+
+      - label: Category
+        name: category
+        widget: select
+        options:
+          - GST & Tax
+          - Loans & Funding
+          - Compliance
+          - Web & Design
+          - AI & Automation
+          - Sales & Growth
+          - Company
+
+      - label: Tags
+        name: tags
+        widget: list
+        default: []
+        hint: A few words each. Used for the tag chips and for search keywords.
+
+      - label: Author
+        name: author
+        widget: string
+        default: Zesst Now
+
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: false
+        required: false
+        hint: Turn this on to keep a post off the live site while you work on it.
+
+      - label: Common questions
+        name: faq
+        widget: list
+        required: false
+        summary: "{{fields.q}}"
+        hint: >-
+          These are published as FAQ structured data, which is what search engines
+          and AI assistants quote directly. Write each question the way a person
+          would actually type it.
+        fields:
+          - { label: Question, name: q, widget: string }
+          - { label: Answer, name: a, widget: text }
+
+      - label: Body
+        name: body
+        widget: markdown
+        hint: >-
+          Use ## for section headings. Link to other pages with /blog/the-slug or
+          /services — internal links help both readers and ranking.
+
+  - name: announcements
+    label: Announcements
+    label_singular: Announcement
+    folder: content/announcements
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}}{{#if pinned}} (pinned){{/if}}"
+    sortable_fields: [date, title]
+    fields:
+      - label: Title
+        name: title
+        widget: string
+
+      - label: Date
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
+
+      - label: Kind
+        name: kind
+        widget: select
+        options: [Product, Coming soon, Update, Company, Offer]
+        default: Update
+
+      - label: Summary
+        name: summary
+        widget: text
+        hint: One line. This is what shows on the announcements page under the title.
+
+      - label: Show in the bar on every page
+        name: pinned
+        widget: boolean
+        default: false
+        required: false
+        hint: >-
+          Only the newest pinned announcement appears in the top bar. Turn the
+          old one off when you pin a new one.
+
+      - label: Button
+        name: cta
+        widget: object
+        required: false
+        fields:
+          - { label: Button text, name: label, widget: string, required: false }
+          - label: Link
+            name: href
+            widget: string
+            required: false
+            hint: A path on this site like /products/bizgstpro, or a full https:// link.
+
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: false
+        required: false
+
+      - label: Body
+        name: body
+        widget: markdown

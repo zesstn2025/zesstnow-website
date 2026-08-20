@@ -4,7 +4,8 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
-import { about, company, process } from "@/content/site";
+import { about, company, process, social } from "@/content/site";
+import SocialLinks from "@/components/SocialLinks";
 
 const title = "About Zesst Now Services Private Limited";
 const description =
@@ -126,6 +127,14 @@ export default function AboutPage() {
               </address>
               <p className="mono-label">CIN {company.cin}</p>
               <p className="mono-label">{company.hours}</p>
+
+              <div style={{ marginTop: 26 }}>
+                <SocialLinks profiles={social.company} label="FOLLOW THE COMPANY" />
+                <SocialLinks
+                  profiles={social.founder}
+                  label={`${company.founder.toUpperCase()} — ${company.founderRole.toUpperCase()}`}
+                />
+              </div>
             </div>
           </div>
         </section>
