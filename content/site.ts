@@ -790,11 +790,11 @@ export const pillars = {
     {
       id: "pillar-ai",
       no: "01",
-      eyebrow: "AI AGENTS & AGENTIC AI",
+      eyebrow: "COGNITIVE ARCHITECTURE",
       title: "Agents that finish the job.",
       lead: "Not a chatbot bolted onto a website.",
       body: "An agent that plans a task, pulls what it needs from your own documents and systems, and carries the work through to a result you can check. Built against your data, deployed where your team already works, and constrained so it never acts outside what you approved.",
-      stages: ["Planning", "Knowledge elicitation", "Execution"],
+      stages: ["Planning", "Knowledge synthesis", "Execution"],
       points: ["Document intelligence", "Tool-using agents", "Human-in-the-loop review", "Private deployment"],
     },
     {

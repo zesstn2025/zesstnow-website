@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
-import { ScrollTrigger } from "@/lib/scroll";
 
 /**
  * Inertial scrolling, plus anchor links routed through Lenis so in-page jumps
@@ -22,10 +21,6 @@ export default function SmoothScroll() {
     let raf = 0;
     const loop = (time: number) => {
       lenis.raf(time);
-      // ScrollTrigger reads window.scrollY, which Lenis only updates as part of
-      // its own frame. Refreshing it from inside that same frame keeps the 3D
-      // scenes on the same clock as the content; left alone they trail it.
-      ScrollTrigger.update();
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);

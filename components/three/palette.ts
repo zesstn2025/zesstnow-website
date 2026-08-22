@@ -28,6 +28,17 @@ export const palette = {
   navyLift: "#00072b",
   /** Unsaturated bounce, so shadows keep detail without gaining a colour. */
   fill: "#8f9db2",
+
+  /**
+   * Signal. The one saturated colour on the site, and it is not a surface —
+   * nothing metallic ever takes it.
+   *
+   * It exists for data in motion: the particles around the agent core, and
+   * anything else that represents information rather than an object. Kept apart
+   * from the metal on purpose, since a tinted metallic surface stops reading as
+   * metal, and kept in one place so it cannot spread by accident.
+   */
+  signal: "#38bdf8",
 } as const;
 
 export const ACCENT = palette.chrome;

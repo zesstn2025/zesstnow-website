@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MathUtils } from "three";
 
 /**
  * Scroll progress for a section, as a ref rather than as state.
@@ -11,28 +11,46 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  * travelled through the viewport. That value changes on every frame, so it must
  * never become React state — a `setState` per frame would re-render the tree
  * sixty times a second and hand the work to the reconciler instead of the GPU.
- * A ref is read directly inside `useFrame`, which is where the value is
- * actually needed.
+ * A ref is read directly inside `useFrame`, which is where the value is needed.
  *
- * ScrollTrigger owns the measurement because it already handles the parts that
- * are tedious to get right: resize, refresh after images load, and reversing
- * cleanly when you scroll back up.
+ * A note on ScrollTrigger, which this used to use and no longer does.
+ *
+ * ScrollTrigger records each trigger's start and end once and caches them, and
+ * on this page those numbers do not stay true: webfonts swap and reflow every
+ * heading, `next/image` resolves placeholders, the preloader is removed, and
+ * the pillar scenes arrive by dynamic import — all after the triggers are
+ * created. Refreshing on `load`, on `fonts.ready` and on a late timer still did
+ * not line them up. Measured, parking the agent section at 88% of its own
+ * travel reported a progress of 0.31, so the core never contracted and the
+ * tiers never formed. The failure is quiet, which is what made it expensive:
+ * nothing errors, every trigger keeps firing, the numbers are simply wrong.
+ *
+ * Reading the bounding rect each frame is a handful of cheap numbers and cannot
+ * go stale, because nothing is cached to go stale. It is the same measurement
+ * the SVG motifs use, and those have been correct since the first run.
+ *
+ * gsap still drives it — one shared ticker for every section on the page — but
+ * the plugin is gone rather than left registered and unused, along with the
+ * per-frame `ScrollTrigger.update()` that went with it.
  */
 
-let registered = false;
-
-function ensureRegistered() {
-  if (registered || typeof window === "undefined") return;
-  gsap.registerPlugin(ScrollTrigger);
-  registered = true;
-}
-
 /**
- * Returns a ref holding 0 → 1 as `el` crosses the viewport.
+ * Returns a ref holding 0 → 1 as `el` comes into view.
  *
- * 0 when the section's top reaches the bottom of the screen, 1 when its bottom
- * reaches the top — so a scene has finished its move while it is still being
- * looked at, rather than completing as it leaves.
+ * 0 when the top edge reaches the bottom of the screen, 1 when the element's
+ * centre reaches the centre of the screen — and it stays at 1 from there on.
+ *
+ * The obvious range is entry to exit: 0 at "top edge hits the bottom", 1 at
+ * "bottom edge hits the top". It is also wrong, and quietly so. For a section
+ * taller than the viewport, progress only reaches 1 once the section has almost
+ * entirely scrolled off the top, so the finished state is reached at the moment
+ * it stops being visible. Standing in front of the agent section and looking
+ * straight at it, that mapping gives 0.5 — the core half-contracted and the
+ * tiers half-formed — and the completed flowchart it was all building toward
+ * could not be seen at any scroll position at all.
+ *
+ * Finishing at centre means the assembly completes exactly when the thing is
+ * squarely in front of the reader, and then holds while they read it.
  */
 export function useSectionProgress(
   el: React.RefObject<HTMLElement | null>,
@@ -43,16 +61,11 @@ export function useSectionProgress(
    */
   smoothing = 1.6
 ) {
-  // What the scenes read: an eased value that lags the scroll.
   const progress = useRef(0);
-  // What the scroll actually is. Written by ScrollTrigger, read by the ticker.
-  const target = useRef(0);
 
   useEffect(() => {
     const node = el.current;
     if (!node) return;
-
-    ensureRegistered();
 
     // Reduced motion gets the finished state, not a frozen empty one. A scene
     // that never assembles is worse than one that was never animated.
@@ -61,59 +74,38 @@ export function useSectionProgress(
       return;
     }
 
-    const trigger = ScrollTrigger.create({
-      trigger: node,
-      start: "top bottom",
-      end: "bottom top",
-      onUpdate: (self) => {
-        target.current = self.progress;
-      },
-    });
+    const measure = (dt: number) => {
+      const r = node.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Travel from "top edge at the bottom of the screen" to "centre on
+      // centre". Guarded against a zero span for an element with no height,
+      // which would otherwise divide by zero and produce NaN for every frame
+      // afterwards — and NaN in a transform silently removes the object.
+      const span = Math.max(vh / 2 + r.height / 2, 1);
+      const target = MathUtils.clamp((vh - r.top) / span, 0, 1);
 
-    /**
-     * Ease toward the scroll position instead of snapping to it.
-     *
-     * Bound straight to `self.progress`, an assembling object tracks the wheel
-     * one to one: it jumps in the steps the wheel reports, stops dead the
-     * instant scrolling stops, and reverses with no weight at all. Damping the
-     * value gives every scene inertia — parts keep travelling for a moment
-     * after the scroll settles, which is what makes them read as objects with
-     * mass rather than as a slider.
-     *
-     * On gsap's ticker rather than a `requestAnimationFrame` of its own: there
-     * are five of these on the page, and they should share the one loop that
-     * ScrollTrigger is already running.
-     */
-    const tick = (_time: number, deltaMs: number) => {
-      const dt = Math.min(deltaMs, 64) / 1000; // clamp, or a background tab jumps
-      // Frame-rate independent damping: the same curve at 60fps and 144fps.
-      progress.current +=
-        (target.current - progress.current) * (1 - Math.exp(-smoothing * dt));
+      // Ease toward it rather than snapping. Bound directly, an assembling
+      // object tracks the wheel one to one: it jumps in the steps the wheel
+      // reports, stops dead the instant scrolling stops, and reverses with no
+      // weight at all. Damping gives every scene inertia, so parts keep
+      // travelling for a moment after the scroll settles.
+      //
+      // Frame-rate independent: the same curve at 60fps and at 144fps.
+      progress.current += (target - progress.current) * (1 - Math.exp(-smoothing * dt));
     };
 
+    const tick = (_time: number, deltaMs: number) => {
+      measure(Math.min(deltaMs, 64) / 1000); // clamp, or a background tab jumps
+    };
+
+    // Seeded so the first painted frame is already correct rather than zero.
+    measure(1);
     gsap.ticker.add(tick);
 
-    return () => {
-      trigger.kill();
-      gsap.ticker.remove(tick);
-    };
+    return () => gsap.ticker.remove(tick);
   }, [el, smoothing]);
 
   return progress;
 }
 
-/**
- * Hands Lenis's virtual scroll position to ScrollTrigger.
- *
- * Lenis animates a transform rather than moving the real scroll position on
- * every frame, so ScrollTrigger — which reads `window.scrollY` — would lag
- * behind it and every scene would trail the content by a few frames. Calling
- * `ScrollTrigger.update` from inside Lenis's own loop keeps them on the same
- * clock. Called once, from the smooth-scroll component.
- */
-export function bindScrollTrigger(onFrame: (fn: () => void) => void) {
-  ensureRegistered();
-  onFrame(() => ScrollTrigger.update());
-}
-
-export { gsap, ScrollTrigger };
+export { gsap };
