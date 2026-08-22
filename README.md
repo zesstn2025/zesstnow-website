@@ -47,20 +47,23 @@ version control.
 
 ### The admin
 
-`/admin` runs Sveltia CMS against this repository over GitHub OAuth. Anyone with
-push access can publish; nobody else can, so the repo's collaborator list is the
-access control and there is no separate user table to maintain.
+`/admin` runs Sveltia CMS against this repository. Anyone with push access can
+publish; nobody else can, so the repo's collaborator list is the access control
+and there is no separate user table to maintain.
 
-It needs two environment variables in the Vercel project, from a GitHub OAuth
-App whose callback is `https://www.cognitivecapitalsuite.com/api/admin/callback`:
+Two ways in, and **the token is the one that works with nothing configured**:
 
-```
-GITHUB_OAUTH_CLIENT_ID
-GITHUB_OAUTH_CLIENT_SECRET
-```
-
-`app/api/admin/auth` and `app/api/admin/callback` implement the handshake. The
-token is passed to the CMS tab and never stored server-side.
+- **Sign In with Token** — the login screen links to GitHub's token page with
+  the right scopes pre-selected. Paste the token back; it lives in that
+  browser's local storage. No OAuth app, no environment variables, no redeploy.
+- **Sign in with GitHub** (OAuth) — nicer for several editors, but it needs
+  `GITHUB_OAUTH_CLIENT_ID` and `GITHUB_OAUTH_CLIENT_SECRET` on the Vercel
+  project, from an OAuth App whose callback is
+  `https://www.cognitivecapitalsuite.com/api/admin/callback`.
+  `app/api/admin/auth` and `app/api/admin/callback` implement the handshake;
+  the token reaches the CMS tab and is never stored server-side. If the
+  variables are absent, `/api/admin/auth` returns a 500 that names which of
+  them the running deployment can actually see.
 
 Deliberately **not** a database: the company already runs two Supabase projects
 for its other products, and a free-tier org only keeps two active. A third would

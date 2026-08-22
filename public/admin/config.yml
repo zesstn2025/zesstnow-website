@@ -9,6 +9,12 @@ backend:
   name: github
   repo: zesstn2025/zesstnow-website
   branch: main
+  # Both sign-in methods are offered. "Sign In with Token" needs nothing
+  # configured anywhere — it links you to GitHub's token page with the right
+  # scopes already ticked, and the token stays in your browser. The OAuth
+  # route additionally needs GITHUB_OAUTH_CLIENT_ID and _SECRET on the Vercel
+  # project; until those are set, use the token.
+  auth_methods: [token, oauth]
   base_url: https://www.cognitivecapitalsuite.com
   auth_endpoint: api/admin/auth
 

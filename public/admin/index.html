@@ -38,12 +38,28 @@
       #boot a {
         color: #67e8f9;
       }
+      #boot .muted {
+        font-size: 13px;
+        opacity: 0.62;
+      }
+      #boot strong {
+        color: #e9ebfa;
+      }
     </style>
   </head>
   <body>
     <div id="boot">
       <h1>Zesst Now — Admin</h1>
-      <p>Loading the editor. Sign in with the GitHub account that has access to the website repository.</p>
+      <p>
+        Loading the editor. On the sign-in screen choose
+        <strong>Sign In with Token</strong> — it links you straight to GitHub,
+        with the right permissions already selected. Paste the token back and
+        you are in.
+      </p>
+      <p class="muted">
+        "Sign in with GitHub" is the other route. It only works once the OAuth
+        keys are set on the Vercel project; the token works today.
+      </p>
       <p><a href="/">← Back to the site</a></p>
     </div>
 
