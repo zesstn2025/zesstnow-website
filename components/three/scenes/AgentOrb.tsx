@@ -15,6 +15,7 @@ import {
   type LineBasicMaterial,
 } from "three";
 import { palette } from "../palette";
+import { metalRoughnessMap } from "../metal";
 
 /**
  * AI Agents — a neural orb that unfolds into the agent loop.
@@ -47,6 +48,8 @@ export default function AgentOrb({
   progress: React.RefObject<number>;
 }) {
   const group = useRef<Group>(null);
+  // Shared across every metal surface on the page; generated once.
+  const rough = useMemo(() => metalRoughnessMap(), []);
   const mesh = useRef<InstancedMesh>(null);
   const linesRef = useRef<BufferGeometry>(null);
   const lineMaterial = useRef<LineBasicMaterial>(null);
@@ -132,7 +135,7 @@ export default function AgentOrb({
       group.current.rotation.x = MathUtils.damp(
         group.current.rotation.x,
         state.pointer.y * 0.18 * (1 - t),
-        2,
+        1.4,
         delta
       );
     }
@@ -143,9 +146,10 @@ export default function AgentOrb({
       const from = layout.orb[i];
       const to = layout.flow[i];
       // Each node leaves on its own beat, so the sphere unravels instead of
-      // snapping. The stagger is small enough that the whole move still reads
-      // as one gesture.
-      const lag = seeded(i + 7) * 0.28;
+      // snapping. The spread is wide — the first nodes have arrived before the
+      // last have left, which is what makes it read as an unfolding rather than
+      // as forty-two things moving together.
+      const lag = seeded(i + 7) * 0.5;
       const local = MathUtils.clamp((t - lag) / (1 - lag || 1), 0, 1);
 
       live[i].lerpVectors(from, to, local);
@@ -193,9 +197,9 @@ export default function AgentOrb({
         <icosahedronGeometry args={[1, 1]} />
         <meshStandardMaterial
           metalness={1}
-          roughness={0.18}
-          envMapIntensity={1.4}
-          toneMapped={false}
+          roughness={0.22}
+          roughnessMap={rough}
+          envMapIntensity={1.55}
         />
       </instancedMesh>
 

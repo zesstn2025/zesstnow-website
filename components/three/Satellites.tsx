@@ -25,7 +25,7 @@ const SATELLITES: Sat[] = [
   { position: [2.15, -1.5, 0.9], scale: 0.3, color: palette.charcoal, emissive: palette.silver, shape: "shard" },
   { position: [-2.2, 1.7, -1.2], scale: 0.26, color: palette.navyLift, emissive: palette.silver, shape: "shard" },
   { position: [3.5, -0.35, -1.6], scale: 0.22, color: palette.charcoal, emissive: palette.chrome, shape: "shard" },
-  { position: [-3.6, 0.55, -0.9], scale: 0.34, color: "#111a3a", emissive: "#8b7bff", shape: "chip" },
+  { position: [-3.6, 0.55, -0.9], scale: 0.34, color: palette.navyLift, emissive: palette.silver, shape: "chip" },
   { position: [0.5, 2.25, -1.8], scale: 0.2, color: palette.navyLift, emissive: palette.slate, shape: "shard" },
   { position: [-0.9, -2.15, 0.7], scale: 0.24, color: palette.charcoal, emissive: palette.silver, shape: "shard" },
 ];

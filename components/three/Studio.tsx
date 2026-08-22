@@ -29,7 +29,7 @@ export default function Studio() {
       <ambientLight intensity={0.25} />
       <directionalLight position={[-5, 5, 4]} intensity={1.1} color={palette.specular} />
 
-      <Environment frames={1} resolution={256}>
+      <Environment frames={1} resolution={512}>
         {/* Key — a tall softbox to the upper left. The brightest source, and
             the one that draws the long highlight down a curved surface. */}
         <Lightformer
@@ -66,6 +66,31 @@ export default function Studio() {
           scale={[9, 3, 1]}
           form="rect"
         />
+
+        {/* Four narrow strips, angled across the room.
+
+            These are here purely to be reflected. A chrome surface shows the
+            room and nothing else, so a studio of four broad panels gives it
+            four soft gradients and very little to read as shape. Thin strips
+            return the long, travelling streaks that say "polished" — they are
+            the difference between a surface that looks metallic and one that
+            looks like a grey ball. */}
+        {[
+          { pos: [-3.4, 2.6, 4], rot: [0, 0, 0.5], scale: [0.28, 7, 1] },
+          { pos: [3.6, 1.4, 3.4], rot: [0, 0, -0.36], scale: [0.2, 6, 1] },
+          { pos: [-1.4, -3.4, 3.6], rot: [0, 0, 1.25], scale: [0.16, 5, 1] },
+          { pos: [2.2, 4.2, 1.4], rot: [0, 0, 1.5], scale: [0.14, 5.5, 1] },
+        ].map((strip, i) => (
+          <Lightformer
+            key={i}
+            intensity={3.2 - i * 0.5}
+            color={palette.specular}
+            position={strip.pos as [number, number, number]}
+            rotation={strip.rot as [number, number, number]}
+            scale={strip.scale as [number, number, number]}
+            form="rect"
+          />
+        ))}
       </Environment>
     </>
   );

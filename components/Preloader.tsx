@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { company } from "@/content/site";
 import Mark from "@/components/Mark";
 
-const MIN_MS = 650; // don't flash on a fast connection
+// Long enough for the liquid-metal reveal to actually finish. On a fast
+// connection the load event fires almost immediately, and at the old 650ms the
+// wordmark was pulled off screen mid-melt — the effect was built and then never
+// seen. It still never delays anyone past MAX_MS.
+const MIN_MS = 1500;
 const MAX_MS = 2600; // never hold the page hostage
 
 /**
@@ -75,13 +79,23 @@ export default function Preloader() {
         The filter is applied to a normal <div> of real text, so the company
         name is still text — selectable, and read out by a screen reader.
       */}
+      {/* Unmounted the moment the preloader is done. The turbulence loops
+          indefinitely by design, and the dismissed preloader stays in the DOM
+          behind `visibility: hidden` — which stops it being painted but does
+          not stop the SMIL timeline, so the filter would keep re-evaluating for
+          the life of the page for something nobody can see. */}
+      {!done && (
       <svg className="pre-defs" aria-hidden="true" focusable="false">
         <defs>
           <filter id="liquid-metal" x="-30%" y="-30%" width="160%" height="160%">
             <feTurbulence
               type="fractalNoise"
-              baseFrequency="0.012 0.045"
-              numOctaves={3}
+              /* Stretched horizontally — far lower frequency across than down.
+                 Equal frequencies give a bubbling, boiling surface; a wide,
+                 shallow field gives the long horizontal draw of something
+                 viscous running off a shape, which is what metal does. */
+              baseFrequency="0.004 0.05"
+              numOctaves={4}
               seed={7}
               result="noise"
             >
@@ -89,8 +103,8 @@ export default function Preloader() {
                   surface moving without the flicker a changing seed gives. */}
               <animate
                 attributeName="baseFrequency"
-                dur="7s"
-                values="0.012 0.045; 0.02 0.03; 0.012 0.045"
+                dur="11s"
+                values="0.004 0.05; 0.009 0.032; 0.004 0.05"
                 repeatCount="indefinite"
               />
             </feTurbulence>
@@ -100,20 +114,49 @@ export default function Preloader() {
               scale={done ? 0 : 26}
               xChannelSelector="R"
               yChannelSelector="G"
+              result="molten"
             >
+              {/* Settles slowly, and overshoots twice on the way down rather
+                  than easing straight to zero. Liquid finding its level wobbles
+                  before it stops; a monotonic decay reads as a dissolve. */}
               <animate
                 attributeName="scale"
-                dur="2.2s"
-                values="34; 6; 18; 0"
-                keyTimes="0; 0.45; 0.7; 1"
+                dur="1.75s"
+                values="38; 11; 21; 5; 9; 0"
+                keyTimes="0; 0.34; 0.5; 0.72; 0.86; 1"
+                calcMode="spline"
+                keySplines="0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1"
                 fill="freeze"
               />
             </feDisplacementMap>
+
+            {/* A specular pass. The displaced shape is treated as a height
+                field and lit from the upper left, which puts a real highlight
+                on the ridges the turbulence just made — without it the letters
+                deform but stay flat, and flat deformation reads as melting
+                plastic rather than as metal. */}
+            <feGaussianBlur in="molten" stdDeviation="1.4" result="heightfield" />
+            <feSpecularLighting
+              in="heightfield"
+              surfaceScale={4}
+              specularConstant={1.1}
+              specularExponent={22}
+              lightingColor="#ffffff"
+              result="spec"
+            >
+              <feDistantLight azimuth={235} elevation={58} />
+            </feSpecularLighting>
+            {/* Clipped back to the letterforms, or the highlight spills into
+                the space around them as a grey haze. */}
+            <feComposite in="spec" in2="molten" operator="in" result="specClipped" />
+            <feComposite in="specClipped" in2="molten" operator="arithmetic"
+              k1={0} k2={1} k3={0.85} k4={0} />
           </filter>
         </defs>
       </svg>
+      )}
 
-      <div className="pre-brand">
+      <div className="pre-brand" data-molten={!done}>
         <Mark size={34} />
         <span className="pre-wordmark">{company.wordmark}</span>
       </div>

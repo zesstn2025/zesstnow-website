@@ -34,8 +34,19 @@ function ensureRegistered() {
  * reaches the top — so a scene has finished its move while it is still being
  * looked at, rather than completing as it leaves.
  */
-export function useSectionProgress(el: React.RefObject<HTMLElement | null>) {
+export function useSectionProgress(
+  el: React.RefObject<HTMLElement | null>,
+  /**
+   * How hard the value is pulled toward the scroll position, per second.
+   * Lower is slower and heavier. Around 1.6 an object still feels connected to
+   * the wheel; below about 1 it starts to feel disconnected from it.
+   */
+  smoothing = 1.6
+) {
+  // What the scenes read: an eased value that lags the scroll.
   const progress = useRef(0);
+  // What the scroll actually is. Written by ScrollTrigger, read by the ticker.
+  const target = useRef(0);
 
   useEffect(() => {
     const node = el.current;
@@ -55,12 +66,38 @@ export function useSectionProgress(el: React.RefObject<HTMLElement | null>) {
       start: "top bottom",
       end: "bottom top",
       onUpdate: (self) => {
-        progress.current = self.progress;
+        target.current = self.progress;
       },
     });
 
-    return () => trigger.kill();
-  }, [el]);
+    /**
+     * Ease toward the scroll position instead of snapping to it.
+     *
+     * Bound straight to `self.progress`, an assembling object tracks the wheel
+     * one to one: it jumps in the steps the wheel reports, stops dead the
+     * instant scrolling stops, and reverses with no weight at all. Damping the
+     * value gives every scene inertia — parts keep travelling for a moment
+     * after the scroll settles, which is what makes them read as objects with
+     * mass rather than as a slider.
+     *
+     * On gsap's ticker rather than a `requestAnimationFrame` of its own: there
+     * are five of these on the page, and they should share the one loop that
+     * ScrollTrigger is already running.
+     */
+    const tick = (_time: number, deltaMs: number) => {
+      const dt = Math.min(deltaMs, 64) / 1000; // clamp, or a background tab jumps
+      // Frame-rate independent damping: the same curve at 60fps and 144fps.
+      progress.current +=
+        (target.current - progress.current) * (1 - Math.exp(-smoothing * dt));
+    };
+
+    gsap.ticker.add(tick);
+
+    return () => {
+      trigger.kill();
+      gsap.ticker.remove(tick);
+    };
+  }, [el, smoothing]);
 
   return progress;
 }

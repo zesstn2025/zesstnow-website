@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
+import { ACESFilmicToneMapping, SRGBColorSpace } from "three";
 import {
   AdaptiveDpr,
   AdaptiveEvents,
@@ -52,6 +53,19 @@ export default function Stage3D({ children }: { children?: ReactNode }) {
         alpha: true,
         powerPreference: "high-performance",
         stencil: false,
+      }}
+      /* Filmic rather than linear. A polished surface returns more light than a
+         screen can show, and linear mapping clips every one of those highlights
+         to the same flat white — which is exactly what makes rendered chrome
+         look like grey plastic with a hot spot on it. ACES rolls the top end
+         off instead, so a specular hit keeps its shape and its falloff. */
+      onCreated={({ gl }) => {
+        gl.toneMapping = ACESFilmicToneMapping;
+        // ACES trades midtone brightness for highlight rolloff, so the same
+        // scene comes out darker than it did under linear mapping. The exposure
+        // has to be raised to put the midtones back where they were.
+        gl.toneMappingExposure = 1.75;
+        gl.outputColorSpace = SRGBColorSpace;
       }}
       // Views each carry their own camera; this one is only a default.
       camera={{ position: [0, 0, 6], fov: 40 }}

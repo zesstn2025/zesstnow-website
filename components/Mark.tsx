@@ -41,7 +41,7 @@ export default function Mark({
             </linearGradient>
           </defs>
           <rect width="96" height="96" rx="22" fill={`url(#${id})`} />
-          <path d={Z_PATH} fill="#05060F" />
+          <path d={Z_PATH} fill="#000022" />
         </>
       )}
     </svg>

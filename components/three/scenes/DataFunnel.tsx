@@ -12,6 +12,7 @@ import {
   type Group,
 } from "three";
 import { palette } from "../palette";
+import { metalRoughnessMap } from "../metal";
 
 /**
  * Automation and marketing — a glass funnel with a live data stream.
@@ -130,7 +131,7 @@ function Stream({ progress }: { progress: React.RefObject<number> }) {
     uniforms.uFlow.value = MathUtils.damp(
       uniforms.uFlow.value,
       progress.current,
-      2.6,
+      1.5,
       delta
     );
     uniforms.uPixelRatio.value = Math.min(state.gl.getPixelRatio(), 2);
@@ -156,6 +157,7 @@ export default function DataFunnel({
   progress: React.RefObject<number>;
 }) {
   const group = useRef<Group>(null);
+  const rough = useMemo(() => metalRoughnessMap(), []);
 
   // Three shells, each slightly larger and fainter than the last. One cone
   // reads as a paper cutout; nested ones read as thick glass.
@@ -206,8 +208,9 @@ export default function DataFunnel({
         <meshStandardMaterial
           color={palette.silver}
           metalness={1}
-          roughness={0.12}
-          envMapIntensity={1.6}
+          roughness={0.14}
+          roughnessMap={rough}
+          envMapIntensity={1.8}
         />
       </mesh>
 

@@ -3502,7 +3502,6 @@ a {
 .stage3d {
   position: fixed !important;
   inset: 0;
-  z-index: 0;
   pointer-events: none;
 }
 
@@ -3513,11 +3512,17 @@ a {
   pointer-events: auto;
 }
 
-/* Content sits above the canvas. Without this the whole page renders behind
-   the 3D and disappears. */
-body > *:not(.stage3d) {
-  position: relative;
-  z-index: 1;
+/* The canvas goes behind the content, rather than the content being pushed in
+   front of the canvas.
+   
+   The first version of this did the opposite — `body > *:not(.stage3d)` given
+   `z-index: 1` — and quietly broke the preloader. That selector scores higher
+   than `.preloader` does, so it overrode the preloader's own `z-index: 200`
+   and the loading screen rendered *behind* the page it was supposed to be
+   covering. Moving the canvas back instead of moving everything else forward
+   touches one element and cannot collide with anything's stacking order. */
+.stage3d {
+  z-index: -1;
 }
 
 /* ============================================================
@@ -3746,7 +3751,13 @@ body > *:not(.stage3d) {
   display: flex;
   align-items: center;
   gap: 14px;
-  /* The displacement filter is what makes the wordmark arrive molten. */
+}
+
+/* The displacement filter is what makes the wordmark arrive molten. Applied
+   only while it is, because the filter is torn out of the DOM once the
+   preloader is dismissed and a reference to a filter that no longer exists
+   stops the element rendering at all. */
+.pre-brand[data-molten="true"] {
   filter: url(#liquid-metal);
 }
 
@@ -3756,21 +3767,32 @@ body > *:not(.stage3d) {
   letter-spacing: 0.22em;
   /* A chrome ramp with a hard specular band in the middle, swept across once.
      A flat silver fill reads as grey text; the band is what reads as metal. */
+  /* A chrome ramp, not a gradient between two greys.
+     Real polished metal shows the horizon: a dark band where it reflects the
+     floor, a hard bright line where the two meet, and a lighter band above it
+     reflecting the room. The abrupt jumps here are that line — a smooth blend
+     would read as a soft grey wash, and it is the sharp transitions that say
+     "reflective". */
   background: linear-gradient(
     100deg,
     var(--accent-dp) 0%,
-    var(--chrome) 28%,
-    var(--accent-hi) 44%,
-    var(--silver) 52%,
-    var(--chrome) 68%,
+    #7e8ea6 14%,
+    var(--chrome) 26%,
+    var(--accent-hi) 36%,
+    #ffffff 40%,
+    var(--silver) 46%,
+    #6d7d95 50%,
+    var(--chrome) 58%,
+    var(--accent-hi) 66%,
+    #8b9ab1 78%,
     var(--accent-dp) 100%
   );
-  background-size: 260% 100%;
-  background-position: 120% 0;
+  background-size: 300% 100%;
+  background-position: 130% 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: metal-sweep 2.4s var(--ease) 0.2s 1 forwards;
+  animation: metal-sweep 1.9s var(--ease) 0.1s 1 forwards;
 }
 
 @keyframes metal-sweep {
@@ -3783,11 +3805,34 @@ body > *:not(.stage3d) {
   /* No displacement, no sweep — a still chrome wordmark. The filter and the
      animation are the whole effect, so removing them leaves it legible rather
      than leaving it mid-transition. */
-  .pre-brand {
+  .pre-brand[data-molten="true"] {
     filter: none;
   }
   .pre-wordmark {
     animation: none;
     background-position: 50% 0;
+  }
+}
+
+/* A pillar is taller than its content needs to be, on purpose. The scene's
+   progress runs across the section's travel through the viewport, so extra
+   height is extra scroll distance — which is what makes the assembly unfold
+   slowly rather than completing in the first flick of the wheel. */
+.pillar {
+  min-height: 122vh;
+  display: flex;
+  align-items: center;
+}
+
+.showcase {
+  min-height: 108vh;
+}
+
+@media (max-width: 900px) {
+  /* Not on a phone: a screen this short would turn the extra height into dead
+     space above and below the content rather than into a longer animation. */
+  .pillar,
+  .showcase {
+    min-height: 0;
   }
 }

@@ -11,6 +11,7 @@ import {
   type MeshStandardMaterial,
 } from "three";
 import { palette } from "../palette";
+import { metalRoughnessMap } from "../metal";
 
 /**
  * SaaS and web build — modules flying together into an interface.
@@ -68,6 +69,8 @@ export default function DashboardAssembly({
   progress: React.RefObject<number>;
 }) {
   const group = useRef<Group>(null);
+  // Shared across every metal surface on the page; generated once.
+  const rough = useMemo(() => metalRoughnessMap(), []);
   const refs = useRef<(Mesh | null)[]>([]);
 
   const panels = useMemo<Panel[]>(() => {
@@ -101,13 +104,13 @@ export default function DashboardAssembly({
       group.current.rotation.y = MathUtils.damp(
         group.current.rotation.y,
         (0.42 - p * 0.3) + state.pointer.x * 0.12,
-        2,
+        1.3,
         delta
       );
       group.current.rotation.x = MathUtils.damp(
         group.current.rotation.x,
         -0.16 + p * 0.1 + state.pointer.y * 0.06,
-        2,
+        1.3,
         delta
       );
     }
@@ -119,10 +122,13 @@ export default function DashboardAssembly({
 
       // Each panel has its own window inside the section's scroll. The frame
       // parts land first and the contents after, which is the order a screen is
-      // actually built in.
-      const span = 0.55;
-      const local = MathUtils.clamp((p - panel.order * 0.45) / span, 0, 1);
-      const eased = 1 - Math.pow(1 - local, 3);
+      // actually built in. The windows overlap heavily and each one is long, so
+      // panels drift into place over most of the section instead of snapping
+      // into it in the first third.
+      const span = 0.72;
+      const local = MathUtils.clamp((p - panel.order * 0.34) / span, 0, 1);
+      // Quintic rather than cubic: a longer, softer approach to rest.
+      const eased = 1 - Math.pow(1 - local, 5);
 
       const [x, y] = panel.to;
       mesh.position.set(
@@ -162,8 +168,9 @@ export default function DashboardAssembly({
             <meshStandardMaterial
               color={panel.bright ? palette.silver : palette.chrome}
               metalness={1}
-              roughness={panel.bright ? 0.14 : 0.34}
-              envMapIntensity={panel.bright ? 1.6 : 1.3}
+              roughness={panel.bright ? 0.16 : 0.36}
+              roughnessMap={rough}
+              envMapIntensity={panel.bright ? 1.75 : 1.4}
               transparent
               opacity={0}
             />

@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { OrbitControls, RoundedBox } from "@react-three/drei";
 import { MathUtils, type Group, type Mesh } from "three";
 import { palette } from "../palette";
+import { metalRoughnessMap } from "../metal";
 
 /**
  * The product, as a stack of layers you can take apart.
@@ -74,6 +75,8 @@ export default function ProductModel({
   interactive?: boolean;
 }) {
   const group = useRef<Group>(null);
+  // Shared across every metal surface on the page; generated once.
+  const rough = useMemo(() => metalRoughnessMap(), []);
   const layers = useRef<(Group | null)[]>([]);
   const [dragging, setDragging] = useState(false);
   const current = useRef(0);
@@ -81,7 +84,7 @@ export default function ProductModel({
   const layout = useMemo(() => LAYERS, []);
 
   useFrame((state, delta) => {
-    current.current = MathUtils.damp(current.current, exploded.current, 3.2, delta);
+    current.current = MathUtils.damp(current.current, exploded.current, 1.9, delta);
     const e = current.current;
 
     if (group.current) {
@@ -133,8 +136,9 @@ export default function ProductModel({
               <meshStandardMaterial
                 color={layer.bright ? palette.silver : palette.chrome}
                 metalness={1}
-                roughness={layer.bright ? 0.14 : 0.38}
-                envMapIntensity={layer.bright ? 1.6 : 1.25}
+                roughness={layer.bright ? 0.16 : 0.4}
+                roughnessMap={rough}
+                envMapIntensity={layer.bright ? 1.75 : 1.35}
               />
             </RoundedBox>
 
@@ -146,8 +150,9 @@ export default function ProductModel({
                   <meshStandardMaterial
                     color={palette.chrome}
                     metalness={1}
-                    roughness={0.2}
-                    envMapIntensity={1.6}
+                    roughness={0.24}
+                    roughnessMap={rough}
+                    envMapIntensity={1.7}
                   />
                 </mesh>
               );

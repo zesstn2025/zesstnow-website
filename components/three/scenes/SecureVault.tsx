@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { RoundedBox } from "@react-three/drei";
 import { MathUtils, type Group, type Mesh, type MeshStandardMaterial } from "three";
 import { palette } from "../palette";
+import { metalRoughnessMap } from "../metal";
 
 /**
  * Fintech — a solid silver monolith that opens its security layers.
@@ -34,6 +35,8 @@ export default function SecureVault({
   progress: React.RefObject<number>;
 }) {
   const group = useRef<Group>(null);
+  // Shared across every metal surface on the page; generated once.
+  const rough = useMemo(() => metalRoughnessMap(), []);
   const rings = useRef<(Mesh | null)[]>([]);
   const bolt = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
@@ -48,7 +51,8 @@ export default function SecureVault({
     // Two ways in: reaching the end of the section, or pointing at it. Hover
     // alone would mean a touch device never sees the mechanism at all.
     const target = Math.max(hovered ? 1 : 0, MathUtils.clamp((p - 0.45) / 0.4, 0, 1));
-    openness.current = MathUtils.damp(openness.current, target, 3.4, delta);
+    // Slow on purpose. A vault mechanism that snaps open is a toy.
+    openness.current = MathUtils.damp(openness.current, target, 1.8, delta);
     const o = openness.current;
 
     if (group.current) {
@@ -100,8 +104,9 @@ export default function SecureVault({
         <meshStandardMaterial
           color={palette.chrome}
           metalness={1}
-          roughness={0.22}
-          envMapIntensity={1.5}
+          roughness={0.26}
+          roughnessMap={rough}
+          envMapIntensity={1.6}
         />
       </RoundedBox>
 
@@ -131,10 +136,11 @@ export default function SecureVault({
           <meshStandardMaterial
             color={palette.silver}
             metalness={1}
-            roughness={0.12}
+            roughness={0.14}
+            roughnessMap={rough}
             emissive={palette.chrome}
             emissiveIntensity={0.05}
-            envMapIntensity={1.7}
+            envMapIntensity={1.85}
           />
         </mesh>
       ))}
