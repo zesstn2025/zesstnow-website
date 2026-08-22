@@ -1,16 +1,24 @@
+import Image from "next/image";
 import type { Product } from "@/content/site";
 
 /**
- * A CSS-3D abstraction of the product UI. Deliberately not a screenshot — we
- * don't have verified product imagery yet, and an honest abstraction beats a
- * fabricated interface. Drop real captures in here when they're available.
+ * The product, in a browser frame turned in space.
+ *
+ * When `product.shot` is set it is a real capture of the live interface, taken
+ * by scripts/shots.js — the actual product, not a rendering of one. When it is
+ * absent the frame falls back to an abstraction of a dashboard: for a product
+ * still in development there is no interface to photograph, and inventing a
+ * convincing screenshot of software nobody can log into is the one thing a
+ * portfolio must never do.
+ *
+ * The frame is CSS 3D rather than WebGL. It is a rectangle with a perspective
+ * on it; a canvas would spend a live GL context to draw the same thing less
+ * sharply, and the page already holds three.
  */
 export default function ProductVisual({ product }: { product: Product }) {
-  const accent = product.accent === "cyan" ? "var(--accent-2)" : "var(--accent-lt)";
-
   return (
-    <div className="pv">
-      <div className="pv-window" style={{ ["--pv-accent" as string]: accent }}>
+    <div className="pv" data-real={Boolean(product.shot)}>
+      <div className="pv-window">
         <div className="pv-bar">
           <span />
           <span />
@@ -18,32 +26,45 @@ export default function ProductVisual({ product }: { product: Product }) {
           <div className="pv-url">{product.domain}</div>
         </div>
 
-        <div className="pv-body">
-          <div className="pv-side">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <div className="pv-nav-row" key={i} data-active={i === 1} />
-            ))}
+        {product.shot ? (
+          <div className="pv-shot">
+            <Image
+              src={product.shot}
+              alt={`${product.name} — the live interface at ${product.domain}`}
+              width={2160}
+              height={1350}
+              sizes="(max-width: 900px) 92vw, 46vw"
+              className="pv-shot-img"
+            />
           </div>
-
-          <div className="pv-main">
-            <div className="pv-stats">
-              {[0, 1, 2].map((i) => (
-                <div className="pv-stat" key={i}>
-                  <div className="pv-stat-bar" style={{ animationDelay: `${i * 0.4}s` }} />
-                </div>
-              ))}
-            </div>
-
-            <div className="pv-rows">
+        ) : (
+          <div className="pv-body">
+            <div className="pv-side">
               {[0, 1, 2, 3, 4].map((i) => (
-                <div className="pv-row" key={i} style={{ animationDelay: `${i * 0.18}s` }}>
-                  <span style={{ width: `${52 - i * 6}%` }} />
-                  <span style={{ width: `${18 + (i % 3) * 8}%`, opacity: 0.45 }} />
-                </div>
+                <div className="pv-nav-row" key={i} data-active={i === 1} />
               ))}
             </div>
+
+            <div className="pv-main">
+              <div className="pv-stats">
+                {[0, 1, 2].map((i) => (
+                  <div className="pv-stat" key={i}>
+                    <div className="pv-stat-bar" style={{ animationDelay: `${i * 0.4}s` }} />
+                  </div>
+                ))}
+              </div>
+
+              <div className="pv-rows">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <div className="pv-row" key={i} style={{ animationDelay: `${i * 0.18}s` }}>
+                    <span style={{ width: `${52 - i * 6}%` }} />
+                    <span style={{ width: `${18 + (i % 3) * 8}%`, opacity: 0.45 }} />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="pv-chip pv-chip-a" aria-hidden="true" />

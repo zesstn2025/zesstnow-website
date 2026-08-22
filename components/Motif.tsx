@@ -24,7 +24,13 @@ import { useEffect, useRef } from "react";
  * CSS derive everything from it keeps React out of the scroll path entirely.
  */
 
-export type MotifKind = "calendar" | "window" | "stack" | "funnel" | "assemble";
+export type MotifKind =
+  | "calendar"
+  | "window"
+  | "stack"
+  | "funnel"
+  | "assemble"
+  | "hours";
 
 function useScrollProgress(ref: React.RefObject<HTMLDivElement | null>) {
   useEffect(() => {
@@ -192,6 +198,36 @@ function Funnel() {
   );
 }
 
+/** The 48-hour commitment: a clock face sweeping once, and stopping. */
+function Hours() {
+  // Circumference of an r=44 circle, so the dash offset can be driven directly
+  // by --p without any JavaScript arithmetic.
+  const C = 2 * Math.PI * 44;
+  // The viewBox is cropped tight around the dial. On the full 240-wide box the
+  // circle filled barely a third of the width and read as an afterthought at
+  // the foot of the card rather than as the point of it.
+  return (
+    <svg
+      viewBox="52 0 136 130"
+      className="motif-svg"
+      role="img"
+      aria-label="A website delivered within 48 hours of the brief"
+    >
+      <g transform="translate(120 62)">
+        <circle r="44" className="motif-dial" />
+        <circle
+          r="44"
+          className="motif-sweep"
+          style={{ "--c": C } as React.CSSProperties}
+        />
+        <text y="4" className="motif-hours">48</text>
+        <text y="22" className="motif-cap motif-cap-mid">HOURS</text>
+      </g>
+      <text x="120" y="124" className="motif-cap motif-cap-mid">BRIEF AGREED TO LIVE SITE</text>
+    </svg>
+  );
+}
+
 /** Process: the same form drawn as an outline, then filled in. */
 function Assemble() {
   return (
@@ -209,6 +245,7 @@ const MOTIFS: Record<MotifKind, () => React.JSX.Element> = {
   stack: Stack,
   funnel: Funnel,
   assemble: Assemble,
+  hours: Hours,
 };
 
 export default function Motif({ kind }: { kind: MotifKind }) {

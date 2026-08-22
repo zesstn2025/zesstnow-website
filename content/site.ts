@@ -397,6 +397,12 @@ export type Product = {
   url?: string;
   status: "Live" | "Private beta" | "In development";
   accent: "violet" | "cyan";
+  /**
+   * A real capture of the live product, from public/portfolio. Present means
+   * the visual shows the actual interface; absent means it falls back to an
+   * abstraction. Never point this at a mockup of a screen that does not exist.
+   */
+  shot?: string;
   kicker: string;
   headline: string;
   sub: string;
@@ -412,6 +418,7 @@ export const products: Product[] = [
     slug: "bizgstpro",
     name: "BizGST Pro",
     domain: "bizgstpro.com",
+    shot: "/portfolio/bizgstpro-home-desktop.jpg",
     url: "https://bizgstpro.com",
     status: "Live",
     accent: "violet",

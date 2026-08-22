@@ -98,6 +98,9 @@ export default function HomePage() {
                   <h3 className="usp-t">{u.title}</h3>
                   <p className="usp-b">{u.body}</p>
                   {"note" in u && u.note && <p className="usp-n">{u.note}</p>}
+                  {/* Only the headline promise gets a diagram. Four of them
+                      here would turn a set of commitments into wallpaper. */}
+                  {i === 0 && <Motif kind="hours" />}
                 </div>
               ))}
             </div>
