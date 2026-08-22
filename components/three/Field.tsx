@@ -25,12 +25,8 @@ import { palette } from "./palette";
  * This has no `<Canvas>` of its own. It lives in the one shared canvas in the
  * root layout, filling the frame behind every `<View>` rather than owning a
  * second WebGL context for the whole life of the site. Fading in is therefore a
- * There is no fade-in any more. It used to come free from the CSS wrapper's
- * opacity animation, and reimplementing it as a shader uniform cost most of a
- * day: a starfield multiplied by a uniform that never left zero renders as
- * nothing at all, silently, while the wireframe solids in the same scene render
- * perfectly — so the bug looks like "the move broke rendering" rather than
- * "one number is wrong". The field is subtle enough to simply be there.
+ * The fade-in is a uniform rather than a CSS animation — there is no element
+ * here to animate any more.
  *
  * It also has to draw itself. drei's `View` subscribes to the frame loop with a
  * render priority, and any priority above zero switches off R3F's automatic
@@ -49,6 +45,7 @@ const vertex = /* glsl */ `
   uniform float uTime;
   uniform float uScroll;
   uniform float uPixelRatio;
+  uniform float uFade;
   attribute float aScale;
   attribute float aSpeed;
   attribute vec3 aTint;
@@ -68,7 +65,7 @@ const vertex = /* glsl */ `
     gl_PointSize = aScale * uPixelRatio * (34.0 / -mv.z);
 
     // Fade at both ends of the depth range so nothing pops in or out.
-    vFade = smoothstep(0.0, 6.0, -mv.z) * (1.0 - smoothstep(20.0, 34.0, -mv.z));
+    vFade = smoothstep(0.0, 6.0, -mv.z) * (1.0 - smoothstep(20.0, 34.0, -mv.z)) * uFade;
     vTint = aTint;
   }
 `;
@@ -134,16 +131,36 @@ function Starfield({ scroll }: { scroll: React.RefObject<number> }) {
       uTime: { value: 0 },
       uScroll: { value: 0 },
       uPixelRatio: { value: 1 },
+      // Ramps up over the first second and a half, the way the CSS wrapper's
+      // opacity animation used to.
+      uFade: { value: 0 },
     }),
     []
   );
 
   useFrame((state, delta) => {
-    // No guard on the material ref: there used to be one, and it guarded
-    // nothing this callback actually touches.
-    uniforms.uTime.value += delta;
-    uniforms.uScroll.value = scroll.current;
-    uniforms.uPixelRatio.value = Math.min(state.gl.getPixelRatio(), 2);
+    /**
+     * Written through the material's own uniform map, not through the object
+     * this component passed in as a prop.
+     *
+     * They are not the same object, and the consequence was invisible for a
+     * long time: every write landed somewhere the GPU never reads, so the
+     * starfield was completely frozen — no drift, no scroll response, no fade —
+     * while looking exactly like a starfield that was simply meant to be still.
+     * Measured before this: zero pixels changed across three seconds. There is
+     * no error for this, and no way to notice it except by diffing two frames.
+     *
+     * It also explains an earlier round of debugging that removed the fade-in
+     * "because the uniform never left zero". The uniform was fine; the address
+     * was wrong.
+     */
+    const u = material.current?.uniforms;
+    if (!u) return;
+
+    u.uTime.value += delta;
+    u.uScroll.value = scroll.current;
+    u.uPixelRatio.value = Math.min(state.gl.getPixelRatio(), 2);
+    u.uFade.value = Math.min(u.uFade.value + delta / 1.5, 1);
 
     if (points.current) {
       points.current.rotation.z = MathUtils.damp(

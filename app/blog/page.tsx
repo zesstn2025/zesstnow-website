@@ -6,6 +6,7 @@ import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import { getPosts } from "@/lib/content";
 import { company } from "@/content/site";
+import { ldJson } from "@/lib/security/jsonld";
 
 const title = "Blog — GST, loans, compliance and building software in India";
 const description =
@@ -54,7 +55,7 @@ export default function BlogIndex() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: ldJson(jsonLd) }}
       />
       <RevealObserver />
 

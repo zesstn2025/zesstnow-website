@@ -4,10 +4,15 @@ import { useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { RoundedBox } from "@react-three/drei";
 import {
+  AdditiveBlending,
+  BufferGeometry,
+  Float32BufferAttribute,
   MathUtils,
   type Group,
   type Mesh,
   type MeshStandardMaterial,
+  type Points,
+  type ShaderMaterial,
 } from "three";
 import { palette } from "../palette";
 import { metalRoughnessMap } from "../metal";
@@ -29,7 +34,81 @@ import { metalRoughnessMap } from "../metal";
  * concentric rings lift off it and turn against one another the way a vault
  * door does, and the orbital rings brighten and pick up speed. They never fully
  * separate — a vault that comes apart is not reassuring.
+ *
+ * And a handshake runs on a loop while it is engaged: streams of ones and zeros
+ * fall inward from beyond the frame, arrive at the surface, and set into a
+ * faceted silver shell that holds for a beat before the next round begins. It
+ * is the one animation on the site that is an argument rather than an
+ * ornament — the page it sits on is about a company handling somebody\'s loan
+ * file, and this says that what arrives as data leaves as something sealed.
+ *
+ * The cycle is driven by the clock, not by a tween, so it is continuous and
+ * costs nothing to interrupt: `handshake` simply fades the whole layer in and
+ * out around a loop that never stops running underneath.
  */
+
+/* ── The handshake layer ────────────────────────────────────────────── */
+
+const STREAM_COUNT = 120;
+
+const streamVertex = /* glsl */ `
+  uniform float uCycle;   // 0..1, the current round
+  uniform float uOn;      // 0..1, how engaged the vault is
+  attribute vec3 aDir;    // the ray this bit falls along, normalised
+  attribute float aPhase; // where in the queue it sits
+  attribute float aSize;
+  varying float vAlpha;
+
+  void main() {
+    // Each bit starts at its own point in the round, so they arrive as a
+    // stream rather than as a single ring closing in.
+    float t = fract(uCycle + aPhase);
+
+    // Far to near, easing in: data accelerating toward the thing it is
+    // addressed to.
+    float travel = t * t;
+    float radius = mix(2.95, 1.84, travel);
+    vec3 p = aDir * radius;
+
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    gl_Position = projectionMatrix * mv;
+    gl_PointSize = aSize * (34.0 / -mv.z) * (0.7 + uOn * 0.6);
+
+
+    // Fades in as it appears and out as it lands, so nothing pops — and
+    // brightens as it closes, so the eye is pulled toward the vault rather
+    // than spread across a field of equally lit squares.
+    vAlpha =
+      smoothstep(0.0, 0.28, t) *
+      (1.0 - smoothstep(0.86, 1.0, t)) *
+      (0.25 + travel * 0.75) *
+      uOn;
+  }
+`;
+
+const streamFragment = /* glsl */ `
+  uniform vec3 uColor;
+  varying float vAlpha;
+
+  void main() {
+    // Square, not round. A circular sprite reads as a spark; a hard-edged one
+    // reads as a bit — which is the whole point of the image.
+    vec2 c = abs(gl_PointCoord - 0.5);
+    if (max(c.x, c.y) > 0.5) discard;
+
+    // Colour in rgb, coverage in alpha — the form every other additive
+    // material on this site uses. Premultiplying instead and writing 1.0 to the
+    // alpha channel rendered these as opaque black squares: with an alpha of
+    // one they stop being blended at all and simply paint their own colour,
+    // which for a bit that has barely faded in is very nearly black.
+    gl_FragColor = vec4(uColor, vAlpha);
+  }
+`;
+
+function hexToRgb(hex: string): [number, number, number] {
+  const n = parseInt(hex.replace("#", ""), 16);
+  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+}
 
 /**
  * The dial rings set into the face.
@@ -65,7 +144,51 @@ export default function SecureVault({
   // out both have travel rather than snapping.
   const openness = useRef(0);
 
+  const streams = useRef<Points>(null);
+  const streamMaterial = useRef<ShaderMaterial>(null);
+  const shield = useRef<Mesh>(null);
+  const shieldEdges = useRef<Mesh>(null);
+
   const dial = useMemo(() => DIAL, []);
+
+  /** One ray per bit, spread over the sphere rather than over a disc. */
+  const streamGeometry = useMemo(() => {
+    const dir: number[] = [];
+    const phase: number[] = [];
+    const size: number[] = [];
+
+    for (let i = 0; i < STREAM_COUNT; i++) {
+      // Evenly distributed directions: acos of a uniform value, not a uniform
+      // angle, or everything crowds the poles.
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      dir.push(
+        Math.sin(phi) * Math.cos(theta),
+        Math.sin(phi) * Math.sin(theta),
+        Math.cos(phi)
+      );
+      phase.push(Math.random());
+      size.push(MathUtils.randFloat(0.5, 1.35));
+    }
+
+    const g = new BufferGeometry();
+    // `position` is required by three even though the shader ignores it; the
+    // ray and the phase are what place each bit.
+    g.setAttribute("position", new Float32BufferAttribute(new Array(STREAM_COUNT * 3).fill(0), 3));
+    g.setAttribute("aDir", new Float32BufferAttribute(dir, 3));
+    g.setAttribute("aPhase", new Float32BufferAttribute(phase, 1));
+    g.setAttribute("aSize", new Float32BufferAttribute(size, 1));
+    return g;
+  }, []);
+
+  const streamUniforms = useMemo(
+    () => ({
+      uCycle: { value: 0 },
+      uOn: { value: 0 },
+      uColor: { value: hexToRgb(palette.signal) },
+    }),
+    []
+  );
 
   useFrame((state, delta) => {
     const p = progress.current;
@@ -123,6 +246,52 @@ export default function SecureVault({
       const m = orbitOuter.current.material as MeshStandardMaterial;
       m.opacity = 0.28 + o * 0.34;
     }
+
+    /* ── The handshake ───────────────────────────────────────────────
+       One round every 3.6 seconds, running on the clock whether anything is
+       watching or not, with `o` fading the whole layer in. Driving it from a
+       tween instead would mean a half-finished round left frozen the moment
+       the pointer leaves. */
+    const cycle = (t / 3.6) % 1;
+    // Written through the material's own uniforms rather than through the
+    // object handed to it as a prop. They are usually the same object, and
+    // when they are not — a re-render replacing the prop, a clone on the way
+    // in — every write lands on something the GPU never reads, and the effect
+    // is invisible with no error anywhere.
+    const uniforms = streamMaterial.current?.uniforms;
+    if (uniforms) {
+      uniforms.uCycle.value = cycle;
+      uniforms.uOn.value = o;
+    }
+
+    if (streams.current) {
+      // Turns slowly against the vault, so successive rounds do not arrive
+      // down the same corridors.
+      streams.current.rotation.y = t * 0.08;
+    }
+
+    // The shell sets as the bits land, holds, then releases just before the
+    // next round — the beat that makes it read as a handshake completing
+    // rather than as a shield fading in and out.
+    const set = MathUtils.clamp((cycle - 0.42) / 0.22, 0, 1);
+    const release = MathUtils.clamp((cycle - 0.86) / 0.14, 0, 1);
+    const solid = (1 - Math.pow(1 - set, 3)) * (1 - release) * o;
+
+    if (shield.current) {
+      shield.current.rotation.y = -t * 0.12;
+      shield.current.rotation.x = t * 0.05;
+      shield.current.scale.setScalar(1 + (1 - solid) * 0.06);
+      const m = shield.current.material as MeshStandardMaterial;
+      m.opacity = solid * 0.34;
+    }
+    if (shieldEdges.current) {
+      shieldEdges.current.rotation.y = -t * 0.12;
+      shieldEdges.current.rotation.x = t * 0.05;
+      const m = shieldEdges.current.material as MeshStandardMaterial;
+      // The facet lines carry most of the read, so they run brighter than the
+      // surface between them and arrive a fraction earlier.
+      m.opacity = Math.min(solid * 1.35, 1) * 0.5;
+    }
   });
 
   return (
@@ -144,12 +313,18 @@ export default function SecureVault({
           the studio reflected, which is what makes it milled metal rather than
           grey plastic. */}
       <RoundedBox args={[2, 2, 2]} radius={0.045} smoothness={4}>
+        {/* Rougher than a mirror, and that is what makes it read as milled
+            metal. A broad flat face at mirror smoothness pointed at the camera
+            reflects the space behind the camera, which is empty — the block
+            rendered as a black square with a lit outline. Scattering the
+            reflection gathers the studio's strip lights across the whole
+            face. */}
         <meshStandardMaterial
           color={palette.chrome}
           metalness={1}
-          roughness={0.2}
+          roughness={0.34}
           roughnessMap={rough}
-          envMapIntensity={1.7}
+          envMapIntensity={2.3}
         />
       </RoundedBox>
 
@@ -161,8 +336,8 @@ export default function SecureVault({
         <meshStandardMaterial
           color={palette.slate}
           metalness={0.7}
-          roughness={0.55}
-          envMapIntensity={1.2}
+          roughness={0.5}
+          envMapIntensity={1.9}
         />
       </mesh>
 
@@ -211,6 +386,49 @@ export default function SecureVault({
           metalness={0.2}
           roughness={0.4}
           toneMapped={false}
+        />
+      </mesh>
+
+      {/* The bits falling in. Cyan, because this is light in motion rather than
+          a surface — the one thing on the site permitted a colour. */}
+      <points ref={streams} geometry={streamGeometry} frustumCulled={false}>
+        <shaderMaterial
+          ref={streamMaterial}
+          uniforms={streamUniforms}
+          vertexShader={streamVertex}
+          fragmentShader={streamFragment}
+          transparent
+          depthWrite={false}
+          blending={AdditiveBlending}
+        />
+      </points>
+
+      {/* What they set into: a faceted silver shell around the vault. Flat
+          shading rather than smooth, so it reads as plated sections rather than
+          as a soap bubble. */}
+      <mesh ref={shield} scale={1}>
+        <icosahedronGeometry args={[1.78, 1]} />
+        <meshStandardMaterial
+          color={palette.silver}
+          metalness={1}
+          roughness={0.24}
+          roughnessMap={rough}
+          envMapIntensity={2}
+          flatShading
+          transparent
+          opacity={0}
+          depthWrite={false}
+        />
+      </mesh>
+
+      <mesh ref={shieldEdges} scale={1.004}>
+        <icosahedronGeometry args={[1.78, 1]} />
+        <meshBasicMaterial
+          color={palette.specular}
+          wireframe
+          transparent
+          opacity={0}
+          depthWrite={false}
         />
       </mesh>
 

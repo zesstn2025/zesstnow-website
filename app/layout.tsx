@@ -9,6 +9,7 @@ import Motion from "@/components/Motion";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import { activeAnnouncement } from "@/lib/content";
 import "./globals.css";
+import { ldJson } from "@/lib/security/jsonld";
 
 /**
  * A high-contrast serif carries the headlines and a refined grotesque carries
@@ -154,7 +155,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: ldJson(orgJsonLd) }}
         />
       </head>
       <body>

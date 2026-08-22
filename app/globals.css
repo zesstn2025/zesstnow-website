@@ -4777,3 +4777,155 @@ a {
   color: #fca5a5;
   border-color: rgba(252, 165, 165, 0.4);
 }
+
+/* ============================================================
+   SECURITY STATUS BADGE
+   ============================================================ */
+
+/* Sits at the foot of the copy, not over the object. Both other placements
+   were tried and both were wrong: above the stage it took the top third of the
+   hero and pushed the vault out of frame, and floated across the stage it
+   covered the vault outright. A panel describing how the page handles your
+   data belongs in the reading order. */
+.sec-badge {
+  margin-top: 30px;
+  padding: 16px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sec-badge-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sec-badge-head .mono-label {
+  color: var(--accent-dp);
+  letter-spacing: 0.16em;
+}
+
+/* The one live indicator on the site, so it earns a pulse. */
+.sec-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.45);
+  animation: sec-pulse 2.6s var(--ease) infinite;
+}
+
+@keyframes sec-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(56, 189, 248, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+  }
+}
+
+/* Two across where there is room. Four stacked rows made the badge taller
+   than the copy it sits under. */
+.sec-rows {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+}
+
+@media (max-width: 620px) {
+  .sec-rows {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.sec-rows li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 11px;
+  align-items: start;
+  padding: 7px 9px;
+  border-radius: 8px;
+  /* Every row stays readable; the highlight only moves attention. A status
+     list where three of four lines are dimmed to decorate the fourth is a list
+     nobody reads. */
+  transition: background 0.6s var(--ease);
+}
+
+.sec-rows li[data-active="true"] {
+  background: rgba(185, 198, 214, 0.07);
+}
+
+.sec-tick {
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border-radius: 50%;
+  border: 1px solid var(--signal);
+  position: relative;
+}
+
+.sec-tick::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--signal);
+  transition: opacity 0.4s var(--ease);
+}
+
+/* Standby is a real state and looks like one: outlined, not filled, in slate
+   rather than signal. A status light that is always green is a decoration. */
+.sec-rows li[data-state="standby"] .sec-tick {
+  border-color: var(--accent-dp);
+}
+
+.sec-rows li[data-state="standby"] .sec-tick::after {
+  opacity: 0;
+}
+
+.sec-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sec-row-t {
+  font-size: 13px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.sec-rows li[data-state="standby"] .sec-row-t {
+  color: var(--muted);
+}
+
+.sec-row-b {
+  font-size: 11.5px;
+  color: var(--faint);
+  line-height: 1.5;
+}
+
+.sec-note {
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--faint);
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sec-dot {
+    animation: none;
+  }
+  .sec-rows li,
+  .sec-tick::after {
+    transition: none;
+  }
+}
+

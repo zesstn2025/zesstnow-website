@@ -6,6 +6,7 @@ import { View, PerspectiveCamera } from "@react-three/drei";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import gsap from "gsap";
 import { useAllow3D } from "@/lib/motion";
+import { CSRF_COOKIE, CSRF_HEADER } from "@/lib/security/csrf";
 import { company, contact } from "@/content/site";
 
 const SendEnvelope = dynamic(() => import("./three/scenes/SendEnvelope"), { ssr: false });
@@ -37,7 +38,23 @@ const SendEnvelope = dynamic(() => import("./three/scenes/SendEnvelope"), { ssr:
  * The manual links are built even on the happy path, because "message us
  * directly instead" is a reasonable thing to want after filling in a form, and
  * a user-initiated click is never popup-blocked.
+ *
+ * Two things go with the submission besides the fields. A CSRF token, read from
+ * the cookie middleware set and echoed in a header — a page on another origin
+ * can cause that cookie to be sent but cannot read it, so it cannot produce the
+ * header. And, where a public key is configured, the whole body encrypted with
+ * AES-256-GCM under a key derived per submission by ECDH; see
+ * lib/security/sealed.ts, which is also honest about what that does and does
+ * not protect against.
  */
+
+/** The double-submit token middleware issued. */
+function csrfToken() {
+  const match = document.cookie.match(
+    new RegExp("(?:^|; )" + CSRF_COOKIE.replace(".", "\\.") + "=([^;]*)")
+  );
+  return match ? decodeURIComponent(match[1]) : "";
+}
 
 type Sent = { body: string; wa: string; mail: string };
 type Result = {
@@ -177,21 +194,41 @@ export default function ContactSection() {
 
     const request = (async (): Promise<Result> => {
       try {
+        const fields = {
+          name,
+          phone,
+          service,
+          message,
+          email,
+          company: org,
+          source: window.location.pathname,
+          // The honeypot. A person never sees this field, so anything in it
+          // came from something filling the form in automatically.
+          website: String(data.get("website") ?? ""),
+        };
+
+        // Encrypted when a public key is published, plain over TLS when it is
+        // not. `seal` returns null on any browser that cannot do it rather than
+        // throwing — a contact form that stops working because a crypto
+        // primitive was missing is a worse outcome than one sent over TLS
+        // alone, which is the ordinary and safe arrangement.
+        const publicKey = process.env.NEXT_PUBLIC_ENQUIRY_PUBLIC_KEY;
+        let body: unknown = fields;
+        if (publicKey) {
+          const { seal } = await import("@/lib/security/seal.client");
+          body = (await seal(fields, publicKey)) ?? fields;
+        }
+
         const response = await fetch("/api/enquiry", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            phone,
-            service,
-            message,
-            email,
-            company: org,
-            source: window.location.pathname,
-            // The honeypot. A person never sees this field, so anything in it
-            // came from something filling the form in automatically.
-            website: String(data.get("website") ?? ""),
-          }),
+          headers: {
+            "Content-Type": "application/json",
+            [CSRF_HEADER]: csrfToken(),
+          },
+          // Never send the cookie to another origin, whatever a redirect says.
+          credentials: "same-origin",
+          redirect: "error",
+          body: JSON.stringify(body),
           // The server already caps each provider at eight seconds; this is the
           // backstop for the request itself never coming back.
           signal: AbortSignal.timeout(15000),

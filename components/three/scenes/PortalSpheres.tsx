@@ -351,7 +351,12 @@ function Sphere({
       // The hover state is carried by the silhouette, not by filling the sphere
       // with light. A Fresnel edge stays legible from across the page and still
       // lets you see what is suspended inside.
-      rimUniforms.uStrength.value = 0.3 + hot.current * 0.95;
+      //
+      // Written through the material's own uniform map rather than through the
+      // object passed in as a prop: the two are not the same object, and a
+      // write to the wrong one lands where the GPU never reads it. The ambient
+      // starfield sat completely frozen for weeks on that mistake.
+      rim.current.uniforms.uStrength.value = 0.3 + hot.current * 0.95;
     }
     if (shell.current) {
       const m = shell.current.material as MeshStandardMaterial;

@@ -6,6 +6,7 @@ import TiltCard from "@/components/TiltCard";
 import ProductVisual from "@/components/ProductVisual";
 import RevealObserver from "@/components/RevealObserver";
 import { company, type Product } from "@/content/site";
+import { ldJson } from "@/lib/security/jsonld";
 
 export default function ProductPage({ product }: { product: Product }) {
   const accent = product.accent === "cyan" ? "#f6f9fd" : "#e8eef6";
@@ -25,7 +26,7 @@ export default function ProductPage({ product }: { product: Product }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: ldJson(jsonLd) }}
       />
       <RevealObserver />
 

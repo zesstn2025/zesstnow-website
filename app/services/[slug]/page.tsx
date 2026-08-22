@@ -5,6 +5,7 @@ import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import ServiceDetail from "@/components/services/ServiceDetail";
 import { company, servicePages } from "@/content/site";
+import { ldJson } from "@/lib/security/jsonld";
 
 /**
  * The five service pages: /services/ai-agents, /services/saas-development,
@@ -106,7 +107,7 @@ export default async function ServiceRoute({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: ldJson(jsonLd) }}
       />
       <RevealObserver />
 

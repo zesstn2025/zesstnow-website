@@ -7,6 +7,7 @@ import { View, PerspectiveCamera } from "@react-three/drei";
 import Faq from "../Faq";
 import Studio from "../three/Studio";
 import ProcessTimeline from "./ProcessTimeline";
+import SecurityBadge from "./SecurityBadge";
 import { useSectionProgress } from "@/lib/scroll";
 import { useAllow3D } from "@/lib/motion";
 import type { ServicePage } from "@/content/site";
@@ -92,6 +93,17 @@ export default function ServiceDetail({ page }: { page: ServicePage }) {
                 See our work
               </Link>
             </div>
+
+            {/* Only on the page where it is load-bearing. A security panel on
+                the e-commerce page would be filler; on the page about handling
+                somebody's loan file it is part of the argument, and it belongs
+                in the reading order rather than laid over the object — floated
+                across the stage it buried the vault it is meant to describe. */}
+            {page.scene === "vault" && (
+              <div className="reveal" data-delay={380}>
+                <SecurityBadge />
+              </div>
+            )}
           </div>
 
           <div className="pillar-stage">

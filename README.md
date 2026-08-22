@@ -185,6 +185,53 @@ Guards that keep it honest on slow hardware:
 - `frameloop="never"` whenever the tab is hidden
 - Lighting uses drei `Lightformer`s, not a CDN-hosted HDRI — no third-party runtime dependency
 
+## Security
+
+Headers are set in `middleware.ts` for every response: a Content-Security-Policy,
+`X-Frame-Options: DENY` and `frame-ancestors 'none'` against clickjacking,
+`X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`,
+HSTS for two years including subdomains, and the cross-origin isolation pair.
+
+The CSP carries `'unsafe-inline'` on `script-src`, and that is a documented
+choice rather than an oversight — the reasoning is in the file. In short: the
+strict form needs a per-request nonce, a nonce needs per-request HTML, and every
+page here is prerendered at build time. Nothing on the site renders
+attacker-supplied HTML, so what the policy still enforces is the part that
+contains an attack: script from this origin only, `object-src 'none'`,
+`base-uri 'self'`, `form-action 'self'`, `connect-src 'self'`.
+
+On the contact endpoint, in the order they run — cheap and certain first, so
+abuse is rejected before it costs anything:
+
+1. **Body size**, refused before it is parsed.
+2. **CSRF** — `Sec-Fetch-Site`, `Origin` against the request's own host, and a
+   double-submit token from a `SameSite=Strict` cookie middleware issues.
+3. **Rate limit**, two windows: three a minute, twenty an hour. In memory, so on
+   a serverless platform it is per warm instance — it makes one attacker
+   expensive and does not stop a distributed one.
+4. **Decrypt**, if the payload is sealed (below).
+5. **Honeypot**, answered with a 200 so a bot learns nothing.
+6. **Normalise, then validate** — NFKC, control characters and Unicode bidi
+   overrides stripped, every field length-capped.
+7. **Send.**
+
+Nothing is stored: no database, so there is no data at rest and no SQL to
+inject into. Rejections never say which check failed, and no stack trace or
+provider response body reaches the browser — that all goes to the server log.
+
+**Payload encryption** (`lib/security/sealed.ts`) is optional and off until you
+generate keys with `npm run enquiry:keys`. The browser encrypts the submission
+with AES-256-GCM under a key derived per submission by ECDH against a published
+public key; only the server's private key opens it.
+
+It is defence in depth *underneath* TLS, not a replacement for it, and it is
+**not** end-to-end encryption — the server has to hold the plaintext to compose
+an email and a WhatsApp message. What it buys is that a proxy terminating TLS,
+or a platform logging request bodies, sees ciphertext instead of names and phone
+numbers. The file says so at length, and the security badge on the fintech page
+is worded to match: no "zero-knowledge", no "end-to-end", no "bank-grade",
+because none of those would be true.
+
 ## The contact form
 
 Submitting posts to `app/api/enquiry/route.ts`, which emails the desk through

@@ -7,6 +7,7 @@ import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import { getPost, getPosts, relatedPosts } from "@/lib/content";
 import { company } from "@/content/site";
+import { ldJson } from "@/lib/security/jsonld";
 
 export function generateStaticParams() {
   return getPosts().map((p) => ({ slug: p.slug }));
@@ -103,17 +104,17 @@ export default async function PostPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(article) }}
+        dangerouslySetInnerHTML={{ __html: ldJson(article) }}
       />
       {faq && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+          dangerouslySetInnerHTML={{ __html: ldJson(faq) }}
         />
       )}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+        dangerouslySetInnerHTML={{ __html: ldJson(breadcrumbs) }}
       />
 
       <RevealObserver />
