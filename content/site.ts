@@ -818,11 +818,26 @@ export const pillars = {
     {
       id: "pillar-fintech",
       no: "04",
-      eyebrow: "FINTECH — LOANS & INSURANCE",
+      eyebrow: "INSTITUTIONAL TRUST",
       title: "Funding, and the paperwork behind it.",
       lead: "Typically 25 to 45 days from a complete file to disbursement.",
       body: "Business loans, loan against property, and life, health, vehicle and travel cover. We prepare the file, present it properly and stay on the lender until it moves — and we handle the claim documentation rather than leaving it to you.",
       points: ["Business loans", "Loan against property", "Insurance & claims", "CIBIL improvement"],
+      /*
+       * Both figures are checkable.
+       *
+       * The reference this section was drawn from carried "100% Automated
+       * Processing" and "Zero Collateral Risks", and neither can go on the
+       * page. The desk prepares files by hand and stays on the lender until it
+       * moves — that is the service, and it is not automated. And loan against
+       * property, which is on the list directly above, is a secured product:
+       * the collateral is the point of it. A finance page is the last place to
+       * put a number that will not survive the first question about it.
+       */
+      stats: [
+        { value: "25–45 days", label: "Complete file to disbursement" },
+        { value: "Pvt Ltd", label: "CIN on the public MCA record" },
+      ],
       disclaimer:
         "We facilitate applications and documentation with banks and NBFCs. Zesst Now is not a lender and does not accept deposits; sanction, rate and terms rest entirely with the lending institution.",
     },

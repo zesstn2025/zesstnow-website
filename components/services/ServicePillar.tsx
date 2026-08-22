@@ -27,6 +27,7 @@ export default function ServicePillar({
   body,
   points,
   stages,
+  stats,
   flip = false,
   scene,
   id,
@@ -39,6 +40,8 @@ export default function ServicePillar({
   points: string[];
   /** Named steps, shown beside the object and lit as the scroll reaches them. */
   stages?: string[];
+  /** Two or three figures under the copy. Every one has to be verifiable. */
+  stats?: { value: string; label: string }[];
   flip?: boolean;
   /** Rendered inside the shared canvas, given this section's scroll progress. */
   scene: (progress: React.RefObject<number>) => ReactNode;
@@ -74,6 +77,17 @@ export default function ServicePillar({
                 </li>
               ))}
             </ol>
+          )}
+
+          {stats && (
+            <dl className="pillar-stats reveal" data-delay={260}>
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <dt>{s.value}</dt>
+                  <dd>{s.label}</dd>
+                </div>
+              ))}
+            </dl>
           )}
 
           <div className="svc-pts reveal" data-delay={280}>

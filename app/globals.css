@@ -3836,3 +3836,35 @@ a {
     min-height: 0;
   }
 }
+
+/* Figures under a pillar's copy. */
+.pillar-stats {
+  display: flex;
+  gap: clamp(28px, 5vw, 56px);
+  margin: 6px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.pillar-stats dt {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  color: var(--silver);
+  line-height: 1.1;
+  /* Figures compared side by side have to sit on the same rhythm. */
+  font-variant-numeric: tabular-nums;
+}
+
+.pillar-stats dd {
+  margin: 6px 0 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  /* Wide enough that a short word never strands on a line of its own — at 18ch
+     "complete file to disbursement" broke as "COMPLETE FILE / TO /
+     DISBURSEMENT". */
+  max-width: 24ch;
+  line-height: 1.5;
+}

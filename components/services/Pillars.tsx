@@ -45,6 +45,7 @@ export default function Pillars() {
             body={item.body}
             points={item.points}
             stages={"stages" in item ? item.stages : undefined}
+            stats={"stats" in item ? item.stats : undefined}
             // Alternated so the eye crosses the page rather than running down
             // one column past four objects in the same place.
             flip={i % 2 === 1}
