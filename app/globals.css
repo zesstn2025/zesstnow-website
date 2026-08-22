@@ -298,11 +298,11 @@ a {
   will-change: transform;
 }
 
-.aurora-violet {
+.aurora-key {
   background: radial-gradient(circle, rgba(201, 169, 97, 0.75), transparent 70%);
 }
 
-.aurora-cyan {
+.aurora-bronze {
   background: radial-gradient(circle, rgba(138, 106, 47, 0.45), transparent 70%);
 }
 
@@ -3060,5 +3060,120 @@ a {
   .rail-l,
   .rail-tick {
     transition: none;
+  }
+}
+
+/* ============================================================
+   SERVICES CHAPTER — the list is the control, the form is the readout
+   ============================================================ */
+.svc-chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: clamp(28px, 5vw, 72px);
+  margin-top: 48px;
+  align-items: start;
+}
+
+.svc-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.svc-row {
+  display: grid;
+  grid-template-columns: 3.4rem 1fr;
+  gap: 18px;
+  padding: 26px 22px 26px 4px;
+  border-top: 1px solid var(--line);
+  cursor: default;
+  transition: background 0.4s var(--ease), padding-left 0.4s var(--ease);
+}
+
+.svc-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+/* The current row is the only lit one. Everything else recedes rather than
+   greying out, so the list still reads as a whole. */
+.svc-row[data-on="true"] {
+  background: linear-gradient(90deg, rgba(201, 169, 97, 0.055), transparent 72%);
+  padding-left: 16px;
+}
+
+.svc-row:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.svc-row .svc-no {
+  transition: color 0.4s var(--ease);
+}
+
+.svc-row[data-on="true"] .svc-no {
+  color: var(--gold);
+}
+
+.svc-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.svc-row .svc-t {
+  transition: color 0.4s var(--ease);
+}
+
+.svc-row[data-on="true"] .svc-t {
+  color: var(--gold-lt);
+}
+
+/* The form sticks alongside the list. Its own height is fixed so the sticky
+   box never grows taller than the viewport, which would stop it sticking. */
+.svc-form {
+  position: sticky;
+  top: calc(var(--nav-h) + var(--annbar-h, 0px) + 40px);
+  aspect-ratio: 1;
+  max-height: 62vh;
+}
+
+.svc-form-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.svc-form-inner canvas {
+  display: block;
+}
+
+.svc-form-label {
+  position: absolute;
+  left: 50%;
+  bottom: 4%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+@media (max-width: 900px) {
+  .svc-chapter {
+    grid-template-columns: 1fr;
+  }
+  /* On a narrow screen the form goes first and stays put while the list scrolls
+     under it — side by side there is no room for both. */
+  .svc-form {
+    order: -1;
+    max-height: 46vh;
+    margin-inline: auto;
+    width: min(76vw, 340px);
+  }
+  .svc-row {
+    grid-template-columns: 2.6rem 1fr;
+    padding: 22px 0;
+  }
+  .svc-row[data-on="true"] {
+    padding-left: 10px;
   }
 }

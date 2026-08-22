@@ -208,7 +208,10 @@ export const hero = {
 
 export const services = {
   eyebrow: "WHAT WE DO",
-  title: "Six disciplines, one team.",
+  // Phrased as the question a visitor arrives with. A heading that states what
+  // we do is about us; a heading that asks what they need is about them, and
+  // the six answers below are the same six either way.
+  title: "What are you looking for?",
   sub: "No handoffs between agencies. Strategy, design and engineering sit in the same room — and the same team stays on it after launch.",
   items: [
     {

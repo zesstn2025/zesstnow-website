@@ -41,16 +41,16 @@ export default function Stage({
           inset: 0,
           background:
             variant === "hero"
-              ? "radial-gradient(ellipse 70% 55% at 62% 42%, rgba(109,59,245,.20), transparent 68%)"
-              : "radial-gradient(ellipse 60% 60% at 50% 45%, rgba(34,211,238,.14), transparent 70%)",
+              ? "radial-gradient(ellipse 70% 55% at 62% 42%, rgba(201,169,97,.18), transparent 68%)"
+              : "radial-gradient(ellipse 60% 60% at 50% 45%, rgba(201,169,97,.12), transparent 70%)",
         }}
       />
       <div
-        className="aurora aurora-violet aurora-drift"
+        className="aurora aurora-key aurora-drift"
         style={{ width: "46vw", height: "46vw", top: "-8%", right: "-6%" }}
       />
       <div
-        className="aurora aurora-cyan aurora-drift"
+        className="aurora aurora-bronze aurora-drift"
         style={{
           width: "34vw",
           height: "34vw",

@@ -11,10 +11,10 @@ import ContactSection from "@/components/ContactSection";
 import ProductVisual from "@/components/ProductVisual";
 import Leadership from "@/components/Leadership";
 import ChapterRail from "@/components/ChapterRail";
+import ServicesChapter from "@/components/ServicesChapter";
 import Faq from "@/components/Faq";
 import {
   hero,
-  services,
   verticals,
   products,
   productsSection,
@@ -104,36 +104,7 @@ export default function HomePage() {
         </section>
 
         {/* ── SERVICES ─────────────────────────────────────────── */}
-        <section className="section" id="services">
-          <div className="shell">
-            <div className="section-head reveal">
-              <span className="eyebrow">{services.eyebrow}</span>
-              <h2 className="section-title">{services.title}</h2>
-              <p className="section-sub">{services.sub}</p>
-            </div>
-
-            <div className="grid-services">
-              {services.items.map((item, i) => (
-                <TiltCard
-                  key={item.no}
-                  className="glass svc"
-                  data-s3d={i % 2 === 0 ? "left" : "right"}
-                >
-                  <span className="svc-no">{item.no}</span>
-                  <h3 className="svc-t">{item.title}</h3>
-                  <p className="svc-b">{item.body}</p>
-                  <div className="svc-pts">
-                    {item.points.map((p) => (
-                      <span className="chip" key={p}>
-                        {p}
-                      </span>
-                    ))}
-                  </div>
-                </TiltCard>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ServicesChapter />
 
         {/* ── VERTICALS ────────────────────────────────────────── */}
         <section className="section section-alt" id="verticals">
