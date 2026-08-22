@@ -130,22 +130,45 @@ installed anywhere.
 
 ## The 3D
 
-Both canvases are decoration, never content. Everything the page says is real
-HTML that reads correctly with them absent.
+Decoration, never content. Everything the page says is real HTML that reads
+correctly with the canvas absent.
 
-**The hero canvas** — one per route, expensive, carries the glass subject:
+**One canvas, one WebGL context, for the entire site.** `components/three/Stage3D.tsx`
+mounts a single fixed `<Canvas>` in the root layout, and every scene on every
+page is a drei `<View>` drawn into it as a scissored rectangle. Navigating does
+not create or destroy a context. Measured across seven client-side navigations:
+2 contexts created, 1 released, 1 live — and the released one is the throwaway
+probe that asks whether WebGL works at all.
 
-- `components/three/Scene.tsx` — canvas, camera rig, lighting, performance guards
-- `components/three/Core.tsx` — the refractive centrepiece
-- `components/three/Satellites.tsx` — orbiting glass chips and shards
-- `components/three/AuroraRibbons.tsx` — shader ribbons (custom GLSL)
-- `components/three/Effects.tsx` — bloom, chromatic aberration, vignette
+That matters more than it sounds. A browser keeps only a handful of live
+contexts, around eight on a desktop and fewer on a phone, and silently discards
+the oldest when the limit is passed. Nothing is logged; canvases just go black
+after a minute of browsing.
 
-**The ambient field** — `components/three/Field.tsx`, mounted once in the layout
-and fixed behind every page. A 1500-point GPU starfield and a few wireframe
-solids, both driven by scroll, so the site feels like it is moving below the
-hero as well as inside it. Deliberately cheap — points and unlit meshes only, no
-transmission, no postprocessing, no environment map, DPR capped at 1.25.
+Two consequences worth knowing before adding a scene:
+
+- **A `<View>` gives its children their own scene.** Anything scene-level — an
+  `<Environment>` above all — has to be declared *inside* the view. Put it beside
+  `<View.Port />` and every metal surface renders pure black. See
+  `components/three/Studio.tsx`.
+- **Postprocessing cannot run inside a view.** An `EffectComposer` takes over the
+  whole frame. The hero's bloom and vignette were dropped for this reason; the
+  vignette is now a CSS gradient over the same box.
+
+The scenes:
+
+- `components/three/Field.tsx` — the ambient starfield and wireframe solids, the
+  one thing rendered into the *root* scene rather than a view, so it fills the
+  frame behind everything. It also has to draw itself: `View` subscribes to the
+  frame loop with a render priority, and any priority above zero switches off
+  R3F's automatic render, so `FieldPass` renders the root scene at a lower
+  priority than the views.
+- `components/three/Scene.tsx` — the hero subject: `Core.tsx` (refractive
+  centrepiece), `Satellites.tsx`, `AuroraRibbons.tsx` (custom GLSL)
+- `components/three/Morph.tsx` — the superformula shape on the services chapter
+- `components/three/scenes/` — one file per section scene: the portal spheres,
+  the agent orb, the vault, the dashboard, the storefront, the funnel, the
+  envelope
 
 `components/Motion.tsx` adds the pointer layer: a cursor glow, magnetic pills and
 scroll parallax on the portfolio frames. Each effect writes a transform to a
@@ -159,7 +182,29 @@ Guards that keep it honest on slow hardware:
   a narrow viewport on a weak device — those get the static poster in `Stage.tsx`
 - `frameloop="never"` whenever the canvas is off-screen or the tab is hidden
 - DPR capped at 1.5, with `AdaptiveDpr` and `PerformanceMonitor` degrading further
+- `frameloop="never"` whenever the tab is hidden
 - Lighting uses drei `Lightformer`s, not a CDN-hosted HDRI — no third-party runtime dependency
+
+## The contact form
+
+Submitting posts to `app/api/enquiry/route.ts`, which emails the desk through
+Resend and pings the founder's WhatsApp. Both sets of credentials are read from
+the server environment and never reach the browser — that endpoint exists for
+exactly that reason.
+
+Copy `.env.example` to `.env.local` and fill it in; the file documents every
+variable, including which WhatsApp provider you are choosing between and the
+24-hour-window rule that is the usual reason a working integration sends
+nothing.
+
+**With nothing configured the form still works.** It falls back to composing the
+enquiry and handing it to WhatsApp from the browser, which is how it worked
+before the endpoint existed. Nobody loses a lead over an unset variable.
+
+The panel after submitting says one of three things and never guesses:
+delivered (and by which channel), ready for you to send yourself (nothing is
+configured), or we could not deliver it (the providers were tried and failed).
+The 3D envelope only flies once the server has answered.
 
 ## Structure
 

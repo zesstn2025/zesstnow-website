@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { RoundedBox } from "@react-three/drei";
+import { Environment, Lightformer, RoundedBox } from "@react-three/drei";
 import {
   MathUtils,
   Shape,
@@ -24,7 +24,49 @@ import { metalRoughnessMap } from "../metal";
  * The three beats overlap on purpose. It grows while it is already starting to
  * turn, and it is still turning as it starts to climb — a strictly sequential
  * version reads as three separate animations played back to back.
+ *
+ * It carries its own small lighting rig rather than the shared `Studio`. That
+ * rig bakes a 512-pixel cubemap from eight area lights, which is right for a
+ * scene somebody looks at for a minute and wrong for one silver plate on
+ * screen for a second and a half — measured on a software renderer, baking it
+ * blocked the main thread long enough to hold the whole submission up. Three
+ * lights at 64 pixels is all a flat sheet can show.
  */
+
+function EnvelopeStudio() {
+  return (
+    <>
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[-4, 4, 4]} intensity={1.4} color={palette.specular} />
+      <Environment frames={1} resolution={64}>
+        <Lightformer
+          intensity={4}
+          color={palette.specular}
+          position={[-4, 3, 3]}
+          scale={[5, 7, 1]}
+          form="rect"
+        />
+        <Lightformer
+          intensity={1.2}
+          color={palette.fill}
+          position={[4, -1, 2]}
+          scale={[6, 5, 1]}
+          form="rect"
+        />
+        {/* The travelling streak that says "polished sheet" rather than "grey". */}
+        <Lightformer
+          intensity={3}
+          color={palette.specular}
+          position={[1.5, 2, 3]}
+          rotation={[0, 0, 0.9]}
+          scale={[0.2, 6, 1]}
+          form="rect"
+        />
+      </Environment>
+    </>
+  );
+}
+
 export default function SendEnvelope({
   progress,
 }: {
@@ -84,7 +126,13 @@ export default function SendEnvelope({
   });
 
   return (
-    <group ref={group} scale={0}>
+    <>
+      {/* Outside the animated group. Inside it the lights would be scaled with
+          the envelope, and a directional light whose position has been scaled
+          to the origin has no direction left to shine from. */}
+      <EnvelopeStudio />
+
+      <group ref={group} scale={0}>
       {/* The body. */}
       <RoundedBox args={[1.6, 1.02, 0.07]} radius={0.03} smoothness={4}>
         {/* Rougher than the rest of the metal on the site, and that is the
@@ -137,6 +185,7 @@ export default function SendEnvelope({
           />
         </mesh>
       ))}
-    </group>
+      </group>
+    </>
   );
 }

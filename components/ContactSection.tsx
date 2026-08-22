@@ -5,36 +5,53 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { View, PerspectiveCamera } from "@react-three/drei";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import gsap from "gsap";
-import Studio from "./three/Studio";
 import { useAllow3D } from "@/lib/motion";
 import { company, contact } from "@/content/site";
 
 const SendEnvelope = dynamic(() => import("./three/scenes/SendEnvelope"), { ssr: false });
 
 /**
- * No backend by design — the form composes an enquiry and hands it off to
- * WhatsApp or email. Nothing is stored, which keeps this a pure static deploy.
+ * The enquiry goes to /api/enquiry, which emails the desk and pings the
+ * founder's WhatsApp. The keys for both live in the server's environment and
+ * never reach the browser — that endpoint exists for exactly that reason.
  *
- * Which is why the envelope animation is followed by "ready to send" and not by
- * "message sent". Nothing has been sent at the moment the card folds up: the
- * enquiry has been written and handed to WhatsApp, and the visitor still presses
- * send. A page that claims delivery it cannot perform is the one kind of
- * flourish worth refusing — somebody would wait for a reply to a message that
+ * The envelope only flies once the server has confirmed delivery. It is the
+ * one thing on the page that makes a claim about the outside world, so it
+ * waits for the outside world: the animation and the request run together and
+ * the panel is decided by the request, not by the clock.
+ *
+ * Three outcomes, and they are deliberately not collapsed into two.
+ *
+ *   Delivered   — at least one channel got through. The panel says which.
+ *   Unconfigured — no keys on this deployment. The form falls back to handing
+ *                 the enquiry to WhatsApp from the browser, which is how this
+ *                 worked before the endpoint existed and still works with
+ *                 nothing set up. Nobody loses a lead over an unset variable.
+ *   Failed      — the providers were tried and did not deliver. The visitor is
+ *                 told plainly and given the same manual links.
+ *
+ * What the panel never does is claim delivery that did not happen. A visitor
+ * who is told their message was sent will wait for a reply to a message that
  * was never dispatched.
  *
- * Submitting used to call window.open() and nothing else. When a browser blocks
- * that popup — which is the common case, and what a visitor reported — the page
- * did not change at all, so the form looked broken. Now submitting always
- * switches the panel to a visible "ready to send" state carrying real links the
- * visitor clicks themselves: a user-initiated click is never popup-blocked.
+ * The manual links are built even on the happy path, because "message us
+ * directly instead" is a reasonable thing to want after filling in a form, and
+ * a user-initiated click is never popup-blocked.
  */
 
 type Sent = { body: string; wa: string; mail: string };
+type Result = {
+  ok: boolean;
+  configured: boolean;
+  deliveries?: { channel: string; status: string; detail: string }[];
+  error?: string;
+};
 
 export default function ContactSection() {
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState<Sent | null>(null);
-  const [phase, setPhase] = useState<"form" | "sending" | "sent">("form");
+  const [result, setResult] = useState<Result | null>(null);
+  const [phase, setPhase] = useState<"form" | "sending" | "sent" | "failed">("form");
   const [copied, setCopied] = useState(false);
   const allow3D = useAllow3D();
 
@@ -78,7 +95,18 @@ export default function ContactSection() {
   // nobody reads and hold the timeline alive.
   useEffect(() => () => gsap.killTweensOf(flight), []);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  /**
+   * Fetches the envelope's code as soon as somebody starts filling the form,
+   * so the download is not sitting on the critical path at the moment they
+   * press send.
+   */
+  const [warm, setWarm] = useState(false);
+  const onFieldFocus = () => {
+    if (warm || !allow3D) return;
+    setWarm(true);
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
 
@@ -120,38 +148,77 @@ export default function ContactSection() {
 
     setSent({ body, wa, mail });
 
-    // Still try the handoff, because when it is allowed it is the fastest path.
-    // If it is blocked, the panel is already on its way to showing the same
-    // links.
-    try {
-      window.open(wa, "_blank", "noopener");
-    } catch {
-      /* the panel is the fallback */
-    }
-
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!allow3D || reduced) {
-      // Without the animation there is nothing to wait for, and making somebody
-      // watch a second and a half of nothing is worse than no flourish at all.
-      setPhase("sent");
-      return;
-    }
+    const animated = allow3D && !reduced;
 
     setPhase("sending");
-    flight.current = 0;
-    gsap.killTweensOf(flight);
-    gsap.to(flight, {
-      current: 1,
-      duration: 1.55,
-      ease: "none",
-      onComplete: () => setPhase("sent"),
-    });
+    setResult(null);
+
+    // The animation and the request start together and are awaited together.
+    // Run in series they would add a second and a half to the wait for nothing;
+    // gated only on the clock, the envelope would fly before anything had been
+    // delivered.
+    const animation = animated
+      ? Promise.race([
+          new Promise<void>((resolve) => {
+            flight.current = 0;
+            gsap.killTweensOf(flight);
+            gsap.to(flight, { current: 1, duration: 1.55, ease: "none", onComplete: resolve });
+          }),
+          // The envelope is a flourish and must never be what a visitor is
+          // waiting on. It runs on requestAnimationFrame, so anything that
+          // stalls the main thread stalls it — measured here at ten seconds on
+          // a software renderer, against an API that answered in ten
+          // milliseconds, because mounting the scene and baking its environment
+          // map blocked the frame loop. Past this the panel goes up regardless.
+          new Promise<void>((resolve) => setTimeout(resolve, 2600)),
+        ])
+      : Promise.resolve();
+
+    const request = (async (): Promise<Result> => {
+      try {
+        const response = await fetch("/api/enquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone,
+            service,
+            message,
+            email,
+            company: org,
+            source: window.location.pathname,
+            // The honeypot. A person never sees this field, so anything in it
+            // came from something filling the form in automatically.
+            website: String(data.get("website") ?? ""),
+          }),
+          // The server already caps each provider at eight seconds; this is the
+          // backstop for the request itself never coming back.
+          signal: AbortSignal.timeout(15000),
+        });
+        const json = (await response.json()) as Partial<Result>;
+        // The route always reports `configured`; default it true so a
+        // malformed response is treated as a real failure rather than as an
+        // unconfigured deployment, which would silently hide a broken provider.
+        return { ok: false, configured: true, ...json };
+      } catch {
+        // A network failure is indistinguishable from an unconfigured
+        // deployment from here, and the useful thing to do about either is the
+        // same: give the visitor the links and let them send it themselves.
+        return { ok: false, configured: false, error: "Could not reach the server." };
+      }
+    })();
+
+    const [outcome] = await Promise.all([request, animation]);
+    setResult(outcome);
+    setPhase(outcome.ok || !outcome.configured ? "sent" : "failed");
   };
 
   const reset = useCallback(() => {
     gsap.killTweensOf(flight);
     flight.current = 0;
     setSent(null);
+    setResult(null);
     setCopied(false);
     setPhase("form");
   }, []);
@@ -226,10 +293,15 @@ export default function ContactSection() {
                 the page — so it only becomes visible once the card above it has
                 folded away and stopped covering it. That is also the order the
                 animation wants, which is the one piece of luck in this. */}
-            {allow3D && phase === "sending" && (
+            {allow3D && warm && (
+              // Mounted from the first keystroke, not from the submit. The
+              // envelope is invisible until its progress leaves zero, and
+              // building the scene — downloading the chunk, compiling the
+              // materials, baking the environment map — costs real main-thread
+              // time. Paid while somebody is typing it is free; paid on submit
+              // it is the thing they are waiting for.
               <View className="contact-view">
                 <PerspectiveCamera makeDefault position={[0, 0, 4.6]} fov={42} />
-                <Studio />
                 <SendEnvelope progress={flight} />
               </View>
             )}
@@ -241,48 +313,106 @@ export default function ContactSection() {
               onMouseMove={onMove}
               onMouseLeave={onLeave}
             >
-              {phase === "sent" && sent ? (
-                <div className="sent" role="status" aria-live="polite">
-                  <span className="sent-tick" aria-hidden="true">
-                    ✓
-                  </span>
-                  <h3 className="sent-title">Your enquiry is ready to send.</h3>
-                  <p className="sent-sub">
-                    If WhatsApp did not open on its own, use the button below — it
-                    carries the same message, already written.
-                  </p>
+              {(phase === "sent" || phase === "failed") && sent ? (
+                (() => {
+                  // Delivered by the server, or handed back for the visitor to
+                  // send themselves. The wording is the difference between the
+                  // two, and it is the part that has to be right.
+                  const delivered = phase === "sent" && !!result?.ok;
+                  const channels = (result?.deliveries ?? [])
+                    .filter((d) => d.status === "sent")
+                    .map((d) => (d.channel === "email" ? "email" : "WhatsApp"));
 
-                  <div className="sent-actions">
-                    <a
-                      href={sent.wa}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="pill pill-primary"
-                    >
-                      Open WhatsApp
-                    </a>
-                    <a href={sent.mail} className="pill pill-ghost">
-                      Send as email
-                    </a>
-                  </div>
+                  return (
+                    <div className="sent" role="status" aria-live="polite">
+                      <span className="sent-tick" data-failed={phase === "failed"} aria-hidden="true">
+                        {phase === "failed" ? "!" : "✓"}
+                      </span>
 
-                  <pre className="sent-body">{sent.body}</pre>
+                      <h3 className="sent-title">
+                        {delivered
+                          ? "Your enquiry is with us."
+                          : phase === "failed"
+                            ? "We could not deliver it."
+                            : "Your enquiry is ready to send."}
+                      </h3>
 
-                  <div className="sent-actions">
-                    <button type="button" className="pill pill-ghost pill-sm" onClick={copy}>
-                      {copied ? "Copied ✓" : "Copy message"}
-                    </button>
-                    <button type="button" className="pill pill-ghost pill-sm" onClick={reset}>
-                      Write another
-                    </button>
-                  </div>
+                      <p className="sent-sub">
+                        {delivered ? (
+                          <>
+                            It landed on our desk
+                            {channels.length ? ` by ${channels.join(" and ")}` : ""}. We read
+                            everything that comes in and reply from{" "}
+                            {company.phone} — usually the same working day.
+                          </>
+                        ) : phase === "failed" ? (
+                          <>
+                            Something between us and our mail provider is down. Nothing is
+                            lost — the message is written out below, and the buttons send
+                            it straight to us.
+                          </>
+                        ) : (
+                          <>
+                            Use one of the buttons below — each carries the same message,
+                            already written.
+                          </>
+                        )}
+                      </p>
 
-                  <p className="sent-note">
-                    Prefer to call? {company.phone} · {company.hours}
-                  </p>
-                </div>
+                      <div className="sent-actions">
+                        <a
+                          href={sent.wa}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={delivered ? "pill pill-ghost" : "pill pill-primary"}
+                        >
+                          {delivered ? "Message us on WhatsApp" : "Open WhatsApp"}
+                        </a>
+                        <a href={sent.mail} className="pill pill-ghost">
+                          Send as email
+                        </a>
+                      </div>
+
+                      {/* Hidden once it has actually been delivered: it is the
+                          copy the visitor would send by hand, and offering it
+                          alongside "it is with us" only raises the question of
+                          whether it really is. */}
+                      {!delivered && <pre className="sent-body">{sent.body}</pre>}
+
+                      <div className="sent-actions">
+                        {!delivered && (
+                          <button type="button" className="pill pill-ghost pill-sm" onClick={copy}>
+                            {copied ? "Copied ✓" : "Copy message"}
+                          </button>
+                        )}
+                        <button type="button" className="pill pill-ghost pill-sm" onClick={reset}>
+                          Write another
+                        </button>
+                      </div>
+
+                      <p className="sent-note">
+                        Prefer to call? {company.phone} · {company.hours}
+                      </p>
+                    </div>
+                  );
+                })()
               ) : (
-                <form onSubmit={onSubmit} noValidate>
+                <form onSubmit={onSubmit} onFocus={onFieldFocus} noValidate>
+                  {/* The honeypot. Off-screen rather than display:none, which
+                      some form-fillers skip, and taken out of the tab order and
+                      the accessibility tree so nobody using a keyboard or a
+                      screen reader can land in it by accident. */}
+                  <div className="honeypot" aria-hidden="true">
+                    <label htmlFor="c-website">Website</label>
+                    <input
+                      id="c-website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
+
                   <div className="field">
                     <label htmlFor="c-name">Your name *</label>
                     <input id="c-name" name="name" placeholder="Nitin Kumar" required />
@@ -355,7 +485,7 @@ export default function ContactSection() {
                 the button worked. */}
             {phase === "sending" && (
               <p className="contact-sending" role="status" aria-live="polite">
-                Packing your enquiry…
+                Sending your enquiry…
               </p>
             )}
           </div>

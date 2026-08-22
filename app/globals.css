@@ -4761,3 +4761,19 @@ a {
     rgba(0, 0, 20, 0.55) 100%
   );
 }
+
+/* Off-screen rather than display:none — some form-fillers skip anything that
+   is not rendered, and this field only works if a bot is willing to fill it. */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* The tick becomes a warning when nothing was delivered. */
+.sent-tick[data-failed="true"] {
+  color: #fca5a5;
+  border-color: rgba(252, 165, 165, 0.4);
+}
