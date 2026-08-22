@@ -41,6 +41,12 @@
   --silver: #e8eef6;
   --chrome-dim: rgba(185, 198, 214, 0.35);
 
+  /* Signal. The one colour on the site, reserved for information in motion — a
+     lit path, a pulsing core, a live particle stream. Metal never takes it.
+     Same value as `palette.signal` in components/three/palette.ts; the two have
+     to agree, or a rim drawn in the canvas stops matching the label beside it. */
+  --signal: #38bdf8;
+
   --grad: linear-gradient(100deg, var(--accent-lt), var(--accent));
   --grad-chrome: linear-gradient(100deg, var(--silver), var(--chrome));
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -4364,115 +4370,222 @@ a {
    SERVICE PORTAL · NAV DROPDOWN · PAGE WIPE
    ============================================================ */
 
-.portal-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
-  margin-top: clamp(36px, 5vw, 60px);
-}
+/* ---- The portal hub ---- */
 
-.portal-list {
-  list-style: none;
-  border-top: 1px solid var(--line);
-}
-
-.portal-row {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(14px, 2.5vw, 26px);
-  padding: clamp(18px, 2.4vw, 26px) 4px;
-  border-bottom: 1px solid var(--line);
-  color: inherit;
-  text-decoration: none;
+.portal-stage {
   position: relative;
-  transition: padding-left 0.4s var(--ease), border-color 0.4s var(--ease);
+  margin-top: clamp(28px, 4vw, 48px);
+  /* The label lives in this gutter rather than on top of the spheres. Without
+     it the caption clips the bottom edge of whichever sphere it belongs to —
+     covering part of the thing it is captioning. */
+  padding-bottom: clamp(104px, 9vw, 118px);
 }
 
-/* The selected row is lit from its left edge — the same specular language as
-   the metal beside it, rather than a background swatch. */
-.portal-row::before {
-  content: "";
+/* Wide on a desktop, taller than it is wide on a phone — the constellation is
+   scaled to whichever axis is tighter, so the shape of this box is what decides
+   how big the spheres get. */
+.portal-view {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 68vh;
+  /* Everything else on the shared canvas stays transparent to the mouse; this
+     view has to receive it, because the spheres are the interface. */
+  pointer-events: auto;
+}
+
+/* Follows the hovered sphere, positioned from inside the frame loop. `left` and
+   `top` stay at zero: the whole offset is a transform, so moving it never
+   triggers layout. */
+.portal-label {
   position: absolute;
   left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--grad-chrome);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.45s var(--ease);
-}
-
-.portal-row[data-active="true"] {
-  padding-left: 20px;
-  border-bottom-color: var(--line-strong);
-}
-
-.portal-row[data-active="true"]::before {
-  transform: scaleY(1);
-}
-
-.portal-no {
-  color: var(--accent-dp);
-  transition: color 0.4s var(--ease);
-}
-
-.portal-row[data-active="true"] .portal-no {
-  color: var(--silver);
-}
-
-.portal-body {
+  /* Along the foot of the stage, in the gutter reserved above, sliding sideways
+     to sit under whichever sphere is hovered. See the note on `place` in
+     PortalSpheres — anchored to the sphere vertically it collides with the row
+     below at every viewport size. */
+  bottom: 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 4px;
-  min-width: 0;
+  padding: 12px 20px 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: rgba(3, 7, 26, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-align: center;
+  max-width: min(300px, 70vw);
+  opacity: 0;
+  pointer-events: none;
+  /* Opacity only. `transform` is written from the frame loop, and a transition
+     on it restarts on every write — the label then never reaches the sphere it
+     belongs to. The slide is damped in JS instead; see PortalSpheres. */
+  transition: opacity 0.28s var(--ease);
+  will-change: transform, opacity;
 }
 
-.portal-t {
+.portal-label-t {
   font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(20px, 2.4vw, 28px);
+  font-size: 19px;
   font-weight: 500;
   line-height: 1.2;
 }
 
-.portal-lead {
-  font-size: 14.5px;
+.portal-label-b {
+  font-size: 12.5px;
   color: var(--muted);
+  line-height: 1.45;
 }
 
-.portal-go {
-  color: var(--accent-dp);
-  font-size: 18px;
-  transform: translateX(-6px);
+.portal-label-go {
+  margin-top: 4px;
+  color: var(--signal);
+  letter-spacing: 0.16em;
+}
+
+/* Navy takes the frame as the camera arrives inside the sphere, so the route
+   change happens behind a covered screen. */
+.portal-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--ink-2), var(--ink) 60%, #000018);
   opacity: 0;
-  transition: transform 0.4s var(--ease), opacity 0.4s var(--ease), color 0.4s var(--ease);
+  pointer-events: none;
+  border-radius: 18px;
 }
 
-.portal-row[data-active="true"] .portal-go {
-  opacity: 1;
-  transform: translateX(0);
+.portal-links {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: clamp(24px, 3vw, 40px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--line);
+}
+
+.portal-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: clamp(18px, 2vw, 24px) clamp(14px, 1.6vw, 20px);
+  background: var(--ink);
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.35s var(--ease);
+}
+
+.portal-link[data-active="true"],
+.portal-link:hover {
+  background: rgba(10, 17, 48, 0.9);
+}
+
+.portal-link-n {
+  color: var(--accent-dp);
+  transition: color 0.35s var(--ease);
+}
+
+.portal-link[data-active="true"] .portal-link-n {
   color: var(--silver);
 }
 
-.portal-stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
+.portal-link-t {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(17px, 1.7vw, 21px);
+  font-weight: 500;
+  line-height: 1.2;
 }
 
-.portal-view {
-  width: 100%;
-  aspect-ratio: 1;
-  max-height: 56vh;
+.portal-link-b {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
-.portal-caption {
-  color: var(--accent-dp);
-  letter-spacing: 0.16em;
+.portal-rest {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--faint);
+}
+
+.portal-rest a {
+  color: var(--chrome);
+  text-decoration: none;
+  border-bottom: 1px solid var(--chrome-dim);
+}
+
+.portal-rest a:hover {
+  color: var(--silver);
+}
+
+/* ---- The contact card ---- */
+
+.contact-card-wrap {
+  position: relative;
+  /* The card tilts in 3D; without a perspective on something it stays flat. */
+  perspective: 1400px;
+}
+
+.contact-card {
+  padding: clamp(26px, 3vw, 38px);
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: opacity 0.42s var(--ease), transform 0.42s var(--ease),
+    filter 0.42s var(--ease);
+}
+
+/* Folding away, so the envelope behind it has something to emerge from. */
+.contact-card[data-phase="sending"] {
+  opacity: 0;
+  filter: blur(6px);
+  pointer-events: none;
+  /* Collapses toward its own centre line rather than shrinking evenly — a card
+     turning into an envelope should look like it is being folded. */
+  transform: perspective(1400px) scaleY(0.06) scaleX(0.86) !important;
+}
+
+/* The envelope sits where the card was. The shared canvas is behind the page,
+   so this only becomes visible once the card above it has gone. */
+.contact-view {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.contact-sending {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6%;
   text-align: center;
+  font-family: var(--font-mono), monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-dp);
+}
+
+@media (max-width: 760px) {
+  .portal-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .portal-view {
+    aspect-ratio: 1 / 1.05;
+    max-height: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-card,
+  .portal-label {
+    transition: none;
+  }
 }
 
 /* ---- Nav dropdown ---- */
@@ -4627,17 +4740,8 @@ a {
 }
 
 @media (max-width: 900px) {
-  .portal-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  /* The object leads on a phone; the list is the thing being scrolled. */
-  .portal-stage {
-    order: -1;
-  }
-
   .portal-view {
-    max-height: 40vh;
+    aspect-ratio: 1 / 1.05;
   }
 }
 
@@ -4648,10 +4752,7 @@ a {
     animation-duration: 0.01s;
   }
 
-  .portal-row,
-  .portal-row::before,
-  .portal-go,
-  .portal-no,
+  .portal-link,
   .nav-panel {
     transition: none;
   }

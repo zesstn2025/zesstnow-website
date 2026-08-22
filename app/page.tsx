@@ -13,7 +13,7 @@ import ChapterRail from "@/components/ChapterRail";
 import ServicesChapter from "@/components/ServicesChapter";
 import Motif from "@/components/Motif";
 import Pillars from "@/components/services/Pillars";
-import ServicePortal from "@/components/services/ServicePortal";
+import Portal from "@/components/services/Portal";
 import ProductShowcase from "@/components/ProductShowcase";
 import Faq from "@/components/Faq";
 import {
@@ -115,7 +115,7 @@ export default function HomePage() {
             The pillars make the argument; this is the door out of it. Anyone
             who recognised themselves above should be one click from the page
             that goes into detail. */}
-        <ServicePortal />
+        <Portal />
 
         {/* ── SERVICES ─────────────────────────────────────────── */}
         <ServicesChapter />
