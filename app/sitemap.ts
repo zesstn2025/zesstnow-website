@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { company, products, legal } from "@/content/site";
+import { company, products, legal, servicePages } from "@/content/site";
 import { getPosts, getAnnouncements } from "@/lib/content";
 
 const base = process.env.NEXT_PUBLIC_SITE_URL || `https://${company.domain}`;
@@ -14,6 +14,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.9,
+    })),
+    // The three service pages rank on their own terms, so they sit just below
+    // the top-level sections rather than with the deep pages.
+    ...servicePages.map((p) => ({
+      url: `${base}/services/${p.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
     })),
     ...products.map((p) => ({
       url: `${base}/products/${p.slug}`,

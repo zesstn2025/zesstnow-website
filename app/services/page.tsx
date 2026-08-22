@@ -6,7 +6,8 @@ import TiltCard from "@/components/TiltCard";
 import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import Faq from "@/components/Faq";
-import { services, verticals, process, faq, usps } from "@/content/site";
+import Link from "next/link";
+import { services, verticals, process, faq, usps, servicePages } from "@/content/site";
 
 const title = "Services — engineering, AI, compliance, funding and growth";
 const description =
@@ -37,6 +38,40 @@ export default function ServicesPage() {
           sub="A software studio that ships its own products, and a compliance and growth desk that keeps businesses running. Most clients end up using both."
         />
 
+
+        {/* ── THE THREE DETAIL PAGES ───────────────────────────────
+            Linked high on the page. Without this they are orphans: reachable
+            only by typing the URL, and treated as such by a crawler. */}
+        <section className="section" id="detail">
+          <div className="shell">
+            <div className="section-head reveal">
+              <span className="eyebrow">IN DEPTH</span>
+              <h2 className="section-title">Three we get asked about most.</h2>
+              <p className="section-sub">
+                Each has its own page — what is delivered, how it runs, what it
+                costs and the questions people ask before they write in.
+              </p>
+            </div>
+
+            <div className="grid-services">
+              {servicePages.map((page, i) => (
+                <Link
+                  href={`/services/${page.slug}`}
+                  className="glass svc reveal service-next"
+                  key={page.slug}
+                  data-delay={i * 80}
+                >
+                  <span className="svc-no">{page.eyebrow}</span>
+                  <h3 className="svc-t">
+                    {page.title} {page.titleEm}
+                  </h3>
+                  <p className="svc-b">{page.lead}</p>
+                  <span className="mono-label service-next-go">Read on →</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ── USPs ─────────────────────────────────────────────── */}
         <section className="section" id="promise">

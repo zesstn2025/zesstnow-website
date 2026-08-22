@@ -864,6 +864,273 @@ export const showcase = {
   hint: "Drag to rotate · Scroll to zoom",
 };
 
+/**
+ * The three service pages.
+ *
+ * Each one is a full page rather than a section, because these are the three
+ * things a client arrives already searching for — and a page can rank, a
+ * section cannot.
+ *
+ * On e-commerce specifically: this is written as a build service, which is what
+ * it is. Zesst Now builds and hands over stores; it does not operate them, and
+ * there is no store case study to show yet, so nothing here claims one. The
+ * angle that is real is the GST one — an Indian store has to issue compliant
+ * invoices from day one, and the same company runs the filing desk.
+ */
+export type ServicePage = {
+  slug: string;
+  scene: "saas" | "storefront" | "funnel";
+  eyebrow: string;
+  navLabel: string;
+  title: string;
+  titleEm: string;
+  lead: string;
+  metaTitle: string;
+  metaDescription: string;
+  intro: string[];
+  stats: { value: string; label: string }[];
+  /** What is actually delivered. Each one is a thing, not an adjective. */
+  capabilities: { no: string; title: string; body: string }[];
+  /** The order the work happens in. */
+  steps: { no: string; title: string; body: string }[];
+  faq: { q: string; a: string }[];
+  /** Shown in a bordered note at the end. Omit where there is nothing to say. */
+  note?: string;
+};
+
+export const servicePages: ServicePage[] = [
+  {
+    slug: "saas",
+    scene: "saas",
+    eyebrow: "PRODUCT ENGINEERING",
+    navLabel: "SaaS & apps",
+    title: "Software you",
+    titleEm: "own outright.",
+    lead: "From a blank repository to a product in production.",
+    metaTitle: "SaaS, web and app development — Zesst Now",
+    metaDescription:
+      "Custom SaaS platforms, dashboards, web apps and installable mobile apps, built in Next.js and React. You get the repository, the deployment and the documentation — no platform to keep renting.",
+    intro: [
+      "We build the software a business runs on: the dashboard the team lives in, the portal customers log into, the app that goes on a phone. Not a page builder with a login bolted on — a real product, with real state, that holds up when the traffic arrives.",
+      "We ship our own SaaS as well as yours. BizGST Pro is live and has paying subscribers, which means the decisions on your build come from having operated software, not just delivered it.",
+    ],
+    stats: [
+      { value: "48 hrs", label: "Marketing site, brief to live" },
+      { value: "Yours", label: "Repository, deployment and docs handed over" },
+    ],
+    capabilities: [
+      {
+        no: "01",
+        title: "SaaS platforms",
+        body: "Multi-tenant products with accounts, roles, billing and an admin that your team can actually run without calling us. Built to be handed over.",
+      },
+      {
+        no: "02",
+        title: "Dashboards & internal tools",
+        body: "The screen your operations team stares at all day. Fast filters, real exports, and numbers that reconcile — because a dashboard nobody trusts gets replaced by a spreadsheet.",
+      },
+      {
+        no: "03",
+        title: "Web apps & portals",
+        body: "Customer logins, document upload, status tracking, payment. The things that otherwise live in a WhatsApp thread and get lost.",
+      },
+      {
+        no: "04",
+        title: "Installable apps",
+        body: "Apps that install to the home screen from a link and work offline, without a Play Store review sitting between you and your customers.",
+      },
+      {
+        no: "05",
+        title: "Integrations",
+        body: "Payments, GST e-invoicing, accounting, logistics, WhatsApp. Wired into what you already use rather than replacing it.",
+      },
+      {
+        no: "06",
+        title: "Technical SEO & performance",
+        body: "Rendered on the server, measured on real Core Web Vitals. Fast is a feature, and on a marketing site it is the feature.",
+      },
+    ],
+    steps: [
+      { no: "01", title: "Scope", body: "We write down what it does and what it does not do, and price it. That number goes in writing before anyone opens an editor." },
+      { no: "02", title: "Build", body: "Deployed from day one, so you are looking at the real thing on a real URL rather than at a picture of it." },
+      { no: "03", title: "Handover", body: "Repository, deployment, environment variables and a written runbook. You could take it to another studio the next morning." },
+      { no: "04", title: "Aftercare", body: "The same people who built it fix it. No account manager in between." },
+    ],
+    faq: [
+      {
+        q: "Do we own the code?",
+        a: "Yes, outright, and the repository is transferred to your account at handover. There is no licence, no per-seat fee and no platform of ours you have to keep paying for to keep your own software running.",
+      },
+      {
+        q: "What does it cost?",
+        a: "A marketing site starts in the low tens of thousands of rupees. A web app or SaaS build is quoted per scope once we understand it. The number is fixed in writing before work starts and does not move unless you change the scope — in which case you approve the change first.",
+      },
+      {
+        q: "How long does a real product take?",
+        a: "A marketing site is 48 hours from an agreed brief. A working product is scoped and time-locked after we understand it — usually weeks, not months, because we cut scope rather than deadlines.",
+      },
+      {
+        q: "What stack do you build on?",
+        a: "Next.js and React, TypeScript throughout, Postgres, deployed on Vercel unless you need it somewhere else. Boring, widely known choices — so the next engineer who touches it is not learning something we invented.",
+      },
+    ],
+  },
+  {
+    slug: "ecommerce",
+    scene: "storefront",
+    eyebrow: "ONLINE RETAIL",
+    navLabel: "E-commerce",
+    title: "A store that",
+    titleEm: "invoices correctly.",
+    lead: "Anyone can put a catalogue online. The hard part starts at checkout.",
+    metaTitle: "E-commerce store development, GST-ready — Zesst Now",
+    metaDescription:
+      "Online stores built for Indian businesses: catalogue, UPI and card payments, GST-compliant invoicing, shipping and returns. Built, handed over, and backed by our own GST filing desk.",
+    intro: [
+      "An Indian store is not finished when the cart works. It has to raise a GST-compliant invoice on every order, apply the right rate to the right HSN code, handle a return without breaking the books, and produce numbers your accountant can file from at the end of the month.",
+      "That last part is the reason to build one here. The same company running your store also runs a GST filing desk and ships GST software — so the invoice your customer receives and the return you file at month end are designed by people who have to live with both.",
+    ],
+    stats: [
+      { value: "GST-ready", label: "Compliant invoicing from the first order" },
+      { value: "UPI & cards", label: "Domestic payment rails, settled to your account" },
+    ],
+    capabilities: [
+      {
+        no: "01",
+        title: "Catalogue & merchandising",
+        body: "Products, variants, stock, collections and search that finds things. Editable by your team, not by a ticket to us.",
+      },
+      {
+        no: "02",
+        title: "Checkout & payments",
+        body: "UPI, cards, netbanking and wallets through Indian gateways, with cash on delivery where it still matters. Settled straight to your account.",
+      },
+      {
+        no: "03",
+        title: "GST-compliant invoicing",
+        body: "The right rate against the right HSN, CGST/SGST or IGST resolved by place of supply, and e-invoicing where your turnover requires it. Generated automatically, per order.",
+      },
+      {
+        no: "04",
+        title: "Shipping & returns",
+        body: "Courier integration, tracking the customer can see, and a return flow that reverses the invoice properly instead of leaving a hole in the ledger.",
+      },
+      {
+        no: "05",
+        title: "Storefront performance",
+        body: "A store that loads slowly loses the sale before the product is seen. Server-rendered, image-optimised and measured.",
+      },
+      {
+        no: "06",
+        title: "Reporting your accountant can use",
+        body: "Sales, tax collected and returns, exportable in the shape a filing actually needs — not a CSV somebody has to re-cut by hand every month.",
+      },
+    ],
+    steps: [
+      { no: "01", title: "Catalogue", body: "We get your products, variants, HSN codes and tax rates in order first. Everything downstream depends on this being right." },
+      { no: "02", title: "Build", body: "Storefront, checkout and admin, on a live URL from the start, with test payments running end to end." },
+      { no: "03", title: "Go live", body: "Gateway approved, invoicing verified against a real order, courier connected, and you have placed a test purchase yourself." },
+      { no: "04", title: "First month", body: "We stay close through the first filing cycle, because that is when a store's accounting problems actually surface." },
+    ],
+    faq: [
+      {
+        q: "Shopify, or custom?",
+        a: "Whichever costs you less over three years. Shopify is faster to launch and fine for a straightforward catalogue; custom wins once you need unusual pricing, deep GST handling or an integration Shopify will not do. We will tell you which one you are, including when the answer is the cheaper one for us to build.",
+      },
+      {
+        q: "Do you handle the GST filing too?",
+        a: "Yes — that is a separate service and it is priced separately, but it is the same company. Most store owners take both, because the store is what generates the numbers the filing is made of.",
+      },
+      {
+        q: "Can I edit products myself?",
+        a: "Yes. Admin access is yours from day one and adding a product is not a support ticket. If you can use a spreadsheet you can run the catalogue.",
+      },
+      {
+        q: "Do you have a store I can look at?",
+        a: "Not yet — our published work is BizGST Pro and adnitinkumar.in, and we would rather say so than point you at somebody else's build. Everything above is what we deliver; ask us for a walkthrough of the checkout and invoicing on a staging store instead.",
+      },
+    ],
+    note: "We build and hand over stores. We do not operate them, hold your stock or take a cut of your sales — the store, the gateway account and the customer data are yours from the first day.",
+  },
+  {
+    slug: "marketing",
+    scene: "funnel",
+    eyebrow: "DEMAND & PIPELINE",
+    navLabel: "Marketing",
+    title: "Customers in the pipeline,",
+    titleEm: "not impressions bought.",
+    lead: "Traffic is only worth what it converts.",
+    metaTitle: "Digital marketing, lead generation and automation — Zesst Now",
+    metaDescription:
+      "Lead generation, performance campaigns, WhatsApp-first capture and marketing automation, wired into a pipeline you can work. Verified leads bought and sold at the prevailing market rate.",
+    intro: [
+      "Most agencies sell you reach and report on it. Reach is not the thing you needed — you needed enquiries you can call, in an order that tells you who to call first, with the follow-ups already going out.",
+      "So the campaign and the pipeline are built as one piece here. The ad, the landing page, the capture, the follow-up sequence and the inbox are the same system, and every number reported traces back to a person you could pick up the phone to.",
+    ],
+    stats: [
+      { value: "Market rate", label: "Verified leads, bought and sold" },
+      { value: "One inbox", label: "Every channel's replies in one place" },
+    ],
+    capabilities: [
+      {
+        no: "01",
+        title: "Lead generation",
+        body: "Search and social campaigns pointed at pages built to convert, not at a homepage. Measured on cost per qualified enquiry, not on impressions.",
+      },
+      {
+        no: "02",
+        title: "WhatsApp-first capture",
+        body: "In India the conversation happens on WhatsApp. Capture starts there and lands in the pipeline rather than dying in somebody's personal chat list.",
+      },
+      {
+        no: "03",
+        title: "Marketing automation",
+        body: "Follow-up sequences that keep going on their own schedule. Most replies come from follow-ups, and follow-ups are exactly what a busy owner stops doing.",
+      },
+      {
+        no: "04",
+        title: "Social media, end to end",
+        body: "Content calendar, production, scheduling, posting and a single inbox for every reply. Not just the posting half.",
+      },
+      {
+        no: "05",
+        title: "Verified leads",
+        body: "We buy and sell verified leads at the prevailing market rate. No inflated list, no recycled data, and the rate is the rate — we do not mark it up quietly.",
+      },
+      {
+        no: "06",
+        title: "Landing pages that load",
+        body: "Built by the same team that builds the products. A campaign pointed at a slow page is money spent on a bounce.",
+      },
+    ],
+    steps: [
+      { no: "01", title: "Offer", body: "Before any spend, we get clear on what is being sold and to whom. Outbound amplifies a proposition — it cannot create one." },
+      { no: "02", title: "Build", body: "Landing page, capture, pipeline stages and the follow-up sequence, wired together and tested with a real enquiry." },
+      { no: "03", title: "Run", body: "Campaigns live, spend controlled, and reported on cost per qualified enquiry rather than on reach." },
+      { no: "04", title: "Tighten", body: "Kill what does not convert, put the budget behind what does. Monthly, in a call, with the numbers open." },
+    ],
+    faq: [
+      {
+        q: "What does a lead cost?",
+        a: "It depends entirely on the industry and the geography, and anyone quoting you a single number before knowing either is guessing. We buy and sell at the prevailing market rate and show you what that rate is for your category before you commit.",
+      },
+      {
+        q: "Do you guarantee a number of leads?",
+        a: "No, and be careful with anyone who does. We commit to the spend, the build, the reporting and the follow-up running — the market decides the rest, and a guaranteed number usually means the definition of 'lead' is about to get very loose.",
+      },
+      {
+        q: "Who owns the leads and the ad accounts?",
+        a: "You do. Accounts are created under your ownership and we are given access, not the other way round. If you stop working with us you keep the accounts, the history and the data.",
+      },
+      {
+        q: "Can you run this on top of a site we already have?",
+        a: "Yes, if it converts. If it does not, we will say so and quote you the landing pages separately rather than spending your budget pointing traffic at a page that loses it.",
+      },
+    ],
+    note: "Lead generation and marketing are delivered by Zesst Now Services Private Limited. Where a campaign touches a regulated product — a loan, an insurance policy — the disclosures on our fintech page apply to it as well.",
+  },
+];
+
 export const process = {
   eyebrow: "HOW WE WORK",
   title: "Four steps, no mystery.",

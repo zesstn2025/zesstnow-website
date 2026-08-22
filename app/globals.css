@@ -3868,3 +3868,42 @@ a {
   max-width: 24ch;
   line-height: 1.5;
 }
+
+/* ============================================================
+   SERVICE DETAIL PAGES
+   ============================================================ */
+
+/* The hero carries an h1 and several paragraphs, so it is taller than a pillar
+   section and does not need the extra scroll distance a pillar is given. */
+.service-hero {
+  min-height: 0;
+  padding-top: clamp(96px, 14vh, 168px);
+}
+
+.service-next {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.service-next .svc-no {
+  /* This card's eyebrow is a service name rather than a number, so it needs to
+     wrap and sit on the type scale instead of being a fixed-width figure. */
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+}
+
+.service-next .svc-t {
+  transition: color 0.4s var(--ease);
+}
+
+.service-next:hover .svc-t {
+  color: var(--silver);
+}
+
+.service-next-go {
+  margin-top: auto;
+  padding-top: 18px;
+  color: var(--chrome);
+}
