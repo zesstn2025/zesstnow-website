@@ -10,6 +10,7 @@ import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import ProductVisual from "@/components/ProductVisual";
 import Leadership from "@/components/Leadership";
+import ChapterRail from "@/components/ChapterRail";
 import Faq from "@/components/Faq";
 import {
   hero,
@@ -30,6 +31,7 @@ export default function HomePage() {
       <Preloader />
       <RevealObserver />
       <Nav />
+      <ChapterRail />
 
       <main>
         {/* ── HERO ─────────────────────────────────────────────── */}
@@ -196,7 +198,7 @@ export default function HomePage() {
 
                   <h3 className="prod-name">{product.name}</h3>
 
-                  <p className="mono-label" style={{ marginTop: 10, color: "var(--electric)" }}>
+                  <p className="mono-label" style={{ marginTop: 10, color: "var(--accent-2)" }}>
                     {product.domain}
                   </p>
 
@@ -255,7 +257,7 @@ export default function HomePage() {
                     <h3 className="prod-name" style={{ marginTop: 16 }}>
                       {item.name}
                     </h3>
-                    <p className="mono-label" style={{ marginTop: 10, color: "var(--electric)" }}>
+                    <p className="mono-label" style={{ marginTop: 10, color: "var(--accent-2)" }}>
                       {item.kicker}
                     </p>
                   </div>

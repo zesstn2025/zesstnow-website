@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Float, RoundedBox } from "@react-three/drei";
+import { palette } from "./palette";
 import type { Group } from "three";
 
 type Sat = {
@@ -19,14 +20,14 @@ type Sat = {
  * and shards, which do the same job of selling depth.
  */
 const SATELLITES: Sat[] = [
-  { position: [2.75, 1.05, -0.5], scale: 0.5, color: "#1b1740", emissive: "#6d3bf5", shape: "chip" },
-  { position: [-2.95, -0.7, 0.4], scale: 0.42, color: "#0f2733", emissive: "#22d3ee", shape: "chip" },
-  { position: [2.15, -1.5, 0.9], scale: 0.3, color: "#171238", emissive: "#a78bfa", shape: "shard" },
-  { position: [-2.2, 1.7, -1.2], scale: 0.26, color: "#0d2430", emissive: "#67e8f9", shape: "shard" },
-  { position: [3.5, -0.35, -1.6], scale: 0.22, color: "#1b1740", emissive: "#6d3bf5", shape: "shard" },
+  { position: [2.75, 1.05, -0.5], scale: 0.5, color: palette.bodyWarm, emissive: palette.gold, shape: "chip" },
+  { position: [-2.95, -0.7, 0.4], scale: 0.42, color: palette.bodyDeep, emissive: palette.bronze, shape: "chip" },
+  { position: [2.15, -1.5, 0.9], scale: 0.3, color: palette.bodyWarm, emissive: palette.goldLight, shape: "shard" },
+  { position: [-2.2, 1.7, -1.2], scale: 0.26, color: palette.bodyDeep, emissive: palette.goldLight, shape: "shard" },
+  { position: [3.5, -0.35, -1.6], scale: 0.22, color: palette.bodyWarm, emissive: palette.gold, shape: "shard" },
   { position: [-3.6, 0.55, -0.9], scale: 0.34, color: "#111a3a", emissive: "#8b7bff", shape: "chip" },
-  { position: [0.5, 2.25, -1.8], scale: 0.2, color: "#0f2733", emissive: "#22d3ee", shape: "shard" },
-  { position: [-0.9, -2.15, 0.7], scale: 0.24, color: "#171238", emissive: "#a78bfa", shape: "shard" },
+  { position: [0.5, 2.25, -1.8], scale: 0.2, color: palette.bodyDeep, emissive: palette.bronze, shape: "shard" },
+  { position: [-0.9, -2.15, 0.7], scale: 0.24, color: palette.bodyWarm, emissive: palette.goldLight, shape: "shard" },
 ];
 
 function Satellite({ sat, index }: { sat: Sat; index: number }) {

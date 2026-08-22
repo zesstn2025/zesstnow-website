@@ -6,7 +6,7 @@ import type { Product } from "@/content/site";
  * fabricated interface. Drop real captures in here when they're available.
  */
 export default function ProductVisual({ product }: { product: Product }) {
-  const accent = product.accent === "cyan" ? "var(--electric)" : "var(--violet-lt)";
+  const accent = product.accent === "cyan" ? "var(--accent-2)" : "var(--accent-lt)";
 
   return (
     <div className="pv">

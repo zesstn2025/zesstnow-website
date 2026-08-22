@@ -10,7 +10,7 @@ export default function PageHero({
   eyebrow,
   title,
   sub,
-  accent = "#a78bfa",
+  accent = "#e8d9a8",
   back,
   children,
 }: {

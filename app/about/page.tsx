@@ -35,7 +35,7 @@ export default function AboutPage() {
             </>
           }
           sub={about.sub}
-          accent="#67e8f9"
+          accent="#e8d9a8"
         />
 
         <section className="section">

@@ -49,7 +49,7 @@ export default function ProductsPage() {
 
                   <h2 className="prod-name">{product.name}</h2>
 
-                  <p className="mono-label" style={{ marginTop: 10, color: "var(--electric)" }}>
+                  <p className="mono-label" style={{ marginTop: 10, color: "var(--accent-2)" }}>
                     {product.domain}
                   </p>
 
@@ -108,7 +108,7 @@ export default function ProductsPage() {
                     <h3 className="prod-name" style={{ marginTop: 16 }}>
                       {item.name}
                     </h3>
-                    <p className="mono-label" style={{ marginTop: 10, color: "var(--electric)" }}>
+                    <p className="mono-label" style={{ marginTop: 10, color: "var(--accent-2)" }}>
                       {item.kicker}
                     </p>
                   </div>

@@ -12,6 +12,7 @@ import {
   type Points,
   type ShaderMaterial,
 } from "three";
+import { palette } from "./palette";
 
 /**
  * The ambient field that sits behind the whole site.
@@ -76,9 +77,11 @@ function Starfield({ scroll }: { scroll: React.RefObject<number> }) {
     const speed: number[] = [];
     const tint: number[] = [];
 
-    // Two tints, matching the palette: violet for most, cyan for a minority.
-    const violet = [0.55, 0.42, 0.98];
-    const cyan = [0.24, 0.79, 0.92];
+    // Two tints drawn from the one accent and separated by value, not by hue —
+    // most points sit at a dim ember, a minority catch the champagne highlight.
+    // A starfield carrying two different colours reads as a screensaver.
+    const ember = [0.62, 0.5, 0.3];
+    const champagne = [0.91, 0.85, 0.66];
 
     for (let i = 0; i < COUNT; i++) {
       pos.push(
@@ -88,7 +91,7 @@ function Starfield({ scroll }: { scroll: React.RefObject<number> }) {
       );
       scale.push(MathUtils.randFloat(0.5, 2.4));
       speed.push(MathUtils.randFloat(0.4, 1.6));
-      tint.push(...(i % 4 === 0 ? cyan : violet));
+      tint.push(...(i % 4 === 0 ? champagne : ember));
     }
 
     const g = new BufferGeometry();
@@ -146,9 +149,9 @@ function Solids({ scroll }: { scroll: React.RefObject<number> }) {
   const shapes = useMemo(
     () =>
       [
-        { pos: [-10.5, 2.2, -22], size: 3.4, color: "#6d3bf5", detail: 0 },
-        { pos: [11.5, -2.6, -26], size: 4.2, color: "#22d3ee", detail: 1 },
-        { pos: [6.5, 5.4, -19], size: 2.0, color: "#a78bfa", detail: 0 },
+        { pos: [-10.5, 2.2, -22], size: 3.4, color: palette.gold, detail: 0 },
+        { pos: [11.5, -2.6, -26], size: 4.2, color: palette.bronze, detail: 1 },
+        { pos: [6.5, 5.4, -19], size: 2.0, color: palette.goldLight, detail: 0 },
       ] as const,
     []
   );

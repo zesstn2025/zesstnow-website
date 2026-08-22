@@ -4,13 +4,14 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Float, MeshTransmissionMaterial } from "@react-three/drei";
 import type { Group } from "three";
+import { palette } from "./palette";
 
 /**
  * The hero object: a refractive glass polyhedron with a glowing core and a
  * wireframe shell around it. This is the analogue of the floating product in
  * the reference — the one thing the whole composition orbits.
  */
-export default function Core({ accent = "#a78bfa" }: { accent?: string }) {
+export default function Core({ accent = palette.goldLight }: { accent?: string }) {
   const group = useRef<Group>(null);
 
   useFrame((state, delta) => {
@@ -33,14 +34,20 @@ export default function Core({ accent = "#a78bfa" }: { accent?: string }) {
             thickness={1.1}
             roughness={0.08}
             ior={1.46}
-            chromaticAberration={0.28}
+            /* Halved. The post-processing pass applies aberration too, and the
+               two stacking is what put visible red and green fringes on every
+               edge — three hues on a page that is meant to have one. */
+            chromaticAberration={0.12}
             anisotropy={0.24}
             distortion={0.32}
             distortionScale={0.36}
             temporalDistortion={0.08}
-            color="#cfd4ff"
-            attenuationColor="#8b6bff"
-            attenuationDistance={2.4}
+            color={palette.fill}
+            /* Light is tinted as it travels through the glass. Amber here is
+               what makes the material read as warm crystal; the violet it used
+               to be was the single largest source of the old palette. */
+            attenuationColor={palette.gold}
+            attenuationDistance={2.1}
           />
         </mesh>
 
@@ -54,7 +61,7 @@ export default function Core({ accent = "#a78bfa" }: { accent?: string }) {
         <mesh scale={1.66}>
           <icosahedronGeometry args={[1, 1]} />
           <meshBasicMaterial
-            color="#67e8f9"
+            color={palette.gold}
             wireframe
             transparent
             opacity={0.085}

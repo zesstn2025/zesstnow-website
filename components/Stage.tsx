@@ -20,7 +20,7 @@ const Scene = dynamic(() => import("./three/Scene"), {
 export default function Stage({
   scroll,
   variant = "hero",
-  accent = "#a78bfa",
+  accent = "#e8d9a8",
   className = "hero-canvas",
 }: {
   scroll: React.RefObject<number>;

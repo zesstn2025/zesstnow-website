@@ -12,6 +12,7 @@ import {
   Vector3,
   type Group,
 } from "three";
+import { palette } from "./palette";
 
 const vertexShader = /* glsl */ `
   varying vec2 vUv;
@@ -74,8 +75,8 @@ const RIBBONS: RibbonSpec[] = [
     ],
     radius: 0.032,
     speed: 0.055,
-    colorA: "#6d3bf5",
-    colorB: "#22d3ee",
+    colorA: palette.gold,
+    colorB: palette.bronze,
     opacity: 0.5,
   },
   {
@@ -88,8 +89,8 @@ const RIBBONS: RibbonSpec[] = [
     ],
     radius: 0.024,
     speed: 0.038,
-    colorA: "#a78bfa",
-    colorB: "#3b1d9e",
+    colorA: palette.goldLight,
+    colorB: palette.bronze,
     opacity: 0.38,
   },
   {
@@ -101,8 +102,8 @@ const RIBBONS: RibbonSpec[] = [
     ],
     radius: 0.02,
     speed: 0.072,
-    colorA: "#67e8f9",
-    colorB: "#6d3bf5",
+    colorA: palette.goldLight,
+    colorB: palette.gold,
     opacity: 0.32,
   },
 ];

@@ -70,7 +70,7 @@ export default function BlogIndex() {
             </>
           }
           sub="Guides on the things Indian businesses actually get stuck on — returns, funding, paperwork, customers and software. No filler, and we say when the answer is 'ask your CA'."
-          accent="#67e8f9"
+          accent="#e8d9a8"
         />
 
         <section className="section">

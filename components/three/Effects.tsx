@@ -14,7 +14,9 @@ import { Vector2 } from "three";
  * lit, not so much that text sitting over the canvas stops being readable.
  */
 export default function Effects() {
-  const offset = useMemo(() => new Vector2(0.0006, 0.0009), []);
+  // Small enough to soften an edge, too small to separate into visible fringes.
+  // Aberration whose colours you can name is a second palette.
+  const offset = useMemo(() => new Vector2(0.00025, 0.00035), []);
 
   return (
     <EffectComposer multisampling={0}>

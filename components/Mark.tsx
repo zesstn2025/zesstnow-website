@@ -36,8 +36,8 @@ export default function Mark({
         <>
           <defs>
             <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#6D3BF5" />
-              <stop offset="1" stopColor="#22D3EE" />
+              <stop offset="0" stopColor="#E8D9A8" />
+              <stop offset="1" stopColor="#C9A961" />
             </linearGradient>
           </defs>
           <rect width="96" height="96" rx="22" fill={`url(#${id})`} />

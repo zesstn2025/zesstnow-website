@@ -6,34 +6,42 @@
    TOKENS
    ============================================================ */
 :root {
-  --ink: #04050d;
-  --ink-2: #080a18;
-  --ink-3: #0d1026;
+  /* The void. Near-black with a trace of warmth — a dead neutral black reads
+     as unstyled, and a blue-black fights the champagne. The three steps sit
+     close together on purpose: a section should separate itself by what is lit
+     inside it, not by having a different background from its neighbour. */
+  --ink: #07080c;
+  --ink-2: #0a0b11;
+  --ink-3: #0e0f16;
 
-  --violet: #6d3bf5;
-  --violet-lt: #a78bfa;
-  --violet-dp: #3b1d9e;
-  --electric: #22d3ee;
-  --electric-lt: #67e8f9;
+  /* One accent, in four values.
+     This site ran violet AND cyan AND gold at once, and three accents is the
+     same as none — when every section glows, nothing is lit, and an expensive
+     build reads as a gradient demo. There is now a single champagne hue, and
+     the steps below differ by value, never by hue. That is what lets one
+     colour carry a whole page. */
+  --accent: #c9a961;
+  --accent-lt: #e8d9a8;
+  --accent-dp: #8a6a2f;
+  --accent-2: #c9a961;
+  --accent-hi: #f2e9cf;
 
-  --text: #e9ebfa;
-  --muted: rgba(233, 235, 250, 0.6);
-  --faint: rgba(233, 235, 250, 0.38);
+  --text: #ece8e1;
+  --muted: rgba(236, 232, 225, 0.6);
+  --faint: rgba(236, 232, 225, 0.36);
 
-  --line: rgba(140, 150, 255, 0.14);
-  --line-strong: rgba(140, 150, 255, 0.28);
-  --panel: rgba(10, 12, 28, 0.74);
-  --panel-hi: rgba(19, 23, 48, 0.82);
+  /* Hairlines carry a little of the accent, so an edge catches the same light
+     the 3D does rather than looking like a stray border. */
+  --line: rgba(201, 169, 97, 0.14);
+  --line-strong: rgba(201, 169, 97, 0.3);
+  --panel: rgba(14, 16, 23, 0.74);
+  --panel-hi: rgba(20, 22, 31, 0.86);
 
-  /* Champagne. The violet-to-cyan gradient belongs to the 3D and the primary
-     CTA; gold is reserved for typographic detail — eyebrows, hairlines, figures.
-     Keeping the two jobs separate is what stops the page looking like a
-     gradient demo and starts it looking expensive. */
   --gold: #c9a961;
   --gold-lt: #e8d9a8;
   --gold-dim: rgba(201, 169, 97, 0.35);
 
-  --grad: linear-gradient(100deg, var(--violet-lt), var(--electric));
+  --grad: linear-gradient(100deg, var(--accent-lt), var(--accent));
   --grad-gold: linear-gradient(100deg, var(--gold-lt), var(--gold));
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -70,7 +78,7 @@ a {
 }
 
 ::selection {
-  background: rgba(109, 59, 245, 0.4);
+  background: rgba(201, 169, 97, 0.4);
   color: #fff;
 }
 
@@ -81,15 +89,15 @@ a {
   background: var(--ink);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(140, 150, 255, 0.22);
+  background: rgba(201, 169, 97, 0.22);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(140, 150, 255, 0.4);
+  background: rgba(201, 169, 97, 0.4);
 }
 
 :focus-visible {
-  outline: 2px solid var(--electric);
+  outline: 2px solid var(--accent-2);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -203,10 +211,10 @@ a {
   padding: 1px;
   background: linear-gradient(
     140deg,
-    rgba(167, 139, 250, 0.5),
+    rgba(232, 217, 168, 0.5),
     transparent 38%,
     transparent 62%,
-    rgba(34, 211, 238, 0.35)
+    rgba(138, 106, 47, 0.35)
   );
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
@@ -248,15 +256,15 @@ a {
 }
 
 .pill-primary {
-  background: linear-gradient(100deg, var(--violet), #5b2fd6 55%, var(--electric-lt));
+  background: linear-gradient(100deg, var(--accent), var(--accent-dp) 55%, var(--accent-hi));
   color: #06070f;
   font-weight: 600;
-  box-shadow: 0 8px 34px -10px rgba(109, 59, 245, 0.85);
+  box-shadow: 0 8px 34px -10px rgba(201, 169, 97, 0.85);
 }
 
 .pill-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 46px -12px rgba(109, 59, 245, 0.95);
+  box-shadow: 0 16px 46px -12px rgba(201, 169, 97, 0.95);
 }
 
 .pill-ghost {
@@ -268,8 +276,8 @@ a {
 
 .pill-ghost:hover {
   transform: translateY(-2px);
-  border-color: rgba(167, 139, 250, 0.6);
-  background: rgba(167, 139, 250, 0.08);
+  border-color: rgba(232, 217, 168, 0.6);
+  background: rgba(232, 217, 168, 0.08);
 }
 
 .pill-sm {
@@ -291,11 +299,11 @@ a {
 }
 
 .aurora-violet {
-  background: radial-gradient(circle, rgba(109, 59, 245, 0.75), transparent 70%);
+  background: radial-gradient(circle, rgba(201, 169, 97, 0.75), transparent 70%);
 }
 
 .aurora-cyan {
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.45), transparent 70%);
+  background: radial-gradient(circle, rgba(138, 106, 47, 0.45), transparent 70%);
 }
 
 @keyframes drift {
@@ -329,7 +337,7 @@ a {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(140, 150, 255, 0.28),
+    rgba(201, 169, 97, 0.28),
     transparent
   );
 }
@@ -399,7 +407,7 @@ a {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--violet-lt);
+  background: var(--accent-lt);
   opacity: 0.65;
 }
 
@@ -458,11 +466,11 @@ a {
   border-radius: 9px;
   display: grid;
   place-items: center;
-  background: linear-gradient(140deg, var(--violet), var(--electric));
+  background: linear-gradient(140deg, var(--accent), var(--accent-2));
   color: #05060f;
   font-size: 15px;
   font-weight: 700;
-  box-shadow: 0 6px 20px -8px rgba(109, 59, 245, 0.9);
+  box-shadow: 0 6px 20px -8px rgba(201, 169, 97, 0.9);
 }
 
 .nav-links {
@@ -567,7 +575,7 @@ a {
 .mobile-menu a {
   padding-block: 13px;
   font-size: 17px;
-  border-bottom: 1px solid rgba(140, 150, 255, 0.08);
+  border-bottom: 1px solid rgba(201, 169, 97, 0.08);
 }
 
 @media (min-width: 900px) {
@@ -720,7 +728,7 @@ a {
 .scroll-cue-line {
   width: 1px;
   height: 40px;
-  background: linear-gradient(180deg, transparent, var(--violet-lt));
+  background: linear-gradient(180deg, transparent, var(--accent-lt));
   animation: cue 2.4s ease-in-out infinite;
 }
 
@@ -762,7 +770,7 @@ a {
   font-family: var(--font-mono), monospace;
   font-size: 11px;
   letter-spacing: 0.2em;
-  color: var(--violet-lt);
+  color: var(--accent-lt);
 }
 
 .svc-t {
@@ -826,7 +834,7 @@ a {
   border: 1px solid var(--line);
   background: radial-gradient(
     ellipse at 50% 40%,
-    rgba(109, 59, 245, 0.16),
+    rgba(201, 169, 97, 0.16),
     rgba(6, 8, 20, 0.9) 70%
   );
 }
@@ -834,7 +842,7 @@ a {
 .prod-visual[data-accent="cyan"] {
   background: radial-gradient(
     ellipse at 50% 40%,
-    rgba(34, 211, 238, 0.14),
+    rgba(138, 106, 47, 0.14),
     rgba(6, 8, 20, 0.9) 70%
   );
 }
@@ -871,13 +879,13 @@ a {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--electric);
-  box-shadow: 0 0 10px var(--electric);
+  background: var(--accent-2);
+  box-shadow: 0 0 10px var(--accent-2);
 }
 
 .status[data-live="false"] .status-dot {
-  background: var(--violet-lt);
-  box-shadow: 0 0 10px var(--violet-lt);
+  background: var(--accent-lt);
+  box-shadow: 0 0 10px var(--accent-lt);
 }
 
 .feat-grid {
@@ -945,8 +953,8 @@ a {
 }
 
 .tier[data-highlight="true"] {
-  border-color: rgba(167, 139, 250, 0.45);
-  background: rgba(109, 59, 245, 0.07);
+  border-color: rgba(232, 217, 168, 0.45);
+  background: rgba(201, 169, 97, 0.07);
 }
 
 .tier[data-highlight="true"]::after {
@@ -973,7 +981,7 @@ a {
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--violet-lt);
+  color: var(--accent-lt);
 }
 
 .tier-price {
@@ -1026,8 +1034,8 @@ a {
   top: 7px;
   width: 9px;
   height: 5px;
-  border-left: 1.5px solid var(--electric);
-  border-bottom: 1.5px solid var(--electric);
+  border-left: 1.5px solid var(--accent-2);
+  border-bottom: 1.5px solid var(--accent-2);
   transform: rotate(-45deg);
 }
 
@@ -1038,8 +1046,8 @@ a {
 }
 
 .tier-foot a {
-  color: var(--violet-lt);
-  border-bottom: 1px solid rgba(167, 139, 250, 0.35);
+  color: var(--accent-lt);
+  border-bottom: 1px solid rgba(232, 217, 168, 0.35);
 }
 
 /* ============================================================
@@ -1061,7 +1069,7 @@ a {
 }
 
 .step:hover {
-  background: rgba(167, 139, 250, 0.03);
+  background: rgba(232, 217, 168, 0.03);
 }
 
 @media (min-width: 800px) {
@@ -1075,7 +1083,7 @@ a {
   font-family: var(--font-mono), monospace;
   font-size: 12px;
   letter-spacing: 0.18em;
-  color: var(--violet-lt);
+  color: var(--accent-lt);
 }
 
 .step-t {
@@ -1122,7 +1130,7 @@ a {
   font-family: var(--font-mono), monospace;
   font-size: 12px;
   letter-spacing: 0.1em;
-  color: var(--electric);
+  color: var(--accent-2);
 }
 
 /* ============================================================
@@ -1177,8 +1185,8 @@ a {
 .field select:focus,
 .field textarea:focus {
   outline: none;
-  border-color: rgba(167, 139, 250, 0.6);
-  background: rgba(167, 139, 250, 0.05);
+  border-color: rgba(232, 217, 168, 0.6);
+  background: rgba(232, 217, 168, 0.05);
 }
 
 .field select option {
@@ -1188,7 +1196,7 @@ a {
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: rgba(233, 235, 250, 0.26);
+  color: rgba(236, 232, 225, 0.26);
 }
 
 .contact-line {
@@ -1202,7 +1210,7 @@ a {
 }
 
 .contact-line:hover {
-  color: var(--violet-lt);
+  color: var(--accent-lt);
 }
 
 /* ============================================================
@@ -1212,7 +1220,7 @@ a {
   position: relative;
   border-top: 1px solid var(--line);
   padding-block: clamp(52px, 6vw, 76px) 30px;
-  background: linear-gradient(180deg, transparent, rgba(109, 59, 245, 0.05));
+  background: linear-gradient(180deg, transparent, rgba(201, 169, 97, 0.05));
 }
 
 .footer-grid {
@@ -1245,7 +1253,7 @@ a {
 }
 
 .footer-links a:hover {
-  color: var(--violet-lt);
+  color: var(--accent-lt);
 }
 
 .legal {
@@ -1259,7 +1267,7 @@ a {
   font-family: var(--font-mono), monospace;
   font-size: 10.5px;
   letter-spacing: 0.1em;
-  color: rgba(233, 235, 250, 0.3);
+  color: rgba(236, 232, 225, 0.3);
 }
 
 /* ============================================================
@@ -1287,7 +1295,7 @@ a {
   width: 190px;
   height: 2px;
   border-radius: 2px;
-  background: rgba(140, 150, 255, 0.16);
+  background: rgba(201, 169, 97, 0.16);
   overflow: hidden;
 }
 
@@ -1328,7 +1336,7 @@ a {
 }
 
 .back-link:hover {
-  color: var(--violet-lt);
+  color: var(--accent-lt);
   gap: 13px;
 }
 
@@ -1358,7 +1366,7 @@ a {
 }
 
 .faq-q:hover {
-  color: var(--violet-lt);
+  color: var(--accent-lt);
 }
 
 .faq-icon {
@@ -1376,7 +1384,7 @@ a {
 
 .faq-item[data-open="true"] .faq-icon {
   transform: rotate(45deg);
-  background: rgba(167, 139, 250, 0.14);
+  background: rgba(232, 217, 168, 0.14);
 }
 
 .faq-a {
@@ -1433,7 +1441,7 @@ a {
   align-items: center;
   gap: 6px;
   padding: 9px 12px;
-  border-bottom: 1px solid rgba(140, 150, 255, 0.12);
+  border-bottom: 1px solid rgba(201, 169, 97, 0.12);
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -1441,7 +1449,7 @@ a {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: rgba(233, 235, 250, 0.16);
+  background: rgba(236, 232, 225, 0.16);
 }
 
 .pv-url {
@@ -1456,7 +1464,7 @@ a {
   font-family: var(--font-mono), monospace;
   font-size: 8px;
   letter-spacing: 0.08em;
-  color: rgba(233, 235, 250, 0.42);
+  color: rgba(236, 232, 225, 0.42);
 }
 
 .pv-body {
@@ -1466,7 +1474,7 @@ a {
 }
 
 .pv-side {
-  border-right: 1px solid rgba(140, 150, 255, 0.1);
+  border-right: 1px solid rgba(201, 169, 97, 0.1);
   padding: 12px 9px;
   display: grid;
   align-content: start;
@@ -1476,7 +1484,7 @@ a {
 .pv-nav-row {
   height: 7px;
   border-radius: 3px;
-  background: rgba(233, 235, 250, 0.08);
+  background: rgba(236, 232, 225, 0.08);
 }
 
 .pv-nav-row[data-active="true"] {
@@ -1501,7 +1509,7 @@ a {
   height: 30px;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(140, 150, 255, 0.1);
+  border: 1px solid rgba(201, 169, 97, 0.1);
   display: flex;
   align-items: flex-end;
   padding: 5px;
@@ -1542,7 +1550,7 @@ a {
 .pv-row span {
   height: 6px;
   border-radius: 3px;
-  background: rgba(233, 235, 250, 0.13);
+  background: rgba(236, 232, 225, 0.13);
 }
 
 @keyframes pv-fade {
@@ -1633,7 +1641,7 @@ a {
    ============================================================ */
 .section-alt {
   background:
-    linear-gradient(180deg, transparent, rgba(109, 59, 245, 0.045) 22%, rgba(34, 211, 238, 0.03) 78%, transparent),
+    linear-gradient(180deg, transparent, rgba(201, 169, 97, 0.045) 22%, rgba(138, 106, 47, 0.03) 78%, transparent),
     rgba(255, 255, 255, 0.012);
   border-block: 1px solid var(--line);
 }
@@ -1649,7 +1657,7 @@ a {
   font-size: 14px;
   line-height: 1.7;
   padding-left: 16px;
-  border-left: 2px solid rgba(109, 59, 245, 0.5);
+  border-left: 2px solid rgba(201, 169, 97, 0.5);
 }
 
 /* ============================================================
@@ -1691,7 +1699,7 @@ a {
 
 .vert-lead {
   margin-top: 8px;
-  color: var(--electric);
+  color: var(--accent-2);
   font-size: 13.5px;
 }
 
@@ -1717,7 +1725,7 @@ a {
   width: 7px;
   height: 7px;
   border-radius: 2px;
-  background: linear-gradient(135deg, var(--violet), var(--electric));
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
 }
 
 .vert-note {
@@ -1811,7 +1819,7 @@ a {
 
 .course:hover {
   transform: translateY(-4px);
-  border-color: rgba(109, 59, 245, 0.5);
+  border-color: rgba(201, 169, 97, 0.5);
 }
 
 .course .svc-t {
@@ -1868,9 +1876,9 @@ a {
 }
 
 .work-shots:hover .browser {
-  border-color: rgba(167, 139, 250, 0.45);
+  border-color: rgba(232, 217, 168, 0.45);
   box-shadow:
-    0 52px 110px -40px rgba(109, 59, 245, 0.55),
+    0 52px 110px -40px rgba(201, 169, 97, 0.55),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
@@ -1988,7 +1996,7 @@ a {
 
 .shot-dots button[data-on="true"] {
   width: 40px;
-  background: linear-gradient(90deg, var(--violet), var(--electric));
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
 }
 
 /* --- copy --- */
@@ -2034,7 +2042,7 @@ a {
   font-size: clamp(17px, 2vw, 22px);
   font-weight: 600;
   letter-spacing: -0.02em;
-  background: linear-gradient(120deg, #fff, var(--violet-lt));
+  background: linear-gradient(120deg, #fff, var(--accent-lt));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2168,7 +2176,7 @@ a {
 
 .channel:hover {
   transform: translateY(-5px);
-  border-color: rgba(34, 211, 238, 0.45);
+  border-color: rgba(138, 106, 47, 0.45);
 }
 
 .channel strong {
@@ -2235,7 +2243,7 @@ a {
   font-family: var(--font-mono), monospace;
   font-size: 12px;
   letter-spacing: 0.06em;
-  color: var(--electric);
+  color: var(--accent-2);
 }
 
 .footer-contact a:hover {
@@ -2243,7 +2251,7 @@ a {
 }
 
 .mobile-cta {
-  color: var(--electric) !important;
+  color: var(--accent-2) !important;
 }
 
 /* ============================================================
@@ -2295,8 +2303,8 @@ a {
   opacity: 0.5;
   background: radial-gradient(
     circle,
-    rgba(109, 59, 245, 0.16),
-    rgba(34, 211, 238, 0.07) 42%,
+    rgba(201, 169, 97, 0.16),
+    rgba(138, 106, 47, 0.07) 42%,
     transparent 68%
   );
   will-change: transform;
@@ -2531,7 +2539,7 @@ a {
   align-items: center;
   gap: 8px;
   padding: 0 clamp(12px, 3vw, 22px);
-  background: linear-gradient(100deg, rgba(109, 59, 245, 0.22), rgba(34, 211, 238, 0.14));
+  background: linear-gradient(100deg, rgba(201, 169, 97, 0.22), rgba(138, 106, 47, 0.14));
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(10px);
 }
@@ -2566,7 +2574,7 @@ a {
 
 .annbar-cta {
   flex: none;
-  color: var(--electric-lt);
+  color: var(--accent-hi);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -2628,7 +2636,7 @@ a {
 }
 
 .post-card:hover {
-  border-color: rgba(167, 139, 250, 0.45);
+  border-color: rgba(232, 217, 168, 0.45);
 }
 
 .post-meta {
@@ -2667,7 +2675,7 @@ a {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--electric-lt);
+  color: var(--accent-hi);
 }
 
 /* Article body — the prose block is shared with the legal pages, these are
@@ -2701,7 +2709,7 @@ a {
 }
 
 .prose a {
-  color: var(--electric-lt);
+  color: var(--accent-hi);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
@@ -2948,4 +2956,109 @@ a {
   text-transform: uppercase;
   color: var(--gold);
   opacity: 0.8;
+}
+
+/* ============================================================
+   CHAPTER RAIL — the page index, pinned to the left edge
+   ============================================================ */
+.rail {
+  position: fixed;
+  left: max(18px, calc((100vw - var(--shell)) / 2 - 108px));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.rail[data-on="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rail ol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rail button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 0;
+  padding: 5px 0;
+  cursor: pointer;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  transition: color 0.35s var(--ease);
+}
+
+.rail button:hover,
+.rail button:focus-visible {
+  color: var(--text);
+}
+
+.rail button[data-on="true"] {
+  color: var(--gold);
+}
+
+.rail-n {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
+/* The label is held at zero width until its chapter is current, so the rail is
+   a column of numbers at rest and only names the section you are actually in.
+   A permanent list of ten labels would be a second navigation competing with
+   the one in the header. */
+.rail-l {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: max-width 0.45s var(--ease), opacity 0.35s var(--ease);
+}
+
+.rail button[data-on="true"] .rail-l,
+.rail button:hover .rail-l,
+.rail button:focus-visible .rail-l {
+  max-width: 12rem;
+  opacity: 1;
+}
+
+.rail-tick {
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transition: width 0.45s var(--ease), opacity 0.35s var(--ease);
+}
+
+.rail button[data-on="true"] .rail-tick {
+  width: 26px;
+  opacity: 1;
+}
+
+/* Below this the rail would sit on top of the content rather than beside it. */
+@media (max-width: 1180px) {
+  .rail {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail,
+  .rail-l,
+  .rail-tick {
+    transition: none;
+  }
 }

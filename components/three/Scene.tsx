@@ -14,6 +14,7 @@ import Core from "./Core";
 import Satellites from "./Satellites";
 import AuroraRibbons from "./AuroraRibbons";
 import Effects from "./Effects";
+import { palette } from "./palette";
 
 type Variant = "hero" | "product";
 
@@ -47,35 +48,46 @@ function CameraRig({
 /**
  * Lightformers instead of an HDRI preset — drei's presets are fetched from a
  * CDN at runtime, and the scene must not depend on a third-party host being up.
+ *
+ * One key, one fill, one kicker. The key is the only bright source and the only
+ * saturated one; the fill exists solely to keep the shadow side of the glass
+ * from going flat black, and stays desaturated so it never reads as a second
+ * colour. This is the whole idea the design rests on — a subject is lit when
+ * the light has a direction, and it has no direction when it comes from
+ * everywhere at once.
  */
 function Studio({ variant }: { variant: Variant }) {
   return (
     <Environment resolution={128}>
+      {/* Key — upper left, warm, dominant. */}
       <Lightformer
-        intensity={2.6}
-        color="#a78bfa"
-        position={[-4, 3, 2]}
+        intensity={3.6}
+        color={palette.goldLight}
+        position={[-4.5, 3.2, 2]}
         scale={[8, 6, 1]}
         form="rect"
       />
+      {/* Fill — opposite side, weak and near-neutral. */}
       <Lightformer
-        intensity={2.2}
-        color="#22d3ee"
+        intensity={0.85}
+        color={palette.fill}
         position={[5, -2, 1]}
         scale={[7, 5, 1]}
         form="rect"
       />
+      {/* Kicker — a thin line from behind that separates the form from the
+          void. Warm and dim; it defines an edge, it does not illuminate. */}
       <Lightformer
-        intensity={1.1}
-        color="#ffffff"
-        position={[0, 5, -4]}
-        scale={[10, 3, 1]}
+        intensity={1.5}
+        color={palette.gold}
+        position={[0, 4.5, -4]}
+        scale={[10, 1.6, 1]}
         form="rect"
       />
       {variant === "hero" && (
         <Lightformer
-          intensity={1.4}
-          color="#6d3bf5"
+          intensity={0.9}
+          color={palette.bronze}
           position={[0, -4, 2]}
           scale={[8, 2, 1]}
           form="circle"
@@ -87,7 +99,7 @@ function Studio({ variant }: { variant: Variant }) {
 
 export default function Scene({
   variant = "hero",
-  accent = "#a78bfa",
+  accent = palette.goldLight,
   scroll,
   active = true,
 }: {
@@ -125,10 +137,12 @@ export default function Scene({
       <AdaptiveDpr pixelated={false} />
       <AdaptiveEvents />
 
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[4, 5, 3]} intensity={1.1} color="#c4b5fd" />
-      <pointLight position={[-4, -2, 2]} intensity={22} color="#22d3ee" distance={14} />
-      <pointLight position={[4, 2, -1]} intensity={16} color="#6d3bf5" distance={14} />
+      {/* Ambient is kept low on purpose: it is the one light with no direction,
+          so every unit of it flattens the subject. */}
+      <ambientLight intensity={0.2} />
+      <directionalLight position={[-4, 5, 3]} intensity={1.5} color={palette.goldLight} />
+      <pointLight position={[-4, -1.5, 2]} intensity={14} color={palette.gold} distance={14} />
+      <pointLight position={[4, 2, -1]} intensity={6} color={palette.fill} distance={14} />
 
       <Suspense fallback={null}>
         <Studio variant={variant} />

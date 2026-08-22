@@ -149,6 +149,27 @@ export const leadership = {
   ],
 };
 
+/**
+ * The homepage read as a sequence of chapters, for the scroll rail.
+ *
+ * Numbering is only honest because this genuinely is an order: a visitor meets
+ * the promise, then the work, then the people, then the way in. The ids must
+ * match the section ids on the homepage — a chapter whose target is missing is
+ * dropped rather than rendered as a dead link.
+ */
+export const chapters: { id: string; label: string }[] = [
+  { id: "top", label: "Open" },
+  { id: "promise", label: "The promise" },
+  { id: "services", label: "What we build" },
+  { id: "verticals", label: "Compliance desk" },
+  { id: "products", label: "Our products" },
+  { id: "roadmap", label: "What's next" },
+  { id: "process", label: "How we work" },
+  { id: "portfolio", label: "The work" },
+  { id: "leadership", label: "Who we are" },
+  { id: "contact", label: "Start" },
+];
+
 export const nav = [
   { label: "Services", href: "/services" },
   { label: "Products", href: "/products" },
