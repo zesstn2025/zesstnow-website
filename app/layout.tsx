@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope, JetBrains_Mono } from "next/font/google";
 import { company, leadership, social } from "@/content/site";
 import SmoothScroll from "@/components/SmoothScroll";
-import FieldStage from "@/components/FieldStage";
 import Stage3D from "@/components/three/Stage3D";
 import Nav from "@/components/Nav";
 import PageTransition from "@/components/PageTransition";
@@ -159,11 +158,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* First in the DOM so it paints behind every positioned section. */}
-        <FieldStage />
-        {/* The shared 3D surface, mounted once for the whole site. Every
-            section's <View> is drawn into this one context, so navigating
-            between pages neither creates nor destroys a WebGL context. */}
+        {/* The one 3D surface on the site, mounted once. The ambient field
+            fills it and every section's <View> is drawn over that, so the
+            whole site — every page, every section — runs on a single WebGL
+            context that is never created or destroyed by navigation. */}
         <Stage3D />
         <SmoothScroll />
         <Motion />

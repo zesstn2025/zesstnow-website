@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { AdaptiveDpr, PerformanceMonitor } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import {
   AdditiveBlending,
   DoubleSide,
@@ -12,7 +11,6 @@ import {
   type ShaderMaterial,
 } from "three";
 import { palette } from "./palette";
-import CanvasHost from "./CanvasHost";
 
 /**
  * One geometry that becomes six different objects.
@@ -30,9 +28,11 @@ import CanvasHost from "./CanvasHost";
  * both cheaper and genuinely continuous — you see the shape travel, not
  * cross-fade.
  *
- * There is exactly one canvas here on purpose. A browser keeps only a handful
- * of live WebGL contexts and silently kills the oldest when the limit is
- * passed, so a canvas per section would blank the earlier ones as you scroll.
+ * It has no canvas of its own. It is drawn into the site's one shared canvas
+ * through a `<View>`, like every other scene here — a browser keeps only a
+ * handful of live WebGL contexts and silently kills the oldest when the limit
+ * is passed, so a canvas per section would blank the earlier ones as you
+ * scroll.
  */
 
 /**
@@ -249,53 +249,11 @@ function hexToRgb(hex: string): [number, number, number] {
   return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
 }
 
-export default function Morph({
-  index,
-  active = true,
-}: {
-  index: number;
-  active?: boolean;
-}) {
-  const dprCap = useRef(1.5);
-
-  // Held stable across re-renders — and this component re-renders on every
-  // hover, since `index` is the hovered discipline. Passed as literals, each of
-  // those hovers risks a rebuilt renderer and a leaked WebGL context.
-  const glOptions = useMemo(
-    () => ({
-      antialias: true,
-      alpha: true,
-      powerPreference: "low-power" as const,
-      depth: true,
-    }),
-    []
-  );
-
-  const cameraOptions = useMemo(
-    () => ({ position: [0, 0, 4.2] as [number, number, number], fov: 45 }),
-    []
-  );
-
-  return (
-    <CanvasHost className="canvas-host">
-    <Canvas
-      frameloop={active ? "always" : "never"}
-      dpr={[1, dprCap.current]}
-      gl={glOptions}
-      camera={cameraOptions}
-      style={{ pointerEvents: "none" }}
-      aria-hidden="true"
-    >
-      <PerformanceMonitor
-        onDecline={() => {
-          dprCap.current = 1;
-        }}
-      />
-      <AdaptiveDpr pixelated={false} />
-      <Shape index={index} />
-    </Canvas>
-    </CanvasHost>
-  );
+/**
+ * The morphing form, for a `<View>` to render. The section owns the camera.
+ */
+export default function Morph({ index }: { index: number }) {
+  return <Shape index={index} />;
 }
 
 export const SHAPE_COUNT = SHAPES.length;

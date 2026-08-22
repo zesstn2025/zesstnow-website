@@ -34,10 +34,13 @@ export default function Core({ accent = palette.silver }: { accent?: string }) {
             thickness={1.1}
             roughness={0.08}
             ior={1.46}
-            /* Halved. The post-processing pass applies aberration too, and the
-               two stacking is what put visible red and green fringes on every
-               edge — three hues on a page that is meant to have one. */
-            chromaticAberration={0.12}
+            /* Off. It was halved when a post-processing pass was adding its own
+               on top; with that pass gone this is the only source left, and it
+               still manufactures hue — the blue and magenta speckle around the
+               bright centre is exactly the thing the palette rules out. A
+               refractive index and a rough surface are what make glass read as
+               glass; splitting the spectrum is decoration. */
+            chromaticAberration={0}
             anisotropy={0.24}
             distortion={0.32}
             distortionScale={0.36}
@@ -51,8 +54,12 @@ export default function Core({ accent = palette.silver }: { accent?: string }) {
           />
         </mesh>
 
-        {/* Inner emissive heart — reads as light trapped in the glass */}
-        <mesh scale={0.4}>
+        {/* Inner emissive heart — reads as light trapped in the glass.
+            Smaller than it was: the shell around it is a lens, and without the
+            bloom pass to roll the highlight off, the old size came through
+            magnified as a blown-out white disc rather than as a point of
+            light. */}
+        <mesh scale={0.3}>
           <icosahedronGeometry args={[1, 1]} />
           <meshBasicMaterial color={accent} toneMapped={false} />
         </mesh>

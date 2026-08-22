@@ -2271,26 +2271,6 @@ a {
    AMBIENT FIELD + CURSOR
    ============================================================ */
 
-/* Fixed behind everything. Mounted first in <body>, so positioned sections
-   later in the DOM paint above it without needing z-index of their own. */
-.field-stage {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.9;
-  /* Fades in once the canvas has mounted, so there is no hard pop. */
-  animation: field-in 1.6s var(--ease) both;
-}
-
-@keyframes field-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 0.9;
-  }
-}
 
 /* Sections need a stacking context above the field, and the banded ones need
    their tint to sit over it rather than hide it completely. */
@@ -2347,7 +2327,8 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .field-stage,
+  /* The ambient field is no longer a DOM layer — it lives inside the shared
+     canvas, which `useAllow3D` never mounts under reduced motion at all. */
   .cursor-glow {
     display: none;
   }
@@ -4756,4 +4737,27 @@ a {
   .nav-panel {
     transition: none;
   }
+}
+
+/* The morphing form's viewport. Sized by its container, like every other view. */
+.svc-view {
+  position: absolute;
+  inset: 0;
+}
+
+/* The hero's viewport, and the vignette that replaced its postprocessing pass. */
+.hero-view {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 72% 66% at 55% 45%,
+    transparent 40%,
+    rgba(0, 0, 20, 0.55) 100%
+  );
 }

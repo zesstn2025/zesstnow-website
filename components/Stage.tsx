@@ -2,7 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { useRef } from "react";
-import { useAllow3D, useIsActive } from "@/lib/motion";
+import { View, PerspectiveCamera } from "@react-three/drei";
+import { useAllow3D } from "@/lib/motion";
 
 const Scene = dynamic(() => import("./three/Scene"), {
   ssr: false,
@@ -10,12 +11,15 @@ const Scene = dynamic(() => import("./three/Scene"), {
 });
 
 /**
- * Hosts the WebGL canvas.
+ * Hosts the hero's viewport.
  *
  * The poster underneath is not a placeholder — it renders on every device and
- * stays visible behind the canvas. On machines that fail `useAllow3D` (reduced
+ * stays visible behind the 3D. On machines that fail `useAllow3D` (reduced
  * motion, no WebGL, weak hardware) it is the entire background, and the page is
  * designed to look finished with nothing but it.
+ *
+ * There is no canvas here any more. The subject is a `<View>` drawn into the
+ * one shared canvas in the root layout, like every other scene on the site.
  */
 export default function Stage({
   scroll,
@@ -30,7 +34,6 @@ export default function Stage({
 }) {
   const host = useRef<HTMLDivElement>(null);
   const allow3D = useAllow3D();
-  const active = useIsActive(host);
 
   return (
     <div ref={host} className={className} aria-hidden="true">
@@ -61,15 +64,20 @@ export default function Stage({
       />
 
       {allow3D && (
-        <div style={{ position: "absolute", inset: 0 }}>
-          <Scene
-            variant={variant}
-            accent={accent}
-            scroll={scroll}
-            active={active}
+        <View className="hero-view">
+          <PerspectiveCamera
+            makeDefault
+            position={[0, 0.2, variant === "hero" ? 6.6 : 5.8]}
+            fov={42}
           />
-        </div>
+          <Scene variant={variant} accent={accent} scroll={scroll} />
+        </View>
       )}
+
+      {/* What the removed postprocessing pass used to do, as a gradient. A
+          vignette is a darkening toward the edges; it never needed a render
+          target to say so. */}
+      {allow3D && <div className="hero-vignette" aria-hidden="true" />}
     </div>
   );
 }

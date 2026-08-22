@@ -1,20 +1,11 @@
 "use client";
 
-import { Suspense, useMemo, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  AdaptiveDpr,
-  AdaptiveEvents,
-  Environment,
-  Lightformer,
-  PerformanceMonitor,
-} from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { Environment, Lightformer } from "@react-three/drei";
 import { MathUtils } from "three";
 import Core from "./Core";
 import Satellites from "./Satellites";
 import AuroraRibbons from "./AuroraRibbons";
-import Effects from "./Effects";
-import CanvasHost from "./CanvasHost";
 import { palette } from "./palette";
 
 type Variant = "hero" | "product";
@@ -59,7 +50,10 @@ function CameraRig({
  */
 function Studio({ variant }: { variant: Variant }) {
   return (
-    <Environment resolution={128}>
+    // `frames={1}`: the cubemap is rendered once and reused. Left live it
+    // re-renders the environment every frame, which inside a shared canvas is
+    // paid on top of every other view.
+    <Environment frames={1} resolution={128}>
       {/* Key — upper left, dominant. The brightest thing in the scene. */}
       <Lightformer
         intensity={3.6}
@@ -98,63 +92,31 @@ function Studio({ variant }: { variant: Variant }) {
   );
 }
 
+/**
+ * The hero subject, drawn into the site's one shared canvas through a `<View>`.
+ *
+ * It used to own a `<Canvas>` of its own, purely so it could run an
+ * `EffectComposer` — postprocessing takes over the whole frame, and a `View` is
+ * a scissored rectangle inside a frame shared with every other scene, so the
+ * two cannot coexist. The bloom and vignette are gone and the hero keeps its
+ * own canvas no longer: a subject built out of transmission glass and rim
+ * light was never leaning on the bloom, and the vignette is a CSS gradient over
+ * the same rectangle, which costs nothing and does not need a render pass.
+ *
+ * The section owns the camera, so `CameraRig` drives that one rather than a
+ * canvas-wide default.
+ */
 export default function Scene({
   variant = "hero",
   accent = palette.silver,
   scroll,
-  active = true,
 }: {
   variant?: Variant;
   accent?: string;
   scroll: React.RefObject<number>;
-  /** False when the canvas is off-screen or the tab is hidden — parks the loop. */
-  active?: boolean;
 }) {
-  // The transmission material re-renders the scene into a buffer every frame, so
-  // pixel count is the dominant cost. 1.5 is plenty for a soft, glassy subject.
-  const dprCap = useRef(1.5);
-
-  // Stable references. A fresh `gl` object literal on a re-render can make R3F
-  // rebuild the renderer, and a rebuilt renderer is a brand-new WebGL context —
-  // which the browser will not hand back on its own.
-  const glOptions = useMemo(
-    () => ({
-      antialias: false,
-      alpha: true,
-      powerPreference: "high-performance" as const,
-      stencil: false,
-      depth: true,
-    }),
-    []
-  );
-
-  const cameraOptions = useMemo(
-    () => ({
-      position: [0, 0.2, variant === "hero" ? 6.6 : 5.8] as [number, number, number],
-      fov: 42,
-    }),
-    [variant]
-  );
-
   return (
-    <CanvasHost className="canvas-host">
-    <Canvas
-      frameloop={active ? "always" : "never"}
-      dpr={[1, dprCap.current]}
-      gl={glOptions}
-      camera={cameraOptions}
-      // The canvas is decoration; screen readers and pointers should ignore it.
-      style={{ pointerEvents: "none" }}
-      aria-hidden="true"
-    >
-      <PerformanceMonitor
-        onDecline={() => {
-          dprCap.current = 1;
-        }}
-      />
-      <AdaptiveDpr pixelated={false} />
-      <AdaptiveEvents />
-
+    <>
       {/* Ambient is kept low on purpose: it is the one light with no direction,
           so every unit of it flattens the subject. */}
       <ambientLight intensity={0.2} />
@@ -162,28 +124,21 @@ export default function Scene({
       <pointLight position={[-4, -1.5, 2]} intensity={14} color={palette.chrome} distance={14} />
       <pointLight position={[4, 2, -1]} intensity={6} color={palette.fill} distance={14} />
 
-      <Suspense fallback={null}>
-        <Studio variant={variant} />
-        <AuroraRibbons />
+      <Studio variant={variant} />
+      <AuroraRibbons />
 
-        {/* On the home page the subject sits to the right of the headline —
-            the copy owns the left half, exactly as in the reference layout. */}
-        {/* The copy owns the left half on every page, so the subject sits to
-            the right of it — centred, it renders straight through the headline
-            and the scrim has to work far too hard. */}
-        <group
-          position={variant === "hero" ? [2.25, 0.15, 0] : [1.75, 0.1, 0]}
-          scale={variant === "hero" ? 0.82 : 0.9}
-        >
-          <Core accent={accent} />
-          {variant === "hero" && <Satellites />}
-        </group>
-
-        <Effects />
-      </Suspense>
+      {/* The copy owns the left half on every page, so the subject sits to the
+          right of it — centred, it renders straight through the headline and
+          the scrim has to work far too hard. */}
+      <group
+        position={variant === "hero" ? [2.25, 0.15, 0] : [1.75, 0.1, 0]}
+        scale={variant === "hero" ? 0.82 : 0.9}
+      >
+        <Core accent={accent} />
+        {variant === "hero" && <Satellites />}
+      </group>
 
       <CameraRig scroll={scroll} variant={variant} />
-    </Canvas>
-    </CanvasHost>
+    </>
   );
 }

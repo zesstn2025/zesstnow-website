@@ -2,8 +2,9 @@
 
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
+import { View, PerspectiveCamera } from "@react-three/drei";
 import { services } from "@/content/site";
-import { useAllow3D, useIsActive } from "@/lib/motion";
+import { useAllow3D } from "@/lib/motion";
 
 const Morph = dynamic(() => import("./three/Morph"), { ssr: false, loading: () => null });
 
@@ -21,7 +22,6 @@ export default function ServicesChapter() {
   const [index, setIndex] = useState(0);
   const host = useRef<HTMLDivElement>(null);
   const allow3D = useAllow3D();
-  const active = useIsActive(host);
 
   return (
     <section className="section" id="services">
@@ -65,7 +65,15 @@ export default function ServicesChapter() {
           {/* Sticky, so the form stays with you while the list scrolls past. */}
           <div className="svc-form" ref={host} aria-hidden="true">
             <div className="svc-form-inner">
-              {allow3D && <Morph index={index} active={active} />}
+              {allow3D && (
+                // Drawn into the site's one shared canvas. The form is unlit —
+                // its shading is computed in its own fragment shader — so this
+                // view needs a camera and nothing else.
+                <View className="svc-view">
+                  <PerspectiveCamera makeDefault position={[0, 0, 4.2]} fov={45} />
+                  <Morph index={index} />
+                </View>
+              )}
               <span className="svc-form-label mono-label">
                 {services.items[index]?.title}
               </span>

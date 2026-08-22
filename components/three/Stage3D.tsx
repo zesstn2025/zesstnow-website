@@ -10,8 +10,9 @@ import {
   View,
   Preload,
 } from "@react-three/drei";
-import { useAllow3D } from "@/lib/motion";
+import { useAllow3D, useScrollProgress } from "@/lib/motion";
 import CanvasHost from "./CanvasHost";
+import Field from "./Field";
 
 /**
  * One canvas for the whole page, and a viewport per section.
@@ -28,16 +29,30 @@ import CanvasHost from "./CanvasHost";
  * The consequence worth knowing: a View gives its children their own scene, so
  * anything scene-level — lighting above all — has to be declared inside each
  * View rather than here. See components/three/Studio.tsx.
+ *
+ * The ambient field is the exception: it is a plain child of this canvas rather
+ * than a View, so it fills the whole frame and every view is drawn over it.
+ * That is the one thing on the site that should not be boxed into a rectangle.
  */
 
 export default function Stage3D({ children }: { children?: ReactNode }) {
   const allow3D = useAllow3D();
+  const scroll = useScrollProgress();
   const dprCap = useRef(1.5);
+  // Parks the whole site's rendering when the tab is in the background. One
+  // canvas means one place to do this instead of four.
+  const [visible, setVisible] = useState(true);
   // R3F needs a real DOM element to attach pointer events to, and `document`
   // does not exist until the client runs.
   const [source, setSource] = useState<HTMLElement | null>(null);
 
   useEffect(() => setSource(document.body), []);
+
+  useEffect(() => {
+    const sync = () => setVisible(!document.hidden);
+    document.addEventListener("visibilitychange", sync);
+    return () => document.removeEventListener("visibilitychange", sync);
+  }, []);
 
   /**
    * Memoised, and it matters more than it looks.
@@ -59,8 +74,10 @@ export default function Stage3D({ children }: { children?: ReactNode }) {
       }),
     []
   );
-  // Views each carry their own camera; this one is only a default.
-  const cameraOptions = useMemo(() => ({ position: [0, 0, 6] as [number, number, number], fov: 40 }), []);
+  // Every view declares its own camera, so this one belongs to the ambient
+  // field — the only thing rendered with the root scene. It is the camera the
+  // field was composed for, back when it had a canvas to itself.
+  const cameraOptions = useMemo(() => ({ position: [0, 0, 9] as [number, number, number], fov: 55 }), []);
 
   if (!allow3D || !source) return null;
 
@@ -68,6 +85,7 @@ export default function Stage3D({ children }: { children?: ReactNode }) {
     <CanvasHost className="stage3d-host">
     <Canvas
       className="stage3d"
+      frameloop={visible ? "always" : "never"}
       // Views are scattered across the document, so events have to be tracked
       // from a common ancestor rather than from the canvas itself.
       eventSource={source}
@@ -98,6 +116,8 @@ export default function Stage3D({ children }: { children?: ReactNode }) {
       <AdaptiveEvents />
 
       <Suspense fallback={null}>
+        {/* Behind everything, filling the frame. */}
+        <Field scroll={scroll} />
         {children}
         <View.Port />
       </Suspense>
