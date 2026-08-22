@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope, JetBrains_Mono } from "next/font/google";
-import { company, social } from "@/content/site";
+import { company, leadership, social } from "@/content/site";
 import SmoothScroll from "@/components/SmoothScroll";
 import FieldStage from "@/components/FieldStage";
 import Motion from "@/components/Motion";
@@ -114,6 +114,14 @@ const orgJsonLd = {
     "https://bizgstpro.com",
   ],
   founder: { "@type": "Person", name: company.founder, jobTitle: company.founderRole },
+  // Naming the whole team in structured data is what lets a search engine or
+  // an AI assistant answer "who runs Zesst Now?" with people rather than with
+  // a shrug — the same reason the leadership section exists on the page.
+  member: leadership.people.map((p) => ({
+    "@type": "Person",
+    name: p.name,
+    jobTitle: p.role,
+  })),
   knowsAbout: [
     "Web development",
     "AI automation",

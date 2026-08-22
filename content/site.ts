@@ -51,6 +51,7 @@ export const company = {
   // Both directors on the MCA record. Naming them is deliberate — an anonymous
   // company converts badly with the clients this site is aimed at.
   directors: ["Sonu Sharma", "Rani Devi"],
+  legalAdvisor: "Adv. Nitin Kumar",
   // This site ships on cognitivecapitalsuite.com — the company's own domain,
   // which doubles as its portfolio. The www host is the canonical one; Vercel
   // 308s the apex to it, so canonical URLs, OG and sitemap.xml must name www
@@ -83,6 +84,68 @@ export const social: { company: Profile[]; founder: Profile[] } = {
     // TODO: paste the profile URLs
     { network: "Facebook", handle: "Sonu Kumar", url: "" },
     { network: "LinkedIn", handle: "Sonu Sharma", url: "" },
+  ],
+};
+
+/**
+ * The people behind the company.
+ *
+ * `photo` points at a file in public/team. If that file is not present, the
+ * card renders a monogram instead of a broken image — so a missing photograph
+ * degrades to something deliberate rather than to an empty frame. Drop the
+ * real photograph in at the named path and it appears with no code change.
+ *
+ * These are real, named people. Their photographs are the one asset on this
+ * site that must never be substituted with a generated likeness.
+ */
+export type Person = {
+  name: string;
+  role: string;
+  /** A second line under the role — held separately so the role stays short. */
+  scope: string;
+  photo: string;
+  /** Two letters. Shown when the photograph is absent. */
+  monogram: string;
+  bio: string;
+  links?: Profile[];
+};
+
+export const leadership = {
+  eyebrow: "WHO YOU'RE WORKING WITH",
+  title: "Three people, named.",
+  sub: "A private limited company is a legal person, but the work is done by these three. Their names are on the MCA record and on every project we take.",
+  people: <Person[]>[
+    {
+      name: "Sonu Sharma",
+      role: "Founder & CEO",
+      scope: "Director",
+      photo: "/team/sonu-sharma.jpg",
+      monogram: "SS",
+      bio: "Founded the company in February 2025 and leads what gets built. Writes the brief on every project before anyone opens an editor, and is the person a client talks to when something is going wrong.",
+      links: [
+        {
+          network: "Instagram",
+          handle: "@sonu_sharma_entreprenuar",
+          url: "https://instagram.com/sonu_sharma_entreprenuar",
+        },
+      ],
+    },
+    {
+      name: "Rani Devi",
+      role: "Director",
+      scope: "Operations & compliance",
+      photo: "/team/rani-devi.jpg",
+      monogram: "RD",
+      bio: "On the board since incorporation. Oversees the company's own statutory compliance — the filings, registers and records that let us tell a client honestly how their compliance should be run.",
+    },
+    {
+      name: "Adv. Nitin Kumar",
+      role: "Legal Advisor",
+      scope: "Contracts & regulatory",
+      photo: "/team/nitin-kumar.jpg",
+      monogram: "NK",
+      bio: "Advocate. Reviews the contracts we sign and the ones we ask clients to sign, and keeps the loan, insurance and lead-generation work inside what the regulations actually permit.",
+    },
   ],
 };
 
@@ -635,10 +698,10 @@ export const productsSection = {
 /**
  * What's being built next, under the Cognitive Capital banner — this domain.
  *
- * CONFIRM: the four AI Academy course titles below are descriptive placeholders
- * chosen to match the audience the group already serves. They have NOT been
- * confirmed by the company. Replace them with the real course names before
- * treating this section as final — everything else here is safe to keep.
+ * The four Academy courses are listed by name only, each marked "Coming soon".
+ * That is the owner's decision, and it is the right one: syllabus copy written
+ * before a course exists is a promise the company has not yet made. Add the
+ * detail when the courses are actually built.
  */
 export const roadmap = {
   eyebrow: "IN DEVELOPMENT",
@@ -649,29 +712,12 @@ export const roadmap = {
       name: "Zesst AI Academy",
       status: "Coming soon",
       kicker: "FOUR COURSES",
-      body: "Practical AI training for the people we already work with — business owners, accountants, students and small teams across Uttar Pradesh. Taught in plain Hindi and English, built around real work rather than theory, with four courses at launch.",
-      // CONFIRM: real course names needed — these are placeholders.
+      body: "Practical AI training for the people we already work with — business owners, accountants, students and small teams across Uttar Pradesh. Taught in plain Hindi and English, built around real work rather than theory. Four courses at launch:",
       courses: [
-        {
-          no: "01",
-          title: "AI for Business Owners",
-          body: "Using AI day to day in a small business — quotations, customer replies, stock notes and reporting — without hiring anyone.",
-        },
-        {
-          no: "02",
-          title: "AI for Accounting & GST Practice",
-          body: "For CAs, tax practitioners and Suvidha Kendra operators: speeding up reconciliation, notice drafting and client communication.",
-        },
-        {
-          no: "03",
-          title: "Building with AI — Web & Apps",
-          body: "From a blank editor to a deployed site or tool, for students and career switchers with no engineering degree.",
-        },
-        {
-          no: "04",
-          title: "AI Content & Digital Marketing",
-          body: "Producing content, campaigns and creatives that actually bring leads in — the pipeline side, not just the posting.",
-        },
+        { no: "01", title: "AI for Business Owners", body: "" },
+        { no: "02", title: "AI for Accounting & GST Practice", body: "" },
+        { no: "03", title: "Building with AI — Web & Apps", body: "" },
+        { no: "04", title: "AI Content & Digital Marketing", body: "" },
       ],
     },
     {
@@ -817,6 +863,7 @@ export const about = {
   facts: [
     { label: "Founder & CEO", value: company.founder },
     { label: "Directors", value: company.directors.join(" · ") },
+    { label: "Legal advisor", value: company.legalAdvisor },
     { label: "Legal name", value: company.legalName },
     { label: "CIN", value: company.cin },
     { label: "Incorporated", value: company.incorporated },

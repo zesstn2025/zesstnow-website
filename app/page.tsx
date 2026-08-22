@@ -9,6 +9,7 @@ import WorkCard from "@/components/WorkCard";
 import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import ProductVisual from "@/components/ProductVisual";
+import Leadership from "@/components/Leadership";
 import Faq from "@/components/Faq";
 import {
   hero,
@@ -267,7 +268,13 @@ export default function HomePage() {
                       <div className="course" key={c.no} data-s3d="up">
                         <span className="svc-no">{c.no}</span>
                         <h4 className="svc-t">{c.title}</h4>
-                        <p className="svc-b">{c.body}</p>
+                        {/* A course with no body is one whose syllabus isn't
+                            written yet — say so rather than leaving a gap. */}
+                        {c.body ? (
+                          <p className="svc-b">{c.body}</p>
+                        ) : (
+                          <span className="course-soon">Coming soon</span>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -315,8 +322,13 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── LEADERSHIP ───────────────────────────────────────────
+            Placed after the work, not before it: a visitor who has just seen
+            what was shipped is the one who cares who shipped it. */}
+        <Leadership />
+
         {/* ── FAQ ──────────────────────────────────────────────── */}
-        <section className="section">
+        <section className="section section-alt">
           <div className="shell shell-narrow">
             <div className="section-head reveal">
               <span className="eyebrow">{faq.eyebrow}</span>

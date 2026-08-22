@@ -6,6 +6,7 @@ import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import { about, company, process, social } from "@/content/site";
 import SocialLinks from "@/components/SocialLinks";
+import Leadership from "@/components/Leadership";
 
 const title = "About Zesst Now Services Private Limited";
 const description =
@@ -67,6 +68,8 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        <Leadership />
 
         <section className="section section-alt">
           <div className="shell">

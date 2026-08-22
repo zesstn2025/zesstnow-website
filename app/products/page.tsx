@@ -121,7 +121,11 @@ export default function ProductsPage() {
                       <div className="course" key={c.no} data-s3d="up">
                         <span className="svc-no">{c.no}</span>
                         <h4 className="svc-t">{c.title}</h4>
-                        <p className="svc-b">{c.body}</p>
+                        {c.body ? (
+                          <p className="svc-b">{c.body}</p>
+                        ) : (
+                          <span className="course-soon">Coming soon</span>
+                        )}
                       </div>
                     ))}
                   </div>
