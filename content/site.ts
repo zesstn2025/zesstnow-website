@@ -160,9 +160,15 @@ export const leadership = {
 export const chapters: { id: string; label: string }[] = [
   { id: "top", label: "Open" },
   { id: "promise", label: "The promise" },
-  { id: "services", label: "What we build" },
+  { id: "pillars", label: "What we build" },
+  { id: "pillar-ai", label: "AI agents" },
+  { id: "pillar-saas", label: "SaaS & apps" },
+  { id: "pillar-automation", label: "Automation" },
+  { id: "pillar-fintech", label: "Fintech" },
+  { id: "services", label: "Disciplines" },
   { id: "verticals", label: "Compliance desk" },
   { id: "products", label: "Our products" },
+  { id: "showcase", label: "Inside a product" },
   { id: "roadmap", label: "What's next" },
   { id: "process", label: "How we work" },
   { id: "portfolio", label: "The work" },
@@ -763,6 +769,84 @@ export const roadmap = {
       courses: [],
     },
   ],
+};
+
+/**
+ * The four pillars, each with a 3D object that performs it.
+ *
+ * This is the same work the six services and four verticals describe, grouped
+ * the way a client actually buys it rather than the way it is delivered. The
+ * detailed lists below them still exist on /services; this is the front door.
+ *
+ * `stages` are the named steps shown beside the object. They are only listed
+ * where the work genuinely has a fixed order — inventing three steps for
+ * something that does not have them would make the numbering decoration.
+ */
+export const pillars = {
+  eyebrow: "WHAT WE BUILD",
+  title: "Four things, built properly.",
+  sub: "Every one of them runs on the same studio, the same team and the same contract. No handoffs, no agency in the middle.",
+  items: [
+    {
+      id: "pillar-ai",
+      no: "01",
+      eyebrow: "AI AGENTS & AGENTIC AI",
+      title: "Agents that finish the job.",
+      lead: "Not a chatbot bolted onto a website.",
+      body: "An agent that plans a task, pulls what it needs from your own documents and systems, and carries the work through to a result you can check. Built against your data, deployed where your team already works, and constrained so it never acts outside what you approved.",
+      stages: ["Planning", "Knowledge elicitation", "Execution"],
+      points: ["Document intelligence", "Tool-using agents", "Human-in-the-loop review", "Private deployment"],
+    },
+    {
+      id: "pillar-saas",
+      no: "02",
+      eyebrow: "SAAS, WEB & APP DEVELOPMENT",
+      title: "Software you own outright.",
+      lead: "From a blank repository to a product in production.",
+      body: "Marketing sites, web apps, dashboards and installable mobile apps — engineered for speed, search and the day the traffic actually arrives. You get the repository, the deployment and the documentation; there is no platform you have to keep renting from us.",
+      points: ["Next.js & React", "Dashboards & admin", "Installable apps", "Technical SEO"],
+    },
+    {
+      id: "pillar-automation",
+      no: "03",
+      eyebrow: "AUTOMATION & DIGITAL MARKETING",
+      title: "A pipeline, not impressions.",
+      lead: "Traffic is only worth what it converts.",
+      body: "Campaigns, landing pages and WhatsApp-first capture wired into a pipeline you can actually work, with the follow-ups running on their own schedule. We also buy and sell verified leads at the prevailing market rate, and run social media end to end.",
+      points: ["Lead generation", "Marketing automation", "Social media, end to end", "Verified leads at market rate"],
+    },
+    {
+      id: "pillar-fintech",
+      no: "04",
+      eyebrow: "FINTECH — LOANS & INSURANCE",
+      title: "Funding, and the paperwork behind it.",
+      lead: "Typically 25 to 45 days from a complete file to disbursement.",
+      body: "Business loans, loan against property, and life, health, vehicle and travel cover. We prepare the file, present it properly and stay on the lender until it moves — and we handle the claim documentation rather than leaving it to you.",
+      points: ["Business loans", "Loan against property", "Insurance & claims", "CIBIL improvement"],
+      disclaimer:
+        "We facilitate applications and documentation with banks and NBFCs. Zesst Now is not a lender and does not accept deposits; sanction, rate and terms rest entirely with the lending institution.",
+    },
+  ],
+};
+
+/**
+ * The interactive product model.
+ *
+ * Layer names are the architecture a client is buying, in the order they are
+ * stacked. They match the layers in components/three/scenes/ProductModel.tsx —
+ * if one list changes, the other has to.
+ */
+export const showcase = {
+  eyebrow: "SEE INSIDE",
+  title: "Take the product apart.",
+  sub: "Drag to turn it, scroll to zoom, and pull the stack open to see what is actually under the interface. This is how every product we ship is built.",
+  layers: [
+    { label: "Interface", body: "What your customer touches. Fast, accessible, and yours." },
+    { label: "Logic & automations", body: "The rules, the workflows and the agents doing the repeated work." },
+    { label: "Data", body: "Your records, in your account, exportable the day you ask." },
+    { label: "Platform & hosting", body: "Deployment, backups and monitoring — set up once, handed over documented." },
+  ],
+  hint: "Drag to rotate · Scroll to zoom",
 };
 
 export const process = {

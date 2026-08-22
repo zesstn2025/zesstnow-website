@@ -13,6 +13,9 @@ import Leadership from "@/components/Leadership";
 import ChapterRail from "@/components/ChapterRail";
 import ServicesChapter from "@/components/ServicesChapter";
 import Motif from "@/components/Motif";
+import Stage3D from "@/components/three/Stage3D";
+import Pillars from "@/components/services/Pillars";
+import ProductShowcase from "@/components/ProductShowcase";
 import Faq from "@/components/Faq";
 import {
   hero,
@@ -30,6 +33,7 @@ export default function HomePage() {
   return (
     <>
       <Preloader />
+      <Stage3D />
       <RevealObserver />
       <Nav />
       <ChapterRail />
@@ -106,6 +110,9 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* ── THE FOUR PILLARS ─────────────────────────────────── */}
+        <Pillars />
 
         {/* ── SERVICES ─────────────────────────────────────────── */}
         <ServicesChapter />
@@ -214,6 +221,9 @@ export default function HomePage() {
             ))}
           </div>
         </section>
+
+        {/* ── INTERACTIVE PRODUCT MODEL ────────────────────────── */}
+        <ProductShowcase />
 
         {/* ── ROADMAP ──────────────────────────────────────────── */}
         <section className="section section-alt" id="roadmap">

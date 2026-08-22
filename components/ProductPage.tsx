@@ -9,7 +9,7 @@ import RevealObserver from "@/components/RevealObserver";
 import { company, type Product } from "@/content/site";
 
 export default function ProductPage({ product }: { product: Product }) {
-  const accent = product.accent === "cyan" ? "#f2e9cf" : "#e8d9a8";
+  const accent = product.accent === "cyan" ? "#f6f9fd" : "#e8eef6";
 
   const jsonLd = {
     "@context": "https://schema.org",

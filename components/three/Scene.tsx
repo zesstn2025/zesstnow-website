@@ -59,10 +59,10 @@ function CameraRig({
 function Studio({ variant }: { variant: Variant }) {
   return (
     <Environment resolution={128}>
-      {/* Key — upper left, warm, dominant. */}
+      {/* Key — upper left, dominant. The brightest thing in the scene. */}
       <Lightformer
         intensity={3.6}
-        color={palette.goldLight}
+        color={palette.silver}
         position={[-4.5, 3.2, 2]}
         scale={[8, 6, 1]}
         form="rect"
@@ -76,10 +76,10 @@ function Studio({ variant }: { variant: Variant }) {
         form="rect"
       />
       {/* Kicker — a thin line from behind that separates the form from the
-          void. Warm and dim; it defines an edge, it does not illuminate. */}
+          void. Dim; it defines an edge, it does not illuminate. */}
       <Lightformer
         intensity={1.5}
-        color={palette.gold}
+        color={palette.chrome}
         position={[0, 4.5, -4]}
         scale={[10, 1.6, 1]}
         form="rect"
@@ -87,7 +87,7 @@ function Studio({ variant }: { variant: Variant }) {
       {variant === "hero" && (
         <Lightformer
           intensity={0.9}
-          color={palette.bronze}
+          color={palette.slate}
           position={[0, -4, 2]}
           scale={[8, 2, 1]}
           form="circle"
@@ -99,7 +99,7 @@ function Studio({ variant }: { variant: Variant }) {
 
 export default function Scene({
   variant = "hero",
-  accent = palette.goldLight,
+  accent = palette.silver,
   scroll,
   active = true,
 }: {
@@ -140,8 +140,8 @@ export default function Scene({
       {/* Ambient is kept low on purpose: it is the one light with no direction,
           so every unit of it flattens the subject. */}
       <ambientLight intensity={0.2} />
-      <directionalLight position={[-4, 5, 3]} intensity={1.5} color={palette.goldLight} />
-      <pointLight position={[-4, -1.5, 2]} intensity={14} color={palette.gold} distance={14} />
+      <directionalLight position={[-4, 5, 3]} intensity={1.5} color={palette.silver} />
+      <pointLight position={[-4, -1.5, 2]} intensity={14} color={palette.chrome} distance={14} />
       <pointLight position={[4, 2, -1]} intensity={6} color={palette.fill} distance={14} />
 
       <Suspense fallback={null}>

@@ -6,7 +6,7 @@ import { useScrollProgress } from "@/lib/motion";
 /** Thin client boundary so the page itself can stay a server component. */
 export default function HeroStage({
   variant = "hero",
-  accent = "#e8d9a8",
+  accent = "#e8eef6",
   className = "hero-canvas",
 }: {
   variant?: "hero" | "product";

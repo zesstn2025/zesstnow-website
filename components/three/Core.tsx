@@ -11,7 +11,7 @@ import { palette } from "./palette";
  * wireframe shell around it. This is the analogue of the floating product in
  * the reference — the one thing the whole composition orbits.
  */
-export default function Core({ accent = palette.goldLight }: { accent?: string }) {
+export default function Core({ accent = palette.silver }: { accent?: string }) {
   const group = useRef<Group>(null);
 
   useFrame((state, delta) => {
@@ -43,10 +43,10 @@ export default function Core({ accent = palette.goldLight }: { accent?: string }
             distortionScale={0.36}
             temporalDistortion={0.08}
             color={palette.fill}
-            /* Light is tinted as it travels through the glass. Amber here is
-               what makes the material read as warm crystal; the violet it used
-               to be was the single largest source of the old palette. */
-            attenuationColor={palette.gold}
+            /* Light is tinted as it travels through the glass. Chrome here
+               keeps the interior neutral, so the object reads as optical glass
+               over polished metal rather than as coloured resin. */
+            attenuationColor={palette.chrome}
             attenuationDistance={2.1}
           />
         </mesh>
@@ -61,7 +61,7 @@ export default function Core({ accent = palette.goldLight }: { accent?: string }
         <mesh scale={1.66}>
           <icosahedronGeometry args={[1, 1]} />
           <meshBasicMaterial
-            color={palette.gold}
+            color={palette.chrome}
             wireframe
             transparent
             opacity={0.085}

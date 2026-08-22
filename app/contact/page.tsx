@@ -61,7 +61,7 @@ export default function ContactPage() {
             </>
           }
           sub="A short note is enough. We'll come back with what it would take, what it would cost and whether we're the right people for it."
-          accent="#e8d9a8"
+          accent="#e8eef6"
         />
 
         <section className="section">

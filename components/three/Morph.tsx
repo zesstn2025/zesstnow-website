@@ -169,7 +169,7 @@ function Shape({ index }: { index: number }) {
       // exactly why every discipline first rendered as the same rounded box.
       uShape: { value: new Vector4(...SHAPES[0]) },
       uScale: { value: SCALES[0] },
-      uKey: { value: hexToRgb(palette.goldLight) },
+      uKey: { value: hexToRgb(palette.silver) },
       uFill: { value: hexToRgb(palette.fill) },
       uWire: { value: 0 },
     }),
@@ -181,7 +181,7 @@ function Shape({ index }: { index: number }) {
       uTime: uniforms.uTime,
       uShape: uniforms.uShape,
       uScale: uniforms.uScale,
-      uKey: { value: hexToRgb(palette.gold) },
+      uKey: { value: hexToRgb(palette.chrome) },
       uFill: uniforms.uFill,
       uWire: { value: 1 },
     }),

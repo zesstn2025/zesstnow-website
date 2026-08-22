@@ -75,8 +75,8 @@ const RIBBONS: RibbonSpec[] = [
     ],
     radius: 0.032,
     speed: 0.055,
-    colorA: palette.gold,
-    colorB: palette.bronze,
+    colorA: palette.chrome,
+    colorB: palette.slate,
     opacity: 0.5,
   },
   {
@@ -89,8 +89,8 @@ const RIBBONS: RibbonSpec[] = [
     ],
     radius: 0.024,
     speed: 0.038,
-    colorA: palette.goldLight,
-    colorB: palette.bronze,
+    colorA: palette.silver,
+    colorB: palette.slate,
     opacity: 0.38,
   },
   {
@@ -102,8 +102,8 @@ const RIBBONS: RibbonSpec[] = [
     ],
     radius: 0.02,
     speed: 0.072,
-    colorA: palette.goldLight,
-    colorB: palette.gold,
+    colorA: palette.silver,
+    colorB: palette.chrome,
     opacity: 0.32,
   },
 ];

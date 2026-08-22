@@ -6,43 +6,43 @@
    TOKENS
    ============================================================ */
 :root {
-  /* The void. Near-black with a trace of warmth — a dead neutral black reads
-     as unstyled, and a blue-black fights the champagne. The three steps sit
-     close together on purpose: a section should separate itself by what is lit
-     inside it, not by having a different background from its neighbour. */
-  --ink: #07080c;
-  --ink-2: #0a0b11;
-  --ink-3: #0e0f16;
+  /* Deep navy. Not black — a true black reads as unstyled and gives metal
+     nothing to reflect. These three sit close together on purpose: a section
+     separates itself by what is lit inside it, not by having a different
+     background from its neighbour. */
+  --ink: #000022;
+  --ink-2: #00072b;
+  --ink-3: #0a1030;
+  --charcoal: #151b28;
 
-  /* One accent, in four values.
-     This site ran violet AND cyan AND gold at once, and three accents is the
-     same as none — when every section glows, nothing is lit, and an expensive
-     build reads as a gradient demo. There is now a single champagne hue, and
-     the steps below differ by value, never by hue. That is what lets one
-     colour carry a whole page. */
-  --accent: #c9a961;
-  --accent-lt: #e8d9a8;
-  --accent-dp: #8a6a2f;
-  --accent-2: #c9a961;
-  --accent-hi: #f2e9cf;
+  /* Metal, in five values.
+     There is no hue here to speak of — chrome is defined by the range between
+     its highlight and its shadow, not by a colour, which is why every step
+     below moves in value and stays cool-neutral. A metallic surface that
+     carries a hue stops reading as metal and starts reading as paint. */
+  --accent: #b9c6d6; /* chrome */
+  --accent-lt: #e8eef6; /* polished silver */
+  --accent-dp: #5d6d84; /* slate — the shadow side */
+  --accent-2: #b9c6d6;
+  --accent-hi: #f6f9fd; /* the specular hit */
 
-  --text: #ece8e1;
-  --muted: rgba(236, 232, 225, 0.6);
-  --faint: rgba(236, 232, 225, 0.36);
+  --text: #e6ecf4;
+  --muted: rgba(230, 236, 244, 0.62);
+  --faint: rgba(230, 236, 244, 0.36);
 
   /* Hairlines carry a little of the accent, so an edge catches the same light
      the 3D does rather than looking like a stray border. */
-  --line: rgba(201, 169, 97, 0.14);
-  --line-strong: rgba(201, 169, 97, 0.3);
-  --panel: rgba(14, 16, 23, 0.74);
-  --panel-hi: rgba(20, 22, 31, 0.86);
+  --line: rgba(185, 198, 214, 0.15);
+  --line-strong: rgba(185, 198, 214, 0.32);
+  --panel: rgba(4, 9, 34, 0.72);
+  --panel-hi: rgba(10, 17, 48, 0.86);
 
-  --gold: #c9a961;
-  --gold-lt: #e8d9a8;
-  --gold-dim: rgba(201, 169, 97, 0.35);
+  --chrome: #b9c6d6;
+  --silver: #e8eef6;
+  --chrome-dim: rgba(185, 198, 214, 0.35);
 
   --grad: linear-gradient(100deg, var(--accent-lt), var(--accent));
-  --grad-gold: linear-gradient(100deg, var(--gold-lt), var(--gold));
+  --grad-chrome: linear-gradient(100deg, var(--silver), var(--chrome));
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   --nav-h: 68px;
@@ -85,7 +85,7 @@ a {
 }
 
 ::selection {
-  background: rgba(201, 169, 97, 0.4);
+  background: rgba(185, 198, 214, 0.4);
   color: #fff;
 }
 
@@ -96,11 +96,11 @@ a {
   background: var(--ink);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(201, 169, 97, 0.22);
+  background: rgba(185, 198, 214, 0.22);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(201, 169, 97, 0.4);
+  background: rgba(185, 198, 214, 0.4);
 }
 
 :focus-visible {
@@ -140,14 +140,14 @@ a {
   font-size: 11px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--chrome);
 }
 
 .eyebrow::before {
   content: "";
   width: 26px;
   height: 1px;
-  background: var(--grad-gold);
+  background: var(--grad-chrome);
 }
 
 .display {
@@ -218,10 +218,10 @@ a {
   padding: 1px;
   background: linear-gradient(
     140deg,
-    rgba(232, 217, 168, 0.5),
+    rgba(232, 238, 246, 0.5),
     transparent 38%,
     transparent 62%,
-    rgba(138, 106, 47, 0.35)
+    rgba(93, 109, 132, 0.35)
   );
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
@@ -266,12 +266,12 @@ a {
   background: linear-gradient(100deg, var(--accent), var(--accent-dp) 55%, var(--accent-hi));
   color: #06070f;
   font-weight: 600;
-  box-shadow: 0 8px 34px -10px rgba(201, 169, 97, 0.85);
+  box-shadow: 0 8px 34px -10px rgba(185, 198, 214, 0.85);
 }
 
 .pill-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 46px -12px rgba(201, 169, 97, 0.95);
+  box-shadow: 0 16px 46px -12px rgba(185, 198, 214, 0.95);
 }
 
 .pill-ghost {
@@ -283,8 +283,8 @@ a {
 
 .pill-ghost:hover {
   transform: translateY(-2px);
-  border-color: rgba(232, 217, 168, 0.6);
-  background: rgba(232, 217, 168, 0.08);
+  border-color: rgba(232, 238, 246, 0.6);
+  background: rgba(232, 238, 246, 0.08);
 }
 
 .pill-sm {
@@ -306,11 +306,11 @@ a {
 }
 
 .aurora-key {
-  background: radial-gradient(circle, rgba(201, 169, 97, 0.75), transparent 70%);
+  background: radial-gradient(circle, rgba(185, 198, 214, 0.75), transparent 70%);
 }
 
 .aurora-bronze {
-  background: radial-gradient(circle, rgba(138, 106, 47, 0.45), transparent 70%);
+  background: radial-gradient(circle, rgba(93, 109, 132, 0.45), transparent 70%);
 }
 
 @keyframes drift {
@@ -344,7 +344,7 @@ a {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(201, 169, 97, 0.28),
+    rgba(185, 198, 214, 0.28),
     transparent
   );
 }
@@ -477,7 +477,7 @@ a {
   color: #05060f;
   font-size: 15px;
   font-weight: 700;
-  box-shadow: 0 6px 20px -8px rgba(201, 169, 97, 0.9);
+  box-shadow: 0 6px 20px -8px rgba(185, 198, 214, 0.9);
 }
 
 .nav-links {
@@ -582,7 +582,7 @@ a {
 .mobile-menu a {
   padding-block: 13px;
   font-size: 17px;
-  border-bottom: 1px solid rgba(201, 169, 97, 0.08);
+  border-bottom: 1px solid rgba(185, 198, 214, 0.08);
 }
 
 @media (min-width: 900px) {
@@ -706,7 +706,7 @@ a {
   font-weight: 500;
   letter-spacing: -0.012em;
   font-variant-numeric: tabular-nums;
-  background: var(--grad-gold);
+  background: var(--grad-chrome);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -841,7 +841,7 @@ a {
   border: 1px solid var(--line);
   background: radial-gradient(
     ellipse at 50% 40%,
-    rgba(201, 169, 97, 0.16),
+    rgba(185, 198, 214, 0.16),
     rgba(6, 8, 20, 0.9) 70%
   );
 }
@@ -849,7 +849,7 @@ a {
 .prod-visual[data-accent="cyan"] {
   background: radial-gradient(
     ellipse at 50% 40%,
-    rgba(138, 106, 47, 0.14),
+    rgba(93, 109, 132, 0.14),
     rgba(6, 8, 20, 0.9) 70%
   );
 }
@@ -960,8 +960,8 @@ a {
 }
 
 .tier[data-highlight="true"] {
-  border-color: rgba(232, 217, 168, 0.45);
-  background: rgba(201, 169, 97, 0.07);
+  border-color: rgba(232, 238, 246, 0.45);
+  background: rgba(185, 198, 214, 0.07);
 }
 
 .tier[data-highlight="true"]::after {
@@ -1054,7 +1054,7 @@ a {
 
 .tier-foot a {
   color: var(--accent-lt);
-  border-bottom: 1px solid rgba(232, 217, 168, 0.35);
+  border-bottom: 1px solid rgba(232, 238, 246, 0.35);
 }
 
 /* ============================================================
@@ -1076,7 +1076,7 @@ a {
 }
 
 .step:hover {
-  background: rgba(232, 217, 168, 0.03);
+  background: rgba(232, 238, 246, 0.03);
 }
 
 @media (min-width: 800px) {
@@ -1192,8 +1192,8 @@ a {
 .field select:focus,
 .field textarea:focus {
   outline: none;
-  border-color: rgba(232, 217, 168, 0.6);
-  background: rgba(232, 217, 168, 0.05);
+  border-color: rgba(232, 238, 246, 0.6);
+  background: rgba(232, 238, 246, 0.05);
 }
 
 .field select option {
@@ -1203,7 +1203,7 @@ a {
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: rgba(236, 232, 225, 0.26);
+  color: rgba(230, 236, 244, 0.26);
 }
 
 .contact-line {
@@ -1227,7 +1227,7 @@ a {
   position: relative;
   border-top: 1px solid var(--line);
   padding-block: clamp(52px, 6vw, 76px) 30px;
-  background: linear-gradient(180deg, transparent, rgba(201, 169, 97, 0.05));
+  background: linear-gradient(180deg, transparent, rgba(185, 198, 214, 0.05));
 }
 
 .footer-grid {
@@ -1274,7 +1274,7 @@ a {
   font-family: var(--font-mono), monospace;
   font-size: 10.5px;
   letter-spacing: 0.1em;
-  color: rgba(236, 232, 225, 0.3);
+  color: rgba(230, 236, 244, 0.3);
 }
 
 /* ============================================================
@@ -1302,7 +1302,7 @@ a {
   width: 190px;
   height: 2px;
   border-radius: 2px;
-  background: rgba(201, 169, 97, 0.16);
+  background: rgba(185, 198, 214, 0.16);
   overflow: hidden;
 }
 
@@ -1391,7 +1391,7 @@ a {
 
 .faq-item[data-open="true"] .faq-icon {
   transform: rotate(45deg);
-  background: rgba(232, 217, 168, 0.14);
+  background: rgba(232, 238, 246, 0.14);
 }
 
 .faq-a {
@@ -1448,7 +1448,7 @@ a {
   align-items: center;
   gap: 6px;
   padding: 9px 12px;
-  border-bottom: 1px solid rgba(201, 169, 97, 0.12);
+  border-bottom: 1px solid rgba(185, 198, 214, 0.12);
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -1456,7 +1456,7 @@ a {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: rgba(236, 232, 225, 0.16);
+  background: rgba(230, 236, 244, 0.16);
 }
 
 .pv-url {
@@ -1471,7 +1471,7 @@ a {
   font-family: var(--font-mono), monospace;
   font-size: 8px;
   letter-spacing: 0.08em;
-  color: rgba(236, 232, 225, 0.42);
+  color: rgba(230, 236, 244, 0.42);
 }
 
 .pv-body {
@@ -1481,7 +1481,7 @@ a {
 }
 
 .pv-side {
-  border-right: 1px solid rgba(201, 169, 97, 0.1);
+  border-right: 1px solid rgba(185, 198, 214, 0.1);
   padding: 12px 9px;
   display: grid;
   align-content: start;
@@ -1491,7 +1491,7 @@ a {
 .pv-nav-row {
   height: 7px;
   border-radius: 3px;
-  background: rgba(236, 232, 225, 0.08);
+  background: rgba(230, 236, 244, 0.08);
 }
 
 .pv-nav-row[data-active="true"] {
@@ -1516,7 +1516,7 @@ a {
   height: 30px;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(201, 169, 97, 0.1);
+  border: 1px solid rgba(185, 198, 214, 0.1);
   display: flex;
   align-items: flex-end;
   padding: 5px;
@@ -1557,7 +1557,7 @@ a {
 .pv-row span {
   height: 6px;
   border-radius: 3px;
-  background: rgba(236, 232, 225, 0.13);
+  background: rgba(230, 236, 244, 0.13);
 }
 
 @keyframes pv-fade {
@@ -1648,7 +1648,7 @@ a {
    ============================================================ */
 .section-alt {
   background:
-    linear-gradient(180deg, transparent, rgba(201, 169, 97, 0.045) 22%, rgba(138, 106, 47, 0.03) 78%, transparent),
+    linear-gradient(180deg, transparent, rgba(185, 198, 214, 0.045) 22%, rgba(93, 109, 132, 0.03) 78%, transparent),
     rgba(255, 255, 255, 0.012);
   border-block: 1px solid var(--line);
 }
@@ -1664,7 +1664,7 @@ a {
   font-size: 14px;
   line-height: 1.7;
   padding-left: 16px;
-  border-left: 2px solid rgba(201, 169, 97, 0.5);
+  border-left: 2px solid rgba(185, 198, 214, 0.5);
 }
 
 /* ============================================================
@@ -1826,7 +1826,7 @@ a {
 
 .course:hover {
   transform: translateY(-4px);
-  border-color: rgba(201, 169, 97, 0.5);
+  border-color: rgba(185, 198, 214, 0.5);
 }
 
 .course .svc-t {
@@ -1883,9 +1883,9 @@ a {
 }
 
 .work-shots:hover .browser {
-  border-color: rgba(232, 217, 168, 0.45);
+  border-color: rgba(232, 238, 246, 0.45);
   box-shadow:
-    0 52px 110px -40px rgba(201, 169, 97, 0.55),
+    0 52px 110px -40px rgba(185, 198, 214, 0.55),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
@@ -2183,7 +2183,7 @@ a {
 
 .channel:hover {
   transform: translateY(-5px);
-  border-color: rgba(138, 106, 47, 0.45);
+  border-color: rgba(93, 109, 132, 0.45);
 }
 
 .channel strong {
@@ -2310,8 +2310,8 @@ a {
   opacity: 0.5;
   background: radial-gradient(
     circle,
-    rgba(201, 169, 97, 0.16),
-    rgba(138, 106, 47, 0.07) 42%,
+    rgba(185, 198, 214, 0.16),
+    rgba(93, 109, 132, 0.07) 42%,
     transparent 68%
   );
   will-change: transform;
@@ -2418,7 +2418,7 @@ a {
   border-radius: 50%;
   font-size: 20px;
   color: var(--ink);
-  background: var(--grad-gold);
+  background: var(--grad-chrome);
 }
 
 .sent-title {
@@ -2492,7 +2492,7 @@ a {
   background: var(--panel);
   /* A hairline of gold along the top edge — the same detail the eyebrows use,
      which is what ties the "expensive" cues together across the page. */
-  box-shadow: inset 0 1px 0 var(--gold-dim);
+  box-shadow: inset 0 1px 0 var(--chrome-dim);
 }
 
 .usp-v {
@@ -2503,7 +2503,7 @@ a {
   letter-spacing: -0.015em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  background: var(--grad-gold);
+  background: var(--grad-chrome);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2546,7 +2546,7 @@ a {
   align-items: center;
   gap: 8px;
   padding: 0 clamp(12px, 3vw, 22px);
-  background: linear-gradient(100deg, rgba(201, 169, 97, 0.22), rgba(138, 106, 47, 0.14));
+  background: linear-gradient(100deg, rgba(185, 198, 214, 0.22), rgba(93, 109, 132, 0.14));
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(10px);
 }
@@ -2568,7 +2568,7 @@ a {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink);
-  background: var(--grad-gold);
+  background: var(--grad-chrome);
   padding: 4px 9px;
   border-radius: 999px;
 }
@@ -2639,11 +2639,11 @@ a {
   border-radius: 16px;
   border: 1px solid var(--line);
   background: var(--panel);
-  box-shadow: inset 0 1px 0 var(--gold-dim);
+  box-shadow: inset 0 1px 0 var(--chrome-dim);
 }
 
 .post-card:hover {
-  border-color: rgba(232, 217, 168, 0.45);
+  border-color: rgba(232, 238, 246, 0.45);
 }
 
 .post-meta {
@@ -2654,7 +2654,7 @@ a {
 }
 
 .post-cat {
-  color: var(--gold);
+  color: var(--chrome);
 }
 
 .post-title {
@@ -2766,7 +2766,7 @@ a {
 }
 
 .ann-pin {
-  color: var(--gold);
+  color: var(--chrome);
 }
 
 .ann-body {
@@ -2801,8 +2801,8 @@ a {
 }
 
 .social-row a:hover {
-  border-color: rgba(201, 169, 97, 0.5);
-  background: rgba(201, 169, 97, 0.08);
+  border-color: rgba(185, 198, 214, 0.5);
+  background: rgba(185, 198, 214, 0.08);
 }
 
 .social-net {
@@ -2843,7 +2843,7 @@ a {
   aspect-ratio: 3 / 4;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(201, 169, 97, 0.34);
+  border: 1px solid rgba(185, 198, 214, 0.34);
   background: #0a0b12;
 }
 
@@ -2861,7 +2861,7 @@ a {
   inset: 0;
   background: linear-gradient(
     118deg,
-    rgba(201, 169, 97, 0.2),
+    rgba(185, 198, 214, 0.2),
     transparent 42%,
     transparent 70%,
     rgba(4, 5, 13, 0.55)
@@ -2875,7 +2875,7 @@ a {
   background:
     repeating-linear-gradient(
       135deg,
-      rgba(201, 169, 97, 0.06) 0 7px,
+      rgba(185, 198, 214, 0.06) 0 7px,
       transparent 7px 14px
     ),
     #0a0b12;
@@ -2886,7 +2886,7 @@ a {
   font-family: var(--font-display), Georgia, serif;
   font-size: 2rem;
   letter-spacing: 0.06em;
-  color: var(--gold);
+  color: var(--chrome);
   opacity: 0.72;
 }
 
@@ -2907,7 +2907,7 @@ a {
 }
 
 .lead-role {
-  color: var(--gold);
+  color: var(--chrome);
 }
 
 .lead-scope {
@@ -2934,14 +2934,14 @@ a {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--gold-lt);
+  color: var(--silver);
   text-decoration: none;
-  border-bottom: 1px solid rgba(232, 217, 168, 0.28);
+  border-bottom: 1px solid rgba(232, 238, 246, 0.28);
   padding-bottom: 2px;
 }
 
 .lead-link:hover {
-  border-bottom-color: var(--gold);
+  border-bottom-color: var(--chrome);
 }
 
 @media (max-width: 560px) {
@@ -2961,7 +2961,7 @@ a {
   font-size: 0.7rem;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--chrome);
   opacity: 0.8;
 }
 
@@ -3015,7 +3015,7 @@ a {
 }
 
 .rail button[data-on="true"] {
-  color: var(--gold);
+  color: var(--chrome);
 }
 
 .rail-n {
@@ -3103,12 +3103,12 @@ a {
 /* The current row is the only lit one. Everything else recedes rather than
    greying out, so the list still reads as a whole. */
 .svc-row[data-on="true"] {
-  background: linear-gradient(90deg, rgba(201, 169, 97, 0.055), transparent 72%);
+  background: linear-gradient(90deg, rgba(185, 198, 214, 0.055), transparent 72%);
   padding-left: 16px;
 }
 
 .svc-row:focus-visible {
-  outline: 1px solid var(--gold);
+  outline: 1px solid var(--chrome);
   outline-offset: 2px;
 }
 
@@ -3117,7 +3117,7 @@ a {
 }
 
 .svc-row[data-on="true"] .svc-no {
-  color: var(--gold);
+  color: var(--chrome);
 }
 
 .svc-row-body {
@@ -3132,7 +3132,7 @@ a {
 }
 
 .svc-row[data-on="true"] .svc-t {
-  color: var(--gold-lt);
+  color: var(--silver);
 }
 
 /* The form sticks alongside the list. Its own height is fixed so the sticky
@@ -3160,7 +3160,7 @@ a {
   bottom: 4%;
   transform: translateX(-50%);
   white-space: nowrap;
-  color: var(--gold);
+  color: var(--chrome);
   opacity: 0.85;
 }
 
@@ -3229,7 +3229,7 @@ a {
 
 /* ---- calendar ---- */
 .motif-cell {
-  fill: rgba(236, 232, 225, 0.05);
+  fill: rgba(230, 236, 244, 0.05);
   stroke: var(--line);
   stroke-width: 0.6;
 }
@@ -3237,14 +3237,14 @@ a {
 /* Each cell has an --i for its position in the sequence; multiplying --p by
    the count and subtracting --i makes them light left to right off one number. */
 .motif-cell-due {
-  fill: var(--gold);
+  fill: var(--chrome);
   opacity: clamp(0, calc(var(--p) * 14 - var(--i)), 1);
 }
 
 /* ---- disbursement window ---- */
 .motif-window {
-  fill: rgba(201, 169, 97, 0.16);
-  stroke: var(--gold);
+  fill: rgba(185, 198, 214, 0.16);
+  stroke: var(--chrome);
   stroke-width: 1;
   transform: scaleX(var(--p));
   transform-origin: 102px 0;
@@ -3254,7 +3254,7 @@ a {
 .motif-figure {
   font-family: var(--font-display), Georgia, serif;
   font-size: 19px;
-  fill: var(--gold-lt);
+  fill: var(--silver);
   text-anchor: middle;
   opacity: clamp(0, calc(var(--p) * 2 - 0.9), 1);
 }
@@ -3278,20 +3278,20 @@ a {
 }
 
 .motif-seal {
-  fill: var(--gold);
+  fill: var(--chrome);
   opacity: clamp(0, calc(var(--p) * 3 - 2), 1);
 }
 
 /* ---- funnel ---- */
 .motif-funnel {
-  fill: rgba(201, 169, 97, 0.05);
-  stroke: var(--gold-dim);
+  fill: rgba(185, 198, 214, 0.05);
+  stroke: var(--chrome-dim);
   stroke-width: 1;
 }
 
 .motif-drop {
   --t: clamp(0, calc(var(--p) * 2.2 - var(--i) * 0.11), 1);
-  fill: var(--gold-lt);
+  fill: var(--silver);
 }
 
 /* Converges on the neck on the way down. Falling straight, the drops ended in
@@ -3304,21 +3304,21 @@ a {
 /* The enquiries that do not qualify: they fall partway and fade out. Showing
    all nine reach the bottom would be a nicer picture and a false one. */
 .motif-drop-out {
-  fill: var(--gold-dim);
+  fill: var(--chrome-dim);
   transform: translate(calc(var(--dx) * var(--t) * 0.55px), calc(var(--t) * 46px));
   opacity: clamp(0, calc((0.6 - var(--t)) * 5), 0.75);
 }
 
 /* ---- assemble ---- */
 .motif-solid {
-  fill: rgba(201, 169, 97, 0.1);
+  fill: rgba(185, 198, 214, 0.1);
   stroke: none;
   opacity: var(--p);
 }
 
 .motif-wire {
   fill: none;
-  stroke: var(--gold);
+  stroke: var(--chrome);
   stroke-width: 1;
   /* 620 comfortably exceeds the path length, so the outline draws itself. */
   stroke-dasharray: 620;
@@ -3326,7 +3326,7 @@ a {
 }
 
 .motif-wire-inner {
-  stroke: var(--gold-dim);
+  stroke: var(--chrome-dim);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3346,7 +3346,7 @@ a {
 
 .motif-sweep {
   fill: none;
-  stroke: var(--gold);
+  stroke: var(--chrome);
   stroke-width: 2.5;
   stroke-linecap: round;
   /* Starts at twelve o'clock rather than three, which is where a dial reads
@@ -3359,7 +3359,7 @@ a {
 .motif-hours {
   font-family: var(--font-display), Georgia, serif;
   font-size: 26px;
-  fill: var(--gold-lt);
+  fill: var(--silver);
   text-anchor: middle;
 }
 
@@ -3384,10 +3384,10 @@ a {
 /* A capture of a real product sits in real light: one warm edge, and the far
    side falling into the void like everything else on the page. */
 .pv[data-real="true"] .pv-window {
-  border-color: rgba(201, 169, 97, 0.34);
+  border-color: rgba(185, 198, 214, 0.34);
   box-shadow:
     0 40px 90px -40px rgba(0, 0, 0, 0.9),
-    inset 0 1px 0 rgba(232, 217, 168, 0.14);
+    inset 0 1px 0 rgba(232, 238, 246, 0.14);
 }
 
 .pv-shot::after {
@@ -3397,7 +3397,7 @@ a {
   pointer-events: none;
   background: linear-gradient(
     118deg,
-    rgba(201, 169, 97, 0.1),
+    rgba(185, 198, 214, 0.1),
     transparent 38%,
     transparent 72%,
     rgba(7, 8, 12, 0.5)
@@ -3412,7 +3412,7 @@ a {
 .work:hover .browser {
   box-shadow:
     0 48px 100px -44px rgba(0, 0, 0, 0.92),
-    0 0 0 1px rgba(201, 169, 97, 0.34);
+    0 0 0 1px rgba(185, 198, 214, 0.34);
 }
 
 /* ---- chapter 08: the roadmap is deliberately unfinished ---- */
@@ -3442,7 +3442,7 @@ a {
   pointer-events: none;
   background: radial-gradient(
     ellipse 62% 58% at 50% 46%,
-    rgba(201, 169, 97, 0.09),
+    rgba(185, 198, 214, 0.09),
     transparent 68%
   );
 }
@@ -3464,8 +3464,8 @@ a {
   background: linear-gradient(
     104deg,
     transparent 34%,
-    rgba(232, 217, 168, 0.11) 48%,
-    rgba(201, 169, 97, 0.05) 56%,
+    rgba(232, 238, 246, 0.11) 48%,
+    rgba(185, 198, 214, 0.05) 56%,
     transparent 68%
   );
   transform: translateX(-40%);
@@ -3491,5 +3491,303 @@ a {
   .hero::after {
     animation: none;
     opacity: 0;
+  }
+}
+
+/* ============================================================
+   THE SHARED CANVAS
+   One fixed surface behind the whole page. Every <View> is drawn into it,
+   into the rectangle of the div that declares it.
+   ============================================================ */
+.stage3d {
+  position: fixed !important;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* The views themselves must take pointer events, or the product model cannot
+   be dragged. Everything else on the canvas stays transparent to the mouse. */
+.pillar-view,
+.showcase-view {
+  pointer-events: auto;
+}
+
+/* Content sits above the canvas. Without this the whole page renders behind
+   the 3D and disappears. */
+body > *:not(.stage3d) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   SERVICE PILLARS
+   ============================================================ */
+.pillar-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 84px);
+  align-items: center;
+}
+
+.pillar[data-flip="true"] .pillar-copy {
+  order: 2;
+}
+
+.pillar-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pillar-lead {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+  color: var(--silver);
+  line-height: 1.45;
+}
+
+.pillar-stages {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 8px 0 0;
+  padding: 0;
+  border-left: 1px solid var(--line);
+}
+
+.pillar-stages li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 0 9px 18px;
+  font-size: 0.94rem;
+  color: var(--muted);
+  position: relative;
+}
+
+/* A tick on the rail for each stage, so the list reads as a sequence with
+   positions rather than as three sentences. */
+.pillar-stages li::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 50%;
+  width: 10px;
+  height: 1px;
+  background: var(--chrome);
+  opacity: 0.5;
+}
+
+.pillar-stage-n {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--chrome);
+}
+
+.pillar-stage {
+  position: relative;
+}
+
+.pillar-view {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 70vh;
+}
+
+/* No WebGL on this device: the slot keeps its space and becomes a frame, so
+   the two-column rhythm survives instead of collapsing. */
+.pillar-view-static,
+.showcase-view-static {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 42%, rgba(185, 198, 214, 0.06), transparent 70%),
+    var(--panel);
+}
+
+@media (max-width: 900px) {
+  .pillar-grid {
+    grid-template-columns: 1fr;
+  }
+  /* The object goes first on a narrow screen regardless of side, so the
+     alternating layout does not become a random order when it stacks. */
+  .pillar[data-flip="true"] .pillar-copy,
+  .pillar-copy {
+    order: 2;
+  }
+  .pillar-stage {
+    order: 1;
+  }
+  .pillar-view {
+    max-height: 52vh;
+    margin-inline: auto;
+    width: min(84vw, 420px);
+  }
+}
+
+/* ============================================================
+   PRODUCT SHOWCASE
+   ============================================================ */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(28px, 5vw, 64px);
+  margin-top: 44px;
+  align-items: center;
+}
+
+.showcase-stage {
+  position: relative;
+}
+
+.showcase-view {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 66vh;
+  cursor: grab;
+}
+
+.showcase-view:active {
+  cursor: grabbing;
+}
+
+.showcase-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  transform: translateX(-50%);
+  color: var(--faint);
+  pointer-events: none;
+}
+
+.showcase-legend ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.showcase-legend li {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  gap: 14px;
+  padding: 18px 14px 18px 4px;
+  border-top: 1px solid var(--line);
+  cursor: default;
+  transition: background 0.4s var(--ease), padding-left 0.4s var(--ease);
+}
+
+.showcase-legend li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.showcase-legend li[data-on="true"] {
+  background: linear-gradient(90deg, rgba(185, 198, 214, 0.06), transparent 74%);
+  padding-left: 14px;
+}
+
+.showcase-legend li:focus-visible {
+  outline: 1px solid var(--chrome);
+  outline-offset: 2px;
+}
+
+.showcase-n {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--chrome);
+  padding-top: 4px;
+}
+
+.showcase-legend h3 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin: 0 0 4px;
+}
+
+.showcase-legend p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.showcase-btn {
+  margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .showcase-grid {
+    grid-template-columns: 1fr;
+  }
+  .showcase-view {
+    max-height: 50vh;
+    margin-inline: auto;
+    width: min(86vw, 440px);
+  }
+}
+
+/* ============================================================
+   PRELOADER — the liquid-metal reveal
+   ============================================================ */
+.pre-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.pre-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  /* The displacement filter is what makes the wordmark arrive molten. */
+  filter: url(#liquid-metal);
+}
+
+.pre-wordmark {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 19px;
+  letter-spacing: 0.22em;
+  /* A chrome ramp with a hard specular band in the middle, swept across once.
+     A flat silver fill reads as grey text; the band is what reads as metal. */
+  background: linear-gradient(
+    100deg,
+    var(--accent-dp) 0%,
+    var(--chrome) 28%,
+    var(--accent-hi) 44%,
+    var(--silver) 52%,
+    var(--chrome) 68%,
+    var(--accent-dp) 100%
+  );
+  background-size: 260% 100%;
+  background-position: 120% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: metal-sweep 2.4s var(--ease) 0.2s 1 forwards;
+}
+
+@keyframes metal-sweep {
+  to {
+    background-position: -30% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No displacement, no sweep — a still chrome wordmark. The filter and the
+     animation are the whole effect, so removing them leaves it legible rather
+     than leaving it mid-transition. */
+  .pre-brand {
+    filter: none;
+  }
+  .pre-wordmark {
+    animation: none;
+    background-position: 50% 0;
   }
 }

@@ -1,34 +1,34 @@
 /**
- * The scene palette — one warm accent, and nothing else with a hue.
+ * The scene palette — deep navy, and metal.
  *
- * The site used to light everything with violet and cyan at once. Two saturated
- * accents fighting across every section is what made an expensive-looking build
- * read as a gradient demo: when everything glows, nothing is lit. The reference
- * films this design comes from do the opposite — a deep void, a single warm rim
- * light, and one subject in it at a time.
+ * There is deliberately no hue in the accent range. Chrome is not a colour; it
+ * is the distance between a specular highlight and a slate shadow, and the
+ * moment a metallic surface carries a tint it stops reading as metal and starts
+ * reading as painted plastic. So every value below moves in brightness and
+ * stays cool-neutral.
  *
- * So every hue in the 3D now comes from here, and it is all champagne gold, the
- * same accent the typography already uses. `fill` is the one exception and it is
- * deliberately close to neutral: a warm key with no fill at all crushes the
- * shadow side of glass into flat black. It is lighting practice, not a second
- * accent, and it must stay desaturated enough never to read as a colour.
+ * The navy matters for the same reason. A pure black void gives a reflective
+ * surface nothing to reflect, and metal rendered against nothing reads flat —
+ * the ground has to be dark enough to be a void and blue enough to be a room.
  */
 export const palette = {
-  /** The rim light. Everything warm on the page is this or derived from it. */
-  gold: "#c9a961",
-  /** Champagne — highlights, the hot edge of a rim, emissive detail. */
-  goldLight: "#e8d9a8",
-  /** Bronze — the far side of a form, where the rim falls away. */
-  bronze: "#8a6a2f",
-  /** Near-black with a trace of warmth, so the void is not a dead grey. */
-  void: "#07080c",
-  /** Unsaturated bounce. Keeps shadow detail without introducing a hue. */
-  fill: "#aab0c0",
-  /** Bodies of the floating chips — dark, so the emissive edge does the work. */
-  bodyWarm: "#231a10",
-  bodyDeep: "#14100a",
+  /** Chrome — the body of any metallic surface. */
+  chrome: "#b9c6d6",
+  /** Polished silver — the lit face, and the rim. */
+  silver: "#e8eef6",
+  /** The specular hit. Used sparingly; it is the brightest thing on the page. */
+  specular: "#f6f9fd",
+  /** Slate — the shadow side of metal, never black. */
+  slate: "#5d6d84",
+  /** Charcoal — the body of an unlit object. */
+  charcoal: "#151b28",
+  /** Deep navy. The ground everything sits in and reflects. */
+  navy: "#000022",
+  /** A step up from the ground, for surfaces catching bounce. */
+  navyLift: "#00072b",
+  /** Unsaturated bounce, so shadows keep detail without gaining a colour. */
+  fill: "#8f9db2",
 } as const;
 
-/** The accent, as the CSS custom property of the same name. */
-export const ACCENT = palette.gold;
-export const ACCENT_LIGHT = palette.goldLight;
+export const ACCENT = palette.chrome;
+export const ACCENT_LIGHT = palette.silver;

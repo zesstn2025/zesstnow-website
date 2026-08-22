@@ -35,7 +35,7 @@ export default function WorkPage() {
             </>
           }
           sub={portfolio.sub}
-          accent="#e8d9a8"
+          accent="#e8eef6"
         />
 
         <section className="section" id="portfolio">

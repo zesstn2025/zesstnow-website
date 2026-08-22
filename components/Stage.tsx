@@ -20,7 +20,7 @@ const Scene = dynamic(() => import("./three/Scene"), {
 export default function Stage({
   scroll,
   variant = "hero",
-  accent = "#e8d9a8",
+  accent = "#e8eef6",
   className = "hero-canvas",
 }: {
   scroll: React.RefObject<number>;
@@ -41,8 +41,8 @@ export default function Stage({
           inset: 0,
           background:
             variant === "hero"
-              ? "radial-gradient(ellipse 70% 55% at 62% 42%, rgba(201,169,97,.18), transparent 68%)"
-              : "radial-gradient(ellipse 60% 60% at 50% 45%, rgba(201,169,97,.12), transparent 70%)",
+              ? "radial-gradient(ellipse 70% 55% at 62% 42%, rgba(185, 198, 214,.18), transparent 68%)"
+              : "radial-gradient(ellipse 60% 60% at 50% 45%, rgba(185, 198, 214,.12), transparent 70%)",
         }}
       />
       <div
