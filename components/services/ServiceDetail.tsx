@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { View, PerspectiveCamera } from "@react-three/drei";
 import Faq from "../Faq";
 import Studio from "../three/Studio";
+import ProcessTimeline from "./ProcessTimeline";
 import { useSectionProgress } from "@/lib/scroll";
 import { useAllow3D } from "@/lib/motion";
 import type { ServicePage } from "@/content/site";
@@ -14,9 +15,12 @@ import { servicePages } from "@/content/site";
 /**
  * One service page: the argument in words, and the object that performs it.
  *
- * Three pages share this because they are the same page with different content
- * — three copies would drift apart within a month, and the first thing to drift
- * would be whichever one nobody looked at again.
+ * Five pages share this because they are the same page with different content —
+ * five copies would drift apart within a month, and the first thing to drift
+ * would be whichever one nobody looked at again. The two blocks that only some
+ * pages have — the stage-by-stage process, and the deep dives with their tools
+ * — are optional fields on the content rather than separate components, for the
+ * same reason.
  *
  * The scenes are loaded on demand and drawn into the page's single shared
  * canvas, like every other 3D on the site. Nothing in the copy depends on them:
@@ -24,9 +28,22 @@ import { servicePages } from "@/content/site";
  * readable end to end.
  */
 const SCENES = {
+  agent: dynamic(() => import("../three/scenes/AgentOrb"), { ssr: false }),
+  vault: dynamic(() => import("../three/scenes/SecureVault"), { ssr: false }),
   saas: dynamic(() => import("../three/scenes/DashboardAssembly"), { ssr: false }),
   storefront: dynamic(() => import("../three/scenes/StorefrontStack"), { ssr: false }),
   funnel: dynamic(() => import("../three/scenes/DataFunnel"), { ssr: false }),
+} as const;
+
+/**
+ * The tools a deep-dive section can carry, split out so a page that has no
+ * calculator never downloads one. Neither is load-bearing — the section makes
+ * its argument in text, and the tool is there for the visitor who wants to put
+ * their own numbers into it.
+ */
+const CALCULATORS = {
+  emi: dynamic(() => import("./EmiCalculator"), { ssr: false }),
+  cover: dynamic(() => import("./CoverEstimator"), { ssr: false }),
 } as const;
 
 export default function ServiceDetail({ page }: { page: ServicePage }) {
@@ -35,8 +52,8 @@ export default function ServiceDetail({ page }: { page: ServicePage }) {
   const allow3D = useAllow3D();
   const Scene = SCENES[page.scene];
 
-  // The other two, for the foot of the page. A visitor who has read this far
-  // and it was not the right service should be one click from the right one.
+  // The rest, for the foot of the page. A visitor who has read this far and it
+  // was not the right service should be one click from the right one.
   const others = servicePages.filter((p) => p.slug !== page.slug);
 
   return (
@@ -113,6 +130,54 @@ export default function ServiceDetail({ page }: { page: ServicePage }) {
           </div>
         </div>
       </section>
+
+      {page.timeline && (
+        <ProcessTimeline
+          eyebrow="HOW AN AGENT WORKS"
+          title="Three stages, in order."
+          sub="Scroll and the object builds itself alongside the reading — planning first, then what it knows, then what it is allowed to do."
+          stages={page.timeline}
+          scene={(p) => <Scene progress={p} />}
+        />
+      )}
+
+      {page.deepDives?.map((dive, i) => {
+        const Tool = dive.calculator ? CALCULATORS[dive.calculator] : null;
+        return (
+          <section
+            className="section deep-dive"
+            id={dive.id}
+            key={dive.id}
+            data-alt={i % 2 === 1 ? "true" : "false"}
+          >
+            <div className="shell deep-grid">
+              <div className="deep-copy">
+                <span className="eyebrow reveal">{dive.eyebrow}</span>
+                <h2 className="section-title reveal" data-delay={80}>
+                  {dive.title}
+                </h2>
+                <p className="svc-b reveal" data-delay={140}>
+                  {dive.body}
+                </p>
+                <ul className="deep-points reveal" data-delay={200}>
+                  {dive.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* The tool sits beside the argument rather than replacing it —
+                  the section has to make sense to somebody who never touches
+                  a slider, and on a phone the copy is read first. */}
+              {Tool && (
+                <div className="deep-tool reveal" data-delay={120}>
+                  <Tool />
+                </div>
+              )}
+            </div>
+          </section>
+        );
+      })}
 
       <section className="section">
         <div className="shell">

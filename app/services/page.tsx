@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import TiltCard from "@/components/TiltCard";
@@ -24,7 +23,6 @@ export default function ServicesPage() {
   return (
     <>
       <RevealObserver />
-      <Nav />
 
       <main>
         <PageHero

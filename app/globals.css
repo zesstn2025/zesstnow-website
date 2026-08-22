@@ -3927,3 +3927,732 @@ a {
   position: absolute !important;
   inset: 0;
 }
+
+/* ============================================================
+   PROCESS TIMELINE · DEEP DIVES · CALCULATORS
+   ============================================================ */
+
+/* The object stays put and the stages scroll past it. Sticky rather than fixed,
+   so it releases at the end of the section instead of following you into the
+   next one — and `html { overflow-x: clip }` above is what keeps this working
+   at all. */
+.timeline-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: start;
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.timeline-sticky {
+  position: sticky;
+  top: calc(var(--nav-h) + 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.timeline-view {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 62vh;
+}
+
+/* The stage the object is currently at, named. Without it the scene is
+   handsome and mute — this is the line that ties the geometry to the words. */
+.timeline-now {
+  color: var(--silver);
+  letter-spacing: 0.14em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 16px;
+  background: var(--panel);
+  white-space: nowrap;
+}
+
+.timeline-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 5vw, 56px);
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 20px;
+  padding-left: 4px;
+  /* Inactive stages recede rather than disappear — all three have to stay
+     readable, because a visitor arriving from a search result may only ever
+     see one of them. */
+  opacity: 0.5;
+  transition: opacity 0.5s var(--ease);
+}
+
+.timeline-item[data-active="true"] {
+  opacity: 1;
+}
+
+.timeline-no {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--accent-dp);
+  padding-top: 6px;
+  transition: color 0.5s var(--ease);
+}
+
+.timeline-item[data-active="true"] .timeline-no {
+  color: var(--silver);
+}
+
+.timeline-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 1px solid var(--line);
+  padding-left: clamp(18px, 3vw, 30px);
+  transition: border-color 0.5s var(--ease);
+}
+
+.timeline-item[data-active="true"] .timeline-body {
+  border-left-color: var(--line-strong);
+}
+
+.timeline-t {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* What the stage actually produces. A process description that never names an
+   artefact is a description of nothing. */
+.timeline-out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.timeline-out .mono-label {
+  color: var(--accent-dp);
+}
+
+/* ---- Deep dives ---- */
+
+.deep-dive[data-alt="true"] {
+  background: linear-gradient(180deg, transparent, rgba(10, 16, 48, 0.5), transparent);
+}
+
+.deep-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+.deep-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.deep-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.deep-points li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--muted);
+  font-size: 15.5px;
+}
+
+/* A milled notch rather than a bullet — the same edge language as the metal. */
+.deep-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 12px;
+  height: 1px;
+  background: var(--chrome);
+  opacity: 0.7;
+}
+
+/* ---- Calculators ---- */
+
+.calc {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.calc-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calc-head .mono-label {
+  color: var(--accent-dp);
+  letter-spacing: 0.16em;
+}
+
+.calc-t {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.calc-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calc-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.calc-value {
+  font-family: var(--font-mono), monospace;
+  font-size: 15px;
+  color: var(--silver);
+  /* Digits that change under a dragging thumb must not shift the label
+     sideways as they do it. */
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-hint {
+  font-size: 13px;
+  color: var(--faint);
+  line-height: 1.45;
+}
+
+/* The track is filled to the handle, so the control reads as a gauge cut into
+   metal rather than as a browser default dropped onto a dark page. */
+.calc-range {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 26px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.calc-range::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--silver) 0%,
+    var(--chrome) var(--fill, 50%),
+    rgba(185, 198, 214, 0.16) var(--fill, 50%),
+    rgba(185, 198, 214, 0.16) 100%
+  );
+}
+
+.calc-range::-moz-range-track {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--silver) 0%,
+    var(--chrome) var(--fill, 50%),
+    rgba(185, 198, 214, 0.16) var(--fill, 50%),
+    rgba(185, 198, 214, 0.16) 100%
+  );
+}
+
+.calc-range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--accent-hi), var(--chrome) 62%, #6f7d92);
+  border: 1px solid rgba(246, 249, 253, 0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 20, 0.8);
+  transition: transform 0.18s var(--ease);
+}
+
+.calc-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--accent-hi), var(--chrome) 62%, #6f7d92);
+  border: 1px solid rgba(246, 249, 253, 0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 20, 0.8);
+}
+
+.calc-range:hover::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+.calc-range:focus-visible {
+  outline: none;
+}
+
+.calc-range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--silver);
+  outline-offset: 3px;
+}
+
+.calc-range:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--silver);
+  outline-offset: 3px;
+}
+
+.calc-out {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.calc-out-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calc-out-main .mono-label {
+  color: var(--accent-dp);
+}
+
+.calc-out-main strong {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(34px, 5vw, 50px);
+  font-weight: 400;
+  line-height: 1;
+  background: var(--grad-chrome);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-out-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.calc-out-grid dt {
+  font-size: 12.5px;
+  color: var(--faint);
+  margin-bottom: 4px;
+}
+
+.calc-out-grid dd {
+  font-family: var(--font-mono), monospace;
+  font-size: 15px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.calc-bar-principal {
+  background: var(--grad-chrome);
+}
+
+.calc-bar-interest {
+  background: rgba(93, 109, 132, 0.5);
+}
+
+.calc-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-key {
+  width: 12px;
+  height: 4px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.calc-key-principal {
+  background: var(--grad-chrome);
+}
+
+.calc-key-interest {
+  background: rgba(93, 109, 132, 0.7);
+  margin-left: 12px;
+}
+
+/* The disclosure travels with the number, not in small print at the foot of
+   the page. Anyone reading the figure reads the limits of it. */
+.calc-note {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--faint);
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .timeline-grid,
+  .deep-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* On a phone the object stops leading and becomes an illustration above the
+     reading — sticky in a single column would pin it over the text. */
+  .timeline-sticky {
+    position: static;
+  }
+
+  .timeline-view {
+    max-height: 44vh;
+  }
+
+  .calc-out-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-item,
+  .timeline-no,
+  .timeline-body,
+  .calc-range::-webkit-slider-thumb {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   SERVICE PORTAL · NAV DROPDOWN · PAGE WIPE
+   ============================================================ */
+
+.portal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  margin-top: clamp(36px, 5vw, 60px);
+}
+
+.portal-list {
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.portal-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(14px, 2.5vw, 26px);
+  padding: clamp(18px, 2.4vw, 26px) 4px;
+  border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  transition: padding-left 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+/* The selected row is lit from its left edge — the same specular language as
+   the metal beside it, rather than a background swatch. */
+.portal-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--grad-chrome);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.45s var(--ease);
+}
+
+.portal-row[data-active="true"] {
+  padding-left: 20px;
+  border-bottom-color: var(--line-strong);
+}
+
+.portal-row[data-active="true"]::before {
+  transform: scaleY(1);
+}
+
+.portal-no {
+  color: var(--accent-dp);
+  transition: color 0.4s var(--ease);
+}
+
+.portal-row[data-active="true"] .portal-no {
+  color: var(--silver);
+}
+
+.portal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.portal-t {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.portal-lead {
+  font-size: 14.5px;
+  color: var(--muted);
+}
+
+.portal-go {
+  color: var(--accent-dp);
+  font-size: 18px;
+  transform: translateX(-6px);
+  opacity: 0;
+  transition: transform 0.4s var(--ease), opacity 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.portal-row[data-active="true"] .portal-go {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--silver);
+}
+
+.portal-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.portal-view {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 56vh;
+}
+
+.portal-caption {
+  color: var(--accent-dp);
+  letter-spacing: 0.16em;
+  text-align: center;
+}
+
+/* ---- Nav dropdown ---- */
+
+.nav-drop {
+  position: relative;
+  /* The panel opens below the link with a gap; without this the pointer
+     crosses dead space and the menu closes on the way to it. */
+  padding-bottom: 14px;
+  margin-bottom: -14px;
+}
+
+.nav-caret {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 7px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  opacity: 0.6;
+}
+
+.nav-panel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: min(340px, 82vw);
+  /* Nearly opaque, and not leaning on the blur for its legibility. The shared
+     `.glass` panel is 72% alpha, which is right for a card sitting on the page
+     background and wrong for a menu that lands on top of body copy — and
+     backdrop-filter is the first effect a browser drops under load. */
+  background: rgba(3, 7, 26, 0.97);
+  border-color: var(--line-strong);
+  box-shadow: 0 26px 60px rgba(0, 0, 12, 0.7);
+  transform: translate(-50%, 8px);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease), visibility 0.28s;
+}
+
+.nav-panel[data-open="true"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.nav-panel-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px 13px;
+  border-radius: 10px;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s var(--ease);
+}
+
+.nav-panel-row:hover,
+.nav-panel-row[aria-current="page"] {
+  background: rgba(185, 198, 214, 0.09);
+}
+
+.nav-panel-t {
+  font-size: 14.5px;
+  color: var(--text);
+}
+
+.nav-panel-b {
+  font-size: 12.5px;
+  color: var(--faint);
+  line-height: 1.45;
+}
+
+.nav-panel-all {
+  padding: 11px 13px 6px;
+  color: var(--accent-dp);
+  text-decoration: none;
+  border-top: 1px solid var(--line);
+  margin-top: 6px;
+}
+
+.nav-panel-all:hover {
+  color: var(--silver);
+}
+
+/* The page you are on, marked in the bar. */
+.nav-links a[aria-current="page"],
+.mobile-menu a[aria-current="page"] {
+  color: var(--silver);
+}
+
+.mobile-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 6px 0 10px;
+  padding-left: 16px;
+  border-left: 1px solid var(--line);
+}
+
+.mobile-sub a {
+  font-size: 15px;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 7px 0;
+}
+
+/* ---- The wipe between pages ---- */
+
+.wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--ink-2), var(--ink) 55%, #000018);
+  transform-origin: top;
+  animation: wipe-off 0.62s var(--ease) forwards;
+}
+
+/* One specular edge travelling down with the veil — the same light the metal
+   is lit by, which is what keeps this from reading as a generic fade. */
+.wipe-edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-hi), transparent);
+  opacity: 0.85;
+  filter: blur(0.5px);
+}
+
+@keyframes wipe-off {
+  from {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  to {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .portal-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The object leads on a phone; the list is the thing being scrolled. */
+  .portal-stage {
+    order: -1;
+  }
+
+  .portal-view {
+    max-height: 40vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The transition still happens — it just stops being animated. Left running,
+     a full-screen sweep is exactly the motion this setting exists to refuse. */
+  .wipe {
+    animation-duration: 0.01s;
+  }
+
+  .portal-row,
+  .portal-row::before,
+  .portal-go,
+  .portal-no,
+  .nav-panel {
+    transition: none;
+  }
+}

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import RevealObserver from "@/components/RevealObserver";
@@ -58,7 +57,6 @@ export default function BlogIndex() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <RevealObserver />
-      <Nav />
 
       <main>
         <PageHero

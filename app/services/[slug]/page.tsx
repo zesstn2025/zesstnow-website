@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
@@ -8,12 +7,18 @@ import ServiceDetail from "@/components/services/ServiceDetail";
 import { company, servicePages } from "@/content/site";
 
 /**
- * The three service pages: /services/saas, /services/ecommerce,
- * /services/marketing.
+ * The five service pages: /services/ai-agents, /services/saas-development,
+ * /services/ecommerce, /services/digital-marketing and /services/fintech.
  *
  * Statically generated from content/site.ts — there is no database behind them
- * and no reason for them to be rendered per request. Adding a fourth service is
- * an entry in that array and nothing else.
+ * and no reason for them to be rendered per request. Adding a sixth service is
+ * an entry in that array and nothing else; the navigation menu, the home page
+ * portal, the sitemap and the cross-links at the foot of every service page all
+ * read from the same list.
+ *
+ * Two of these slugs were shorter when they were first published. The old
+ * addresses are 301'd in next.config.mjs rather than deleted — they were live
+ * and crawlable, and a moved page keeps what it earned.
  */
 export function generateStaticParams() {
   return servicePages.map((page) => ({ slug: page.slug }));
@@ -104,7 +109,6 @@ export default async function ServiceRoute({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <RevealObserver />
-      <Nav />
 
       <main>
         <ServiceDetail page={page} />

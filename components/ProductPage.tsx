@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Faq from "@/components/Faq";
 import HeroStage from "@/components/HeroStage";
@@ -29,7 +28,6 @@ export default function ProductPage({ product }: { product: Product }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <RevealObserver />
-      <Nav />
 
       <main>
         {/* ── HERO ─────────────────────────────────────────────── */}

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import RevealObserver from "@/components/RevealObserver";
@@ -39,7 +38,6 @@ export default async function LegalPage({
   return (
     <>
       <RevealObserver />
-      <Nav />
 
       <main>
         <PageHero

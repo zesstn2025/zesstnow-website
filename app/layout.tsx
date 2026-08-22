@@ -4,6 +4,8 @@ import { company, leadership, social } from "@/content/site";
 import SmoothScroll from "@/components/SmoothScroll";
 import FieldStage from "@/components/FieldStage";
 import Stage3D from "@/components/three/Stage3D";
+import Nav from "@/components/Nav";
+import PageTransition from "@/components/PageTransition";
 import Motion from "@/components/Motion";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import { activeAnnouncement } from "@/lib/content";
@@ -165,6 +167,10 @@ export default function RootLayout({
         <Stage3D />
         <SmoothScroll />
         <Motion />
+        {/* Mounted once for the whole site, so the frame around the content
+            never rebuilds on a route change. */}
+        <Nav />
+        <PageTransition />
         {ann && (
           <AnnouncementBar
             id={ann.slug}

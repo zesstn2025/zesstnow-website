@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import RevealObserver from "@/components/RevealObserver";
@@ -118,7 +117,6 @@ export default async function PostPage({
       />
 
       <RevealObserver />
-      <Nav />
 
       <main>
         <PageHero
