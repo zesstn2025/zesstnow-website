@@ -3177,3 +3177,155 @@ a {
     padding-left: 10px;
   }
 }
+
+/* ============================================================
+   MOTIFS — the scroll-driven diagrams
+   Everything below reads `--p`, written by components/Motif.tsx as the
+   element crosses the viewport. No CSS here animates on its own.
+   ============================================================ */
+.motif {
+  --p: 0;
+  width: 100%;
+  margin-top: 22px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.motif-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.motif-cap,
+.motif-tick {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  fill: var(--faint);
+}
+
+.motif-cap-mid,
+.motif-tick {
+  text-anchor: middle;
+}
+
+.motif-cap {
+  text-transform: uppercase;
+}
+
+.motif-axis {
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+/* ---- calendar ---- */
+.motif-cell {
+  fill: rgba(236, 232, 225, 0.05);
+  stroke: var(--line);
+  stroke-width: 0.6;
+}
+
+/* Each cell has an --i for its position in the sequence; multiplying --p by
+   the count and subtracting --i makes them light left to right off one number. */
+.motif-cell-due {
+  fill: var(--gold);
+  opacity: clamp(0, calc(var(--p) * 14 - var(--i)), 1);
+}
+
+/* ---- disbursement window ---- */
+.motif-window {
+  fill: rgba(201, 169, 97, 0.16);
+  stroke: var(--gold);
+  stroke-width: 1;
+  transform: scaleX(var(--p));
+  transform-origin: 102px 0;
+  transform-box: view-box;
+}
+
+.motif-figure {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 19px;
+  fill: var(--gold-lt);
+  text-anchor: middle;
+  opacity: clamp(0, calc(var(--p) * 2 - 0.9), 1);
+}
+
+/* ---- document stack ---- */
+.motif-sheet {
+  fill: rgba(14, 16, 23, 0.9);
+  stroke: var(--line-strong);
+  stroke-width: 0.8;
+  /* Fanned out at rest, squared onto the pile by the end — but never to zero
+     offset. Collapsing them exactly on top of each other renders one rectangle
+     and the stack disappears; a residual 1.6px step keeps the edges visible, so
+     it reads as paperwork that has been tidied rather than as a single page. */
+  transform: rotate(calc((var(--i) - 2) * (1 - var(--p)) * 7deg))
+    translate(
+      calc((var(--i) - 2) * (1 - var(--p)) * 2px),
+      calc((var(--i) - 2) * (1 - var(--p) * 0.78) * 3px)
+    );
+  transform-origin: 120px 62px;
+  transform-box: view-box;
+}
+
+.motif-seal {
+  fill: var(--gold);
+  opacity: clamp(0, calc(var(--p) * 3 - 2), 1);
+}
+
+/* ---- funnel ---- */
+.motif-funnel {
+  fill: rgba(201, 169, 97, 0.05);
+  stroke: var(--gold-dim);
+  stroke-width: 1;
+}
+
+.motif-drop {
+  --t: clamp(0, calc(var(--p) * 2.2 - var(--i) * 0.11), 1);
+  fill: var(--gold-lt);
+}
+
+/* Converges on the neck on the way down. Falling straight, the drops ended in
+   a wide row beneath the funnel instead of passing through it. */
+.motif-drop-in {
+  transform: translate(calc(var(--dx) * var(--t) * 1px), calc(var(--t) * 88px));
+  opacity: var(--t);
+}
+
+/* The enquiries that do not qualify: they fall partway and fade out. Showing
+   all nine reach the bottom would be a nicer picture and a false one. */
+.motif-drop-out {
+  fill: var(--gold-dim);
+  transform: translate(calc(var(--dx) * var(--t) * 0.55px), calc(var(--t) * 46px));
+  opacity: clamp(0, calc((0.6 - var(--t)) * 5), 0.75);
+}
+
+/* ---- assemble ---- */
+.motif-solid {
+  fill: rgba(201, 169, 97, 0.1);
+  stroke: none;
+  opacity: var(--p);
+}
+
+.motif-wire {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+  /* 620 comfortably exceeds the path length, so the outline draws itself. */
+  stroke-dasharray: 620;
+  stroke-dashoffset: calc(620 - var(--p) * 620);
+}
+
+.motif-wire-inner {
+  stroke: var(--gold-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* --p is pinned to 1 by the component, so every diagram renders finished
+     rather than blank. Nothing here needs to move. */
+  .motif * {
+    transition: none !important;
+  }
+}

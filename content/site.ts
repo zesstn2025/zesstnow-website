@@ -310,6 +310,7 @@ export const verticals = {
   items: [
     {
       no: "01",
+      motif: "calendar" as const,
       title: "GST & Tax Compliance",
       lead: "Registration, filing and the notices nobody wants to open.",
       body: "A full GST desk: registration and new business setup, monthly and quarterly return filing, e-invoice generation, annual returns and GST audit. Plus income-tax returns, TDS/TCS corrections and representation when a demand notice arrives.",
@@ -324,6 +325,7 @@ export const verticals = {
     },
     {
       no: "02",
+      motif: "window" as const,
       title: "Loan Facilitation",
       lead: "Complete file to disbursement, typically 25–45 days.",
       body: "We help businesses and families get bank-ready and stay on top of the file: home and commercial property loans, loan against property, cash credit and overdraft limits, personal, business, education and vehicle loans — plus CIBIL clean-up before you apply. Once the file is complete we chase the bank until the money moves, and most cases disburse inside 25 to 45 days.",
@@ -342,6 +344,7 @@ export const verticals = {
     },
     {
       no: "03",
+      motif: "stack" as const,
       title: "Business Registration & Insurance",
       lead: "Getting the entity and the cover in place.",
       body: "Company, LLP, partnership, society and trust registration, Udyam (MSME) registration and trademark filing — then life, health, vehicle and travel cover, with claim documentation handled rather than left to you.",
@@ -358,6 +361,7 @@ export const verticals = {
     },
     {
       no: "04",
+      motif: "funnel" as const,
       title: "Leads & Marketing",
       lead: "Customers in the pipeline, not just impressions bought.",
       body: "Lead generation and performance marketing wired into a pipeline you can actually work — landing pages, search and social campaigns, WhatsApp-first capture, and a New → Contacted → Quoted → Won pipeline so follow-ups stop dying in a chat thread. We also buy and sell verified leads at the prevailing market rate, and run social media end to end: content calendar, scheduling, posting and a single inbox for every reply.",

@@ -12,6 +12,7 @@ import ProductVisual from "@/components/ProductVisual";
 import Leadership from "@/components/Leadership";
 import ChapterRail from "@/components/ChapterRail";
 import ServicesChapter from "@/components/ServicesChapter";
+import Motif from "@/components/Motif";
 import Faq from "@/components/Faq";
 import {
   hero,
@@ -142,6 +143,9 @@ export default function HomePage() {
                   {"disclaimer" in v && v.disclaimer && (
                     <p className="vert-note">{v.disclaimer}</p>
                   )}
+
+                  {/* The diagram does what the copy above it describes. */}
+                  <Motif kind={v.motif} />
                 </TiltCard>
               ))}
             </div>
@@ -272,6 +276,7 @@ export default function HomePage() {
                   <span className="step-no">{step.no}</span>
                   <h3 className="step-t">{step.title}</h3>
                   <p className="step-b">{step.body}</p>
+                  {i === 0 && <Motif kind="assemble" />}
                 </div>
               ))}
             </div>
