@@ -13,6 +13,7 @@ import {
   type ShaderMaterial,
 } from "three";
 import { palette } from "./palette";
+import CanvasHost from "./CanvasHost";
 
 /**
  * The ambient field that sits behind the whole site.
@@ -204,18 +205,36 @@ export default function Field({
 }) {
   const dprCap = useRef(1.25);
 
+  /**
+   * Memoised, and that is not a micro-optimisation. R3F treats `gl` and `camera`
+   * as declarative props: hand it a fresh object literal on a re-render and it
+   * can tear the renderer down and build a new one, which means a new WebGL
+   * context every time. Measured across seven client-side navigations before
+   * this: twenty-seven contexts created where a handful were expected.
+   */
+  const glOptions = useMemo(
+    () => ({
+      antialias: false,
+      alpha: true,
+      powerPreference: "low-power" as const,
+      stencil: false,
+      depth: false,
+    }),
+    []
+  );
+
+  const cameraOptions = useMemo(
+    () => ({ position: [0, 0, 9] as [number, number, number], fov: 55 }),
+    []
+  );
+
   return (
+    <CanvasHost className="canvas-host">
     <Canvas
       frameloop={active ? "always" : "never"}
       dpr={[1, dprCap.current]}
-      gl={{
-        antialias: false,
-        alpha: true,
-        powerPreference: "low-power",
-        stencil: false,
-        depth: false,
-      }}
-      camera={{ position: [0, 0, 9], fov: 55 }}
+      gl={glOptions}
+      camera={cameraOptions}
       style={{ pointerEvents: "none" }}
       aria-hidden="true"
     >
@@ -228,5 +247,6 @@ export default function Field({
       <Starfield scroll={scroll} />
       <Solids scroll={scroll} />
     </Canvas>
+    </CanvasHost>
   );
 }

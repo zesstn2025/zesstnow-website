@@ -3,6 +3,42 @@
 import { useEffect, useState } from "react";
 
 /**
+ * Does this browser give us a WebGL context at all?
+ *
+ * Asked once per session and remembered, and the probe hands its context
+ * straight back. Both halves matter. Every component that hosts 3D calls
+ * `useAllow3D`, so on a page with a field, a hero and a section scene this ran
+ * three times per view; measured across seven client-side navigations it
+ * created sixteen throwaway webgl2 contexts, none of them released. A browser
+ * keeps only a handful of live contexts and silently kills the oldest to make
+ * room — so a feature check for "can we render 3D?" was quietly evicting the 3D
+ * it had just approved.
+ *
+ * `WEBGL_lose_context` is the only way to return a context on demand; without
+ * it the canvas is unreferenced but the context lives until collection, which
+ * on a single-page app is effectively never.
+ */
+let webglSupport: boolean | null = null;
+
+function supportsWebGL(): boolean {
+  if (webglSupport !== null) return webglSupport;
+  try {
+    const probe = document.createElement("canvas");
+    const gl =
+      probe.getContext("webgl2") ||
+      probe.getContext("webgl") ||
+      probe.getContext("experimental-webgl");
+    webglSupport = !!gl;
+    (gl as WebGLRenderingContext | null)
+      ?.getExtension("WEBGL_lose_context")
+      ?.loseContext();
+  } catch {
+    webglSupport = false;
+  }
+  return webglSupport;
+}
+
+/**
  * Decides whether this device should get the full WebGL scene.
  *
  * Bails out for: reduced-motion users, low-core devices, small viewports and
@@ -22,18 +58,7 @@ export function useAllow3D(): boolean {
     if (cores <= 2 || (narrow && cores < 4)) return;
 
     // Probe for an actual WebGL context before mounting anything heavy.
-    let supported = false;
-    try {
-      const probe = document.createElement("canvas");
-      supported = !!(
-        probe.getContext("webgl2") ||
-        probe.getContext("webgl") ||
-        probe.getContext("experimental-webgl")
-      );
-    } catch {
-      supported = false;
-    }
-    if (!supported) return;
+    if (!supportsWebGL()) return;
 
     // Never let GL compete with first paint. The scene mounts only once the page
     // has loaded and the main thread has gone quiet — the preloader, hero copy

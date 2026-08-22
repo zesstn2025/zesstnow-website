@@ -13,7 +13,6 @@ import Leadership from "@/components/Leadership";
 import ChapterRail from "@/components/ChapterRail";
 import ServicesChapter from "@/components/ServicesChapter";
 import Motif from "@/components/Motif";
-import Stage3D from "@/components/three/Stage3D";
 import Pillars from "@/components/services/Pillars";
 import ProductShowcase from "@/components/ProductShowcase";
 import Faq from "@/components/Faq";
@@ -33,7 +32,6 @@ export default function HomePage() {
   return (
     <>
       <Preloader />
-      <Stage3D />
       <RevealObserver />
       <Nav />
       <ChapterRail />

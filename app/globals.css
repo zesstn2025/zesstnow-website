@@ -3907,3 +3907,23 @@ a {
   padding-top: 18px;
   color: var(--chrome);
 }
+
+/* The canvas host is a layout-neutral wrapper whose only job is to release the
+   WebGL context on unmount. It must not change how the canvas sizes. */
+.canvas-host {
+  position: absolute;
+  inset: 0;
+}
+
+.stage3d-host {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* The canvas inside the fixed host fills it, rather than positioning itself. */
+.stage3d-host > canvas.stage3d {
+  position: absolute !important;
+  inset: 0;
+}

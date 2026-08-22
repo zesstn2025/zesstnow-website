@@ -3,6 +3,7 @@ import { Fraunces, Manrope, JetBrains_Mono } from "next/font/google";
 import { company, leadership, social } from "@/content/site";
 import SmoothScroll from "@/components/SmoothScroll";
 import FieldStage from "@/components/FieldStage";
+import Stage3D from "@/components/three/Stage3D";
 import Motion from "@/components/Motion";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import { activeAnnouncement } from "@/lib/content";
@@ -158,6 +159,10 @@ export default function RootLayout({
       <body>
         {/* First in the DOM so it paints behind every positioned section. */}
         <FieldStage />
+        {/* The shared 3D surface, mounted once for the whole site. Every
+            section's <View> is drawn into this one context, so navigating
+            between pages neither creates nor destroys a WebGL context. */}
+        <Stage3D />
         <SmoothScroll />
         <Motion />
         {ann && (

@@ -12,6 +12,7 @@ import {
   type ShaderMaterial,
 } from "three";
 import { palette } from "./palette";
+import CanvasHost from "./CanvasHost";
 
 /**
  * One geometry that becomes six different objects.
@@ -257,12 +258,31 @@ export default function Morph({
 }) {
   const dprCap = useRef(1.5);
 
+  // Held stable across re-renders — and this component re-renders on every
+  // hover, since `index` is the hovered discipline. Passed as literals, each of
+  // those hovers risks a rebuilt renderer and a leaked WebGL context.
+  const glOptions = useMemo(
+    () => ({
+      antialias: true,
+      alpha: true,
+      powerPreference: "low-power" as const,
+      depth: true,
+    }),
+    []
+  );
+
+  const cameraOptions = useMemo(
+    () => ({ position: [0, 0, 4.2] as [number, number, number], fov: 45 }),
+    []
+  );
+
   return (
+    <CanvasHost className="canvas-host">
     <Canvas
       frameloop={active ? "always" : "never"}
       dpr={[1, dprCap.current]}
-      gl={{ antialias: true, alpha: true, powerPreference: "low-power", depth: true }}
-      camera={{ position: [0, 0, 4.2], fov: 45 }}
+      gl={glOptions}
+      camera={cameraOptions}
       style={{ pointerEvents: "none" }}
       aria-hidden="true"
     >
@@ -274,6 +294,7 @@ export default function Morph({
       <AdaptiveDpr pixelated={false} />
       <Shape index={index} />
     </Canvas>
+    </CanvasHost>
   );
 }
 

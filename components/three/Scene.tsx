@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef } from "react";
+import { Suspense, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   AdaptiveDpr,
@@ -14,6 +14,7 @@ import Core from "./Core";
 import Satellites from "./Satellites";
 import AuroraRibbons from "./AuroraRibbons";
 import Effects from "./Effects";
+import CanvasHost from "./CanvasHost";
 import { palette } from "./palette";
 
 type Variant = "hero" | "product";
@@ -113,18 +114,35 @@ export default function Scene({
   // pixel count is the dominant cost. 1.5 is plenty for a soft, glassy subject.
   const dprCap = useRef(1.5);
 
+  // Stable references. A fresh `gl` object literal on a re-render can make R3F
+  // rebuild the renderer, and a rebuilt renderer is a brand-new WebGL context —
+  // which the browser will not hand back on its own.
+  const glOptions = useMemo(
+    () => ({
+      antialias: false,
+      alpha: true,
+      powerPreference: "high-performance" as const,
+      stencil: false,
+      depth: true,
+    }),
+    []
+  );
+
+  const cameraOptions = useMemo(
+    () => ({
+      position: [0, 0.2, variant === "hero" ? 6.6 : 5.8] as [number, number, number],
+      fov: 42,
+    }),
+    [variant]
+  );
+
   return (
+    <CanvasHost className="canvas-host">
     <Canvas
       frameloop={active ? "always" : "never"}
       dpr={[1, dprCap.current]}
-      gl={{
-        antialias: false,
-        alpha: true,
-        powerPreference: "high-performance",
-        stencil: false,
-        depth: true,
-      }}
-      camera={{ position: [0, 0.2, variant === "hero" ? 6.6 : 5.8], fov: 42 }}
+      gl={glOptions}
+      camera={cameraOptions}
       // The canvas is decoration; screen readers and pointers should ignore it.
       style={{ pointerEvents: "none" }}
       aria-hidden="true"
@@ -166,5 +184,6 @@ export default function Scene({
 
       <CameraRig scroll={scroll} variant={variant} />
     </Canvas>
+    </CanvasHost>
   );
 }

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import Stage3D from "@/components/three/Stage3D";
 import RevealObserver from "@/components/RevealObserver";
 import ContactSection from "@/components/ContactSection";
 import ServiceDetail from "@/components/services/ServiceDetail";
@@ -104,7 +103,6 @@ export default async function ServiceRoute({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Stage3D />
       <RevealObserver />
       <Nav />
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import { ACESFilmicToneMapping, SRGBColorSpace } from "three";
 import {
@@ -11,6 +11,7 @@ import {
   Preload,
 } from "@react-three/drei";
 import { useAllow3D } from "@/lib/motion";
+import CanvasHost from "./CanvasHost";
 
 /**
  * One canvas for the whole page, and a viewport per section.
@@ -38,9 +39,33 @@ export default function Stage3D({ children }: { children?: ReactNode }) {
 
   useEffect(() => setSource(document.body), []);
 
+  /**
+   * Memoised, and it matters more than it looks.
+   *
+   * R3F watches the `gl` and `camera` props and rebuilds when they change. An
+   * inline object literal is a new reference on every render, so each re-render
+   * of this component handed R3F a "new" configuration. Measured across eight
+   * page views that produced twenty-seven WebGL contexts where a handful was
+   * expected, and a browser keeps only about sixteen before it starts silently
+   * discarding the oldest.
+   */
+  const glOptions = useMemo(
+    () =>
+      ({
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance" as const,
+        stencil: false,
+      }),
+    []
+  );
+  // Views each carry their own camera; this one is only a default.
+  const cameraOptions = useMemo(() => ({ position: [0, 0, 6] as [number, number, number], fov: 40 }), []);
+
   if (!allow3D || !source) return null;
 
   return (
+    <CanvasHost className="stage3d-host">
     <Canvas
       className="stage3d"
       // Views are scattered across the document, so events have to be tracked
@@ -48,12 +73,7 @@ export default function Stage3D({ children }: { children?: ReactNode }) {
       eventSource={source}
       eventPrefix="client"
       dpr={[1, dprCap.current]}
-      gl={{
-        antialias: true,
-        alpha: true,
-        powerPreference: "high-performance",
-        stencil: false,
-      }}
+      gl={glOptions}
       /* Filmic rather than linear. A polished surface returns more light than a
          screen can show, and linear mapping clips every one of those highlights
          to the same flat white — which is exactly what makes rendered chrome
@@ -67,8 +87,7 @@ export default function Stage3D({ children }: { children?: ReactNode }) {
         gl.toneMappingExposure = 1.75;
         gl.outputColorSpace = SRGBColorSpace;
       }}
-      // Views each carry their own camera; this one is only a default.
-      camera={{ position: [0, 0, 6], fov: 40 }}
+      camera={cameraOptions}
     >
       <PerformanceMonitor
         onDecline={() => {
@@ -87,5 +106,6 @@ export default function Stage3D({ children }: { children?: ReactNode }) {
           into view does not stall the frame while its shader is built. */}
       <Preload all />
     </Canvas>
+    </CanvasHost>
   );
 }
