@@ -7,6 +7,13 @@
  * weeks while looking exactly like a starfield meant to be still.
  *
  * Prints one line per check and a summary. Exit code is the number of failures.
+ *
+ * BASE=https://…  points it at a deployment instead of localhost. That needs
+ * direct network access: behind a proxy that intercepts outbound requests, the
+ * API checks come back 403 and the browser navigation is reset, neither of
+ * which says anything about the site. Verified by hand that the same requests
+ * answer correctly over curl from the same machine — so a wall of failures
+ * against a remote BASE is worth checking with curl before believing.
  */
 import { createRequire } from "node:module";
 
