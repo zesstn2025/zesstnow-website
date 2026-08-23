@@ -3909,10 +3909,14 @@ a {
   pointer-events: none;
 }
 
-/* The canvas inside the fixed host fills it, rather than positioning itself. */
-.stage3d-host > canvas.stage3d {
-  position: absolute !important;
-  inset: 0;
+/* The canvas inside the fixed host fills it.
+   Written as a descendant selector and without a class: R3F does not put the
+   `className` given to <Canvas> onto the canvas element, and it nests the
+   canvas inside a wrapper of its own, so the rule this replaced — which named
+   both a class and a direct child — matched nothing at all. It went unnoticed
+   because R3F sizes the canvas from the container anyway. */
+.stage3d-host canvas {
+  display: block;
 }
 
 /* ============================================================

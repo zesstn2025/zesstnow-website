@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "enquiry:keys": "node scripts/enquiry-keys.mjs"
+    "enquiry:keys": "node scripts/enquiry-keys.mjs",
+    "health": "node scripts/health.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.7",

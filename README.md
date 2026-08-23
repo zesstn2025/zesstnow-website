@@ -185,6 +185,24 @@ Guards that keep it honest on slow hardware:
 - `frameloop="never"` whenever the tab is hidden
 - Lighting uses drei `Lightformer`s, not a CDN-hosted HDRI — no third-party runtime dependency
 
+## Checking it still works
+
+```
+npm run build && npm run start -- -p 3111 &
+npm run health
+```
+
+Thirteen checks: every route, both redirects, the security headers and the
+load-bearing CSP directives, the CSRF cookie, and each way the enquiry endpoint
+is meant to refuse a request — plus a frame diff of the hero, the portal and the
+vault to catch a scene that has gone static.
+
+That last one exists because every failure this project has actually had was
+invisible. A WebGL context silently evicted. A shader uniform written to an
+object the GPU never reads. A starfield frozen for weeks while looking exactly
+like a starfield that was meant to be still. `BASE=https://…` points it at a
+deployment instead of localhost.
+
 ## Security
 
 Headers are set in `middleware.ts` for every response: a Content-Security-Policy,
