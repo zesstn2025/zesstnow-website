@@ -8,7 +8,19 @@
  *
  * Prints one line per check and a summary. Exit code is the number of failures.
  */
-const { chromium } = require("/opt/node22/lib/node_modules/playwright");
+import { createRequire } from "node:module";
+
+// Playwright is CommonJS and lives outside this project, so it is reached
+// through createRequire rather than a bare import: this file is an ES module,
+// and the browser it drives is the one the environment already provides rather
+// than a dependency this site would otherwise have no reason to carry.
+const require = createRequire(import.meta.url);
+const PLAYWRIGHT =
+  process.env.PLAYWRIGHT_PATH || "/opt/node22/lib/node_modules/playwright";
+const { chromium } = require(PLAYWRIGHT);
+
+const CHROMIUM =
+  process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
 const BASE = process.env.BASE || "http://127.0.0.1:3111";
 const results = [];
@@ -99,7 +111,7 @@ async function api(path, init = {}) {
 
   /* ── The 3D, measured ───────────────────────────────────────────── */
   const b = await chromium.launch({
-    executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
+    executablePath: CHROMIUM,
     args: ["--no-sandbox", "--disable-dev-shm-usage", "--use-gl=swiftshader"],
   });
 
