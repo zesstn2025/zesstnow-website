@@ -22,13 +22,26 @@
      carries a hue stops reading as metal and starts reading as paint. */
   --accent: #b9c6d6; /* chrome */
   --accent-lt: #e8eef6; /* polished silver */
-  --accent-dp: #5d6d84; /* slate — the shadow side */
+  /* Slate, the shadow side of the metal — lifted ten per cent from #5d6d84.
+     It carries every eyebrow and mono label on the site, at 11px uppercase
+     with wide letter-spacing, and at the old value those measured 3.90:1
+     against the ink. Small tracked-out capitals are the hardest text on any
+     page to read; they are the last thing that should sit under the
+     threshold. This clears 4.5:1 on the ink ground and on the glass panels
+     over it, which sit a shade lighter and were the tighter of the two. */
+  --accent-dp: #6a7c96;
   --accent-2: #b9c6d6;
   --accent-hi: #f6f9fd; /* the specular hit */
 
   --text: #e6ecf4;
   --muted: rgba(230, 236, 244, 0.62);
-  --faint: rgba(230, 236, 244, 0.36);
+  /* 0.50, not the 0.36 it was. Measured against the ink ground, 0.36 gives a
+     contrast ratio of 2.82:1 — well under the 4.5:1 WCAG asks for body text,
+     and this token carries stat labels, hints and, worst of all, the
+     regulatory disclaimers on the loan and insurance pages. The quietest tier
+     of the type scale is not the place to put a legal disclosure. 0.494 is
+     where 4.5:1 lands; this is that, rounded up. */
+  --faint: rgba(230, 236, 244, 0.5);
 
   /* Hairlines carry a little of the accent, so an edge catches the same light
      the 3D does rather than looking like a stray border. */
@@ -1666,7 +1679,9 @@ a {
 .note-line {
   margin-top: clamp(28px, 3vw, 40px);
   max-width: 72ch;
-  color: var(--faint);
+  /* Same reasoning as .vert-note: this carries the "not a lender or an
+     insurer" line on the fintech page. */
+  color: var(--muted);
   font-size: 14px;
   line-height: 1.7;
   padding-left: 16px;
@@ -1746,8 +1761,10 @@ a {
   padding-top: 22px;
   font-size: 12px;
   line-height: 1.65;
-  color: var(--faint);
-  opacity: 0.85;
+  /* A tier up, and without the extra opacity that used to multiply it down to
+     2.39:1 — the least readable text on the page was the disclosure saying we
+     are not a lender. */
+  color: var(--muted);
 }
 
 /* Compact variant used on the work page. */
@@ -3007,7 +3024,10 @@ a {
 
 .rail-n {
   font-variant-numeric: tabular-nums;
-  opacity: 0.75;
+  /* No dimming at all. It was 0.75, which multiplied the rail's own colour
+     down to 2.04:1; even 0.95 left it at 4.22:1. The rail is navigation, not
+     decoration — the numbers have to be legible enough to aim at. */
+  opacity: 1;
 }
 
 /* The label is held at zero width until its chapter is current, so the rail is
