@@ -9,6 +9,7 @@ import {
   Float32BufferAttribute,
   MathUtils,
   type Points,
+  type ShaderMaterial,
   type Group,
 } from "three";
 import { palette } from "../palette";
@@ -87,6 +88,7 @@ function hexToRgb(hex: string): [number, number, number] {
 
 function Stream({ progress }: { progress: React.RefObject<number> }) {
   const points = useRef<Points>(null);
+  const material = useRef<ShaderMaterial>(null);
 
   const geometry = useMemo(() => {
     const pos: number[] = [];
@@ -127,19 +129,29 @@ function Stream({ progress }: { progress: React.RefObject<number> }) {
   );
 
   useFrame((state, delta) => {
-    uniforms.uTime.value += delta;
-    uniforms.uFlow.value = MathUtils.damp(
-      uniforms.uFlow.value,
-      progress.current,
-      1.5,
-      delta
-    );
-    uniforms.uPixelRatio.value = Math.min(state.gl.getPixelRatio(), 2);
+    /**
+     * Written through the material's own uniform map rather than through the
+     * object this component passed in as a prop.
+     *
+     * The two are not reliably the same object, and when they differ every
+     * write lands somewhere the GPU never reads — the particles freeze while
+     * the cones around them keep turning, so the scene looks alive and the
+     * thing it is actually about does not move. The ambient starfield sat
+     * frozen on exactly this for weeks before it was caught by diffing two
+     * frames.
+     */
+    const u = material.current?.uniforms;
+    if (!u) return;
+
+    u.uTime.value += delta;
+    u.uFlow.value = MathUtils.damp(u.uFlow.value, progress.current, 1.5, delta);
+    u.uPixelRatio.value = Math.min(state.gl.getPixelRatio(), 2);
   });
 
   return (
     <points ref={points} geometry={geometry} frustumCulled={false}>
       <shaderMaterial
+        ref={material}
         uniforms={uniforms}
         vertexShader={vertex}
         fragmentShader={fragment}

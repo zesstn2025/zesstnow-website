@@ -145,7 +145,12 @@ const fragment = /* glsl */ `
     // rather than as a second surface. It sits on top of everything, so it has
     // to be faint or it becomes the object.
     if (uWire > 0.5) {
-      gl_FragColor = vec4(uKey * 0.8, 0.16);
+      // Fainter than it was. The wireframe pass used to be driven with stale
+      // parameters, so it drew a different form from the solid and read as a
+      // soft halo around it. Now that both passes get the same numbers the
+      // edges land exactly on top of each other, and at the old alpha the
+      // object came out hot enough to lose its facets.
+      gl_FragColor = vec4(uKey * 0.8, 0.10);
       return;
     }
 
@@ -190,18 +195,43 @@ function Shape({ index }: { index: number }) {
   );
 
   useFrame((state, delta) => {
+    /**
+     * Written through the material's own uniform map rather than through the
+     * object handed to it as a prop.
+     *
+     * This one was measured working either way — but the failure mode when it
+     * is not is silent and total: the writes land somewhere the GPU never
+     * reads, and the shape simply stops changing with no error anywhere. Two
+     * scenes on this site had been frozen that way, one of them for weeks. A
+     * pattern that happens to work is not worth keeping when the version that
+     * always works is the same length.
+     */
+    const u = solid.current?.uniforms;
+    const w = wire.current?.uniforms;
+    if (!u) return;
+
     const target = SHAPES[index] ?? SHAPES[0];
     for (let i = 0; i < 4; i++) {
       current.current[i] = MathUtils.damp(current.current[i], target[i], 3.2, delta);
     }
-    uniforms.uShape.value.set(...(current.current as [number, number, number, number]));
-    uniforms.uScale.value = MathUtils.damp(
-      uniforms.uScale.value,
-      SCALES[index] ?? 1,
-      3.2,
-      delta
-    );
-    uniforms.uTime.value += delta;
+
+    const shape = current.current as [number, number, number, number];
+    const scale = MathUtils.damp(u.uScale.value, SCALES[index] ?? 1, 3.2, delta);
+
+    u.uShape.value.set(...shape);
+    u.uScale.value = scale;
+    u.uTime.value += delta;
+
+    // The wireframe shell runs the same vertex shader and must be given the
+    // same numbers. Its uniform map was built to share the solid's entries by
+    // reference, which works right up until the two materials end up with
+    // separate maps — and then the cage stops following the form it is meant
+    // to be drawn around, with nothing to indicate why.
+    if (w) {
+      w.uShape.value.set(...shape);
+      w.uScale.value = scale;
+      w.uTime.value = u.uTime.value;
+    }
 
     // The whole form turns slowly, and leans toward the pointer.
     const g = group.current;
