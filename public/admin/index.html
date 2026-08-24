@@ -52,33 +52,86 @@
       <h1>Zesst Now — Admin</h1>
       <p>
         Loading the editor. On the sign-in screen choose
-        <strong>Sign In with Token</strong> — it links you straight to GitHub,
-        with the right permissions already selected. Paste the token back and
-        you are in.
+        <strong>Sign In Using Access Token</strong>, then paste a GitHub token
+        with read and write access to this repository. The token is kept in
+        this browser and sent nowhere else.
       </p>
       <p class="muted">
-        "Sign in with GitHub" is the other route. It only works once the OAuth
-        keys are set on the Vercel project; the token works today.
+        "Sign In with GitHub" is the other route, and it needs the OAuth keys
+        set on the Vercel project first. The access token needs nothing
+        configured and works today.
       </p>
       <p><a href="/">← Back to the site</a></p>
     </div>
 
     <!-- Sveltia CMS: reads the same config.yml format as Decap, with a better
-         editor. Pinned to a major version so an upstream release cannot change
-         the admin under the owner without us testing it first. -->
-    <script src="https://unpkg.com/@sveltia/cms@0/dist/sveltia-cms.js" type="module"></script>
+         editor.
+
+         Served from this repository, not from unpkg. It used to be a CDN tag
+         pinned to `@0`, which pinned nothing — the range floats across every
+         0.x release, so the admin could change under the owner between one
+         visit and the next, exactly what the old comment here claimed to
+         prevent. sveltia-cms.js is version 0.197.0, committed.
+
+         The stronger reason is what this page holds. Signing in gives the
+         editor a GitHub token with write access to the repository. A script
+         element pointing at someone else's infrastructure is, in that
+         context, a route from their infrastructure to that token. Self-hosting
+         means the site's own `script-src 'self'` covers the admin too.
+
+         To upgrade: fetch the new version, replace this file, load /admin and
+         sign in before committing it. -->
+    <script src="/admin/sveltia-cms.js" type="module"></script>
 
     <script>
-      // If the CMS mounted, it replaces the body content; if it never loads,
-      // the message above stays on screen instead of a blank page.
-      window.addEventListener("load", function () {
-        setTimeout(function () {
-          var boot = document.getElementById("boot");
-          if (boot && document.querySelector("#nc-root, #app, .sveltia-cms")) {
-            boot.remove();
-          }
-        }, 2500);
-      });
+      // The boot screen covers the whole viewport, so removing it is not
+      // cosmetic — until it goes, the editor underneath cannot be clicked.
+      //
+      // It is removed by watching for the editor to add ANYTHING to <body>,
+      // rather than by looking for the element it is expected to add. The
+      // previous version checked for `#nc-root, #app, .sveltia-cms`; Sveltia
+      // actually mounts `div.sui.app-shell`, so the check never passed and a
+      // fully working editor sat invisible behind this overlay. Matching on a
+      // class name means the next upstream release can break it again in the
+      // same silent way. Anything that is not our own markup is the editor.
+      (function () {
+        var boot = document.getElementById("boot");
+        if (!boot) return;
+
+        function mounted() {
+          return Array.prototype.some.call(document.body.children, function (n) {
+            return n !== boot && n.tagName !== "SCRIPT";
+          });
+        }
+
+        function done() {
+          observer.disconnect();
+          clearTimeout(timer);
+          boot.remove();
+        }
+
+        var observer = new MutationObserver(function () {
+          if (mounted()) done();
+        });
+        observer.observe(document.body, { childList: true });
+
+        // And if it never arrives, say what happened. A boot screen that sits
+        // on "Loading" forever is indistinguishable from a slow one, which is
+        // how this page stayed broken without anyone being able to tell.
+        var timer = setTimeout(function () {
+          if (mounted()) return done();
+          observer.disconnect();
+          boot.innerHTML =
+            "<h1>The editor did not load</h1>" +
+            "<p>The page itself is fine, so this is the editor bundle failing " +
+            "to start — open the browser console and read the first error.</p>" +
+            "<p class=\"muted\">Usually a blocked script or a bad path to " +
+            "<strong>/admin/sveltia-cms.js</strong>.</p>" +
+            '<p><a href="/">&larr; Back to the site</a></p>';
+        }, 15000);
+
+        if (mounted()) done();
+      })();
     </script>
   </body>
 </html>
