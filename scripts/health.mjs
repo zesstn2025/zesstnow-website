@@ -85,6 +85,29 @@ async function api(path, init = {}) {
   record("CSRF cookie issued, SameSite=Strict", cookie.includes("zn.csrf=") && /samesite=strict/i.test(cookie),
          cookie ? cookie.split(";")[0].slice(0, 24) + "…" : "none");
 
+  /* ── The admin ──────────────────────────────────────────────────────
+     Here because /admin was unopenable for its entire existence and nothing
+     noticed. The site's CSP refused the editor's own script, so the page sat
+     on "Loading the editor" forever — which is what a slow load looks like.
+     Both halves are checked: that the policy still permits the editor to
+     reach GitHub, and that the bundle it needs is actually being served. */
+  const admin = await fetch(BASE + "/admin");
+  const adminCsp = admin.headers.get("content-security-policy") || "";
+  record("admin page is served", admin.status === 200, `HTTP ${admin.status}`);
+  record(
+    "admin CSP still lets the editor reach GitHub",
+    adminCsp.includes("https://api.github.com"),
+    adminCsp.includes("https://api.github.com") ? "connect-src includes api.github.com" : "api.github.com MISSING from connect-src"
+  );
+
+  const bundle = await fetch(BASE + "/admin/sveltia-cms.js");
+  const bundleType = bundle.headers.get("content-type") || "";
+  record(
+    "admin editor bundle is served as script",
+    bundle.status === 200 && /javascript|ecmascript/i.test(bundleType),
+    `HTTP ${bundle.status}, ${bundleType || "no content-type"}`
+  );
+
   /* ── Enquiry endpoint rejections ────────────────────────────────── */
   const body = JSON.stringify({ name: "Health", phone: "+911234567890", service: "x", message: "health check message" });
 
