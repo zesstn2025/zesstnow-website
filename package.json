@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "enquiry:keys": "node scripts/enquiry-keys.mjs",
-    "health": "node scripts/health.mjs"
+    "health": "node scripts/health.mjs",
+    "links": "node scripts/links.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.7",
