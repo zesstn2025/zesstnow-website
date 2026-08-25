@@ -108,8 +108,22 @@ async function api(path, init = {}) {
     `HTTP ${bundle.status}, ${bundleType || "no content-type"}`
   );
 
-  /* ── Enquiry endpoint rejections ────────────────────────────────── */
-  const body = JSON.stringify({ name: "Health", phone: "+911234567890", service: "x", message: "health check message" });
+  /* ── Enquiry endpoint rejections ──────────────────────────────────
+     Every body here fills `website`, the honeypot. That field is invisible to
+     a person, so nothing real ever sets it, and the endpoint answers a
+     honeypot hit with 200 and delivers nothing.
+
+     That matters now that email actually sends. Without it this script would
+     put three genuine enquiries into the desk's inbox on every run — the
+     rate-limit probe alone posts five times — and a health check that spams
+     the people who own the site is a health check they will stop running.
+
+     It still exercises everything it is meant to: the honeypot is checked
+     AFTER size, CSRF and the rate limiter, so all three are reached. */
+  const body = JSON.stringify({
+    name: "Health", phone: "+911234567890", service: "x",
+    message: "health check message", website: "health-check",
+  });
 
   const noCsrf = await api("/api/enquiry", { method: "POST", headers: { "Content-Type": "application/json" }, body });
   record("POST without CSRF is refused", noCsrf.status === 403, `HTTP ${noCsrf.status}`);
@@ -124,6 +138,26 @@ async function api(path, init = {}) {
   record("oversized body is refused", big.status === 413, `HTTP ${big.status}`);
 
   const token = (cookie.match(/zn\.csrf=([^;]+)/) || [])[1];
+
+  /* Whether this deployment can actually deliver a lead.
+     Not a pass/fail check — locally it is correctly false and always will be,
+     and a check that is permanently red is a check people learn to ignore. On
+     a live deployment, false means every enquiry is landing nowhere, which is
+     worth seeing in the same place as everything else. This is read from the
+     honeypot response precisely because that path sends nothing. */
+  const probe = await api("/api/enquiry", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-zn-csrf": token, Cookie: `zn.csrf=${token}` },
+    body,
+  });
+  let configured = null;
+  try { configured = JSON.parse(probe.text).configured; } catch { /* reported below as unknown */ }
+  console.log(
+    `  ${configured ? "note  " : " ??   "} ${"notification channels configured".padEnd(42)} ` +
+    (configured === null ? `could not read (HTTP ${probe.status})`
+      : configured ? "yes — enquiries are being delivered"
+      : "NO — enquiries reach nobody; set SMTP_* or RESEND_API_KEY")
+  );
   let limited = 0, lastStatus = 0;
   for (let i = 0; i < 5; i++) {
     const r = await api("/api/enquiry", {

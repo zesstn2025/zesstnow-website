@@ -123,15 +123,28 @@ async function viaTwilio(enquiry: Enquiry, to: string): Promise<Delivery> {
   return { channel: "whatsapp", status: "sent", detail: "WhatsApp alert sent." };
 }
 
+function hasCloudApi() {
+  return !!process.env.WHATSAPP_PHONE_NUMBER_ID?.trim() && !!process.env.WHATSAPP_ACCESS_TOKEN?.trim();
+}
+
+function hasTwilioApi() {
+  return (
+    !!process.env.TWILIO_ACCOUNT_SID?.trim() &&
+    !!process.env.TWILIO_AUTH_TOKEN?.trim() &&
+    !!process.env.TWILIO_WHATSAPP_FROM?.trim()
+  );
+}
+
+/** Whether either provider has credentials in this environment. */
+export function whatsappConfigured() {
+  return hasCloudApi() || hasTwilioApi();
+}
+
 export async function sendWhatsAppAlert(enquiry: Enquiry): Promise<Delivery> {
   const to = e164(process.env.ENQUIRY_TO_WHATSAPP?.trim() || company.phoneE164);
 
-  const hasCloud =
-    !!process.env.WHATSAPP_PHONE_NUMBER_ID?.trim() && !!process.env.WHATSAPP_ACCESS_TOKEN?.trim();
-  const hasTwilio =
-    !!process.env.TWILIO_ACCOUNT_SID?.trim() &&
-    !!process.env.TWILIO_AUTH_TOKEN?.trim() &&
-    !!process.env.TWILIO_WHATSAPP_FROM?.trim();
+  const hasCloud = hasCloudApi();
+  const hasTwilio = hasTwilioApi();
 
   if (!hasCloud && !hasTwilio) {
     return {

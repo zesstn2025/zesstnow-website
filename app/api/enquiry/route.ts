@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { sendEnquiryEmail } from "@/lib/notify/email";
-import { sendWhatsAppAlert } from "@/lib/notify/whatsapp";
+import { emailConfigured, sendEnquiryEmail } from "@/lib/notify/email";
+import { sendWhatsAppAlert, whatsappConfigured } from "@/lib/notify/whatsapp";
 import type { Enquiry } from "@/lib/notify/types";
 import { clean, validate } from "@/lib/security/validate";
 import { CSRF_COOKIE, verifyRequest } from "@/lib/security/csrf";
@@ -156,9 +156,20 @@ export async function POST(request: NextRequest) {
     // 5. Honeypot: a field hidden from people and irresistible to form-fillers.
     //    Answered with 200 on purpose — an error teaches the bot to try again
     //    differently, and a success teaches it nothing at all.
+    //
+    //    `configured` is reported honestly rather than hardcoded true. It used
+    //    to claim true unconditionally, which told a bot nothing but also told
+    //    the health check nothing — and this is the one way to ask a live
+    //    deployment whether its channels are wired up without making it send a
+    //    real message to the desk. It reveals no more than an ordinary
+    //    submission's response already does.
     if (typeof payload.website === "string" && payload.website.trim()) {
       console.warn("[enquiry] honeypot tripped from", ip);
-      return NextResponse.json({ ok: true, configured: true, deliveries: [] });
+      return NextResponse.json({
+        ok: true,
+        configured: emailConfigured() || whatsappConfigured(),
+        deliveries: [],
+      });
     }
 
     // 6. Normalise, then validate. In that order: Unicode has several ways to
