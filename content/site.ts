@@ -66,14 +66,30 @@ export const company = {
  * That is deliberate: a guessed facebook.com/... or linkedin.com/in/... slug
  * lands on the wrong person or a 404, which is worse than no link at all. Fill
  * the real URLs in and they appear everywhere at once.
+ *
+ * The two URLs filled in below are not guesses. They are numeric-id URLs read
+ * off the pages the company's own accounts actually administer — Facebook page
+ * 100709512133622 "Zesst Now services private limited" and LinkedIn company
+ * 117373922 "Cognitive Capital-Global". Both platforms treat the id form as
+ * canonical and redirect it to whatever vanity slug the page later takes, so
+ * these keep working even if the handles change. If a vanity URL is preferred
+ * in the footer, paste it over the id form — do not delete the id.
  */
 export type Profile = { network: string; handle: string; url: string };
 
 export const social: { company: Profile[]; founder: Profile[] } = {
   company: [
     { network: "Instagram", handle: "@zesstnowai", url: "https://instagram.com/zesstnowai" },
-    // TODO: paste the page URL — facebook.com/<page>
-    { network: "Facebook", handle: "Zesst Now Services Private Limited", url: "" },
+    {
+      network: "Facebook",
+      handle: "Zesst Now Services Private Limited",
+      url: "https://www.facebook.com/100709512133622",
+    },
+    {
+      network: "LinkedIn",
+      handle: "Cognitive Capital-Global",
+      url: "https://www.linkedin.com/company/117373922/",
+    },
   ],
   founder: [
     {
