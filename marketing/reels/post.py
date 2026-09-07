@@ -41,6 +41,10 @@ TARGETS = dict(
     gbp_location="locations/9244036794200648994",   # Zesst Now services private limited
 )
 
+GBP_API = "https://mybusiness.googleapis.com/v4"
+GBP_ACCOUNT = "112479523110015984027"
+GBP_LOCATION = "9244036794200648994"
+
 # Each day's video points at the page that answers it. A Reel that sends people
 # to the home page converts far worse than one that lands on the service.
 LANDING = {
@@ -68,11 +72,33 @@ WEEKDAY_TO_REEL = {
     3: "thu-ai", 4: "fri-funnel", 5: "sat-social",
 }
 
-# LinkedIn is Tue-Thu only, Google Business Mon/Wed/Fri. Posting everywhere
-# every day is how an account starts looking automated, which is the one thing
-# that reliably suppresses reach.
+# LinkedIn is Tue-Thu only. Posting everywhere every day is how an account
+# starts looking automated, which is the one thing that reliably suppresses
+# reach — but Google Business is the exception: it is a directory listing, not
+# a feed, so a post a day is normal there and each one is a different service.
 LINKEDIN_DAYS = {1, 2, 3}
-GBP_DAYS = {0, 2, 4}
+GBP_DAYS = {0, 1, 2, 3, 4, 5}
+
+# The service rotation starts here and advances one card per posting day,
+# Monday to Saturday, wrapping at the end. With 25 services that is a little
+# over four weeks before a service comes round again.
+CYCLE_EPOCH = dt.date(2026, 9, 7)   # a Monday
+
+
+def service_of_day(date):
+    """Which service card today's Google Business post carries.
+
+    Counted in *posting* days rather than calendar days: Sunday publishes
+    nothing, and if the index advanced on Sundays one service in seven would
+    never be posted at all.
+    """
+    from servicecards import CARDS
+    days = (date - CYCLE_EPOCH).days
+    if days < 0:
+        days = 0
+    full_weeks, rest = divmod(days, 7)
+    posting_days = full_weeks * 6 + min(rest, 6)
+    return CARDS[posting_days % len(CARDS)]
 
 
 def link(path, source, campaign):
@@ -81,7 +107,50 @@ def link(path, source, campaign):
             f"&utm_campaign={campaign}")
 
 
-def plan(day_index, date=None):
+def service_post(card):
+    """The Google Business post for one service.
+
+    Always carries an image: a local post with a photo is shown far more
+    prominently than one without, and a bare-text post is the one people scroll
+    past. Never carries a phone number — Google's local post policy disallows
+    it, and a post that breaks it comes back REJECTED rather than erroring, so
+    it fails silently.
+    """
+    body = {
+        "languageCode": "hi",
+        "summary": card["post"].strip(),
+        "topicType": "STANDARD",
+        "media": [{
+            "mediaFormat": "PHOTO",
+            "sourceUrl": f"{VIDEO_BASE}/img/{card['id']}.jpg",
+        }],
+        "callToAction": {
+            "actionType": "LEARN_MORE",
+            "url": link(card["landing"], "google-business", card["id"]),
+        },
+    }
+    assert "77538" not in body["summary"], "no phone numbers in a Google post"
+    return dict(
+        order=0, at="08:00 IST", platform="Google Business post",
+        account="Zesst Now services private limited",
+        service=card["eyebrow"], card=card["id"],
+        tool="google_business_profile_make_api_mutating_request",
+        selected_api="GoogleMyBusinessCLIAPI", action="_zap_raw_request",
+        params={
+            "method": "POST",
+            "url": (f"{GBP_API}/accounts/{GBP_ACCOUNT}/"
+                    f"locations/{GBP_LOCATION}/localPosts"),
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps(body, ensure_ascii=False),
+            "fail_on_errors": "true",
+        },
+        verify=("Read the post back afterwards. It returns PROCESSING and "
+                "becomes LIVE or REJECTED a minute later, and a REJECTED "
+                "post is invisible rather than an error."),
+    )
+
+
+def plan(day_index, date=None, video_only=False):
     if day_index not in WEEKDAY_TO_REEL:
         return dict(rest_day=True,
                     note="Sunday. Nothing goes out — a rest day that is planned "
@@ -162,19 +231,20 @@ def plan(day_index, date=None):
     # ── 08:00 · Google Business, Mon/Wed/Fri, and the desk half not the build
     #    half. Someone searching at nine in the morning wants the compliance
     #    desk, not a video about SaaS.
+    #    Posted through the raw API rather than Zapier's create_post action,
+    #    because that action cannot attach a call-to-action button and Google
+    #    would otherwise get a bare URL sitting in the body text.
+    #
+    #    Two things this post must never contain: a phone number, and a raw
+    #    link in the summary. The first live attempt included the company's
+    #    number and came back REJECTED; the identical text without it, with the
+    #    URL moved into a LEARN_MORE button, went LIVE. Google's local post
+    #    policy disallows phone numbers in post content — the API accepts the
+    #    post and then quietly rejects it, so nothing surfaces until the state
+    #    is read back.
     morning = []
-    if day_index in GBP_DAYS:
-        morning.append(dict(
-            order=0, at="08:00 IST", platform="Google Business post",
-            account="Zesst Now services private limited",
-            tool="google_business_profile_create_post",
-            selected_api="GoogleMyBusinessCLIAPI", action="create_post",
-            params={
-                "location": TARGETS["gbp_location"],
-                "topic_type": "STANDARD",
-                "post_summary": (c["gbp"] + "\n\n"
-                                 + link(DESK_LANDING[rid], "google-business", rid)),
-            }))
+    if day_index in GBP_DAYS and not video_only:
+        morning.append(service_post(service_of_day(date or dt.date.today())))
 
     return dict(
         date=str(date) if date else None,

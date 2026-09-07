@@ -1,0 +1,1028 @@
+{
+ "generated": "2026-09-07T09:25:15+00:00",
+ "company": "Zesst Now Services Private Limited",
+ "timezone": "Asia/Kolkata",
+ "how_to_use": {
+  "1": "Work out today's date in Asia/Kolkata. If it is Sunday, post nothing and stop.",
+  "2": "Google Business, 08:00 IST. Count posting days since `services.epoch`: full weeks since then x 6, plus however many days into the current week (capped at 6). Take that number modulo the length of `services.rotation`. Post that entry. It is a different service every day and it never repeats inside a month.",
+  "3": "The video posts, from 19:00 IST. Look up today's weekday under `weekday` and run every entry in `evening` in `order`.",
+  "4": "Each entry names the Zapier action and the exact params. Pass them through unchanged — the text is written per platform on purpose, and the account ids are fixed so a post cannot land on the wrong page.",
+  "5": "Instagram often answers the first attempt with 'Video is still processing'. That is Meta finishing its own encode, not a failure. Wait ninety seconds and try once more; check the account's recent media before a third attempt so a slow publish does not become two Reels.",
+  "6": "A Google Business post returns PROCESSING and turns LIVE or REJECTED a minute later. Read it back. A rejected post is invisible rather than an error, so nothing surfaces unless the state is checked."
+ },
+ "services": {
+  "epoch": "2026-09-07",
+  "posting_days": "Monday to Saturday",
+  "count": 25,
+  "rotation": [
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "वेबसाइट डिज़ाइन",
+    "card": "website-48-hours",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"वेबसाइट बनवानी है? हम 48 घंटे में लाइव कर देते हैं — ब्रीफ़ तय होने से लेकर हैंडओवर तक। ये अंदाज़ा नहीं, तय समय है।\\n\\nहोस्टिंग, कंटेंट एडिटर जिससे आप ख़ुद बदलाव कर सकें, और एन्क्वायरी डेस्क — तीनों इसी में। फ़ॉर्म भरते ही मैसेज फ़ोन पर आता है, उसी वक़्त।\\n\\nकौशाम्बी से, पूरे भारत के लिए।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/website-48-hours.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services?utm_source=google-business&utm_medium=organic&utm_campaign=website-48-hours\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "GST रिटर्न फ़ाइलिंग",
+    "card": "gst-filing",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"GST की इस महीने की तारीख़ें: GSTR-1 — 11 तारीख़, GSTR-3B — 20 तारीख़।\\n\\nदेर होने पर ब्याज और लेट फ़ीस दोनों लगते हैं, और आपके ख़रीदार का ITC अटक जाता है — नुक़सान सिर्फ़ फ़ीस का नहीं होता।\\n\\nमासिक और तिमाही रिटर्न, e-invoice, सालाना रिटर्न और GST ऑडिट — पूरा डेस्क एक जगह।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/gst-filing.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/fintech?utm_source=google-business&utm_medium=organic&utm_campaign=gst-filing\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "ऐप डेवलपमेंट",
+    "card": "mobile-app",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"हर बिज़नेस को Play Store वाला ऐप नहीं चाहिए।\\n\\nइंस्टॉल होने वाली वेब ऐप चार टैप में होम स्क्रीन पर आ जाती है — आइकन बनता है, ऑफ़लाइन चलती है, नोटिफ़िकेशन भेजती है, और स्टोर के रिव्यू का इंतज़ार नहीं करना पड़ता।\\n\\nकैमरा, बैकग्राउंड लोकेशन या पेमेंट SDK चाहिए तो नेटिव ऐप ही सही है — और वो भी हम बनाते हैं। कौन सा चाहिए, पहली मीटिंग में तय।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/mobile-app.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services?utm_source=google-business&utm_medium=organic&utm_campaign=mobile-app\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "बिज़नेस लोन",
+    "card": "business-loan",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"बिज़नेस लोन की फ़ाइल लौट आई? दस में से नौ बार वजह कागज़ होती है, बिज़नेस नहीं।\\n\\nबैंक क्या माँगेगा और किस क्रम में — ये हम पहले ही तय कर देते हैं। फ़ाइल पूरी होने के बाद आमतौर पर 25 से 45 दिन में पैसा आ जाता है।\\n\\nहम लोन नहीं देते — आवेदन और कागज़ात में मदद करते हैं। मंज़ूरी, दर और शर्तें बैंक तय करता है।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/business-loan.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/fintech?utm_source=google-business&utm_medium=organic&utm_campaign=business-loan\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "AI ऑटोमेशन",
+    "card": "ai-automation",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"बिज़नेस में AI लगाने की सही जगह वो काम है जो रोज़ दोहराया जाता है और जिसमें सोचना नहीं पड़ता।\\n\\nतीन जगह लगभग हर बिज़नेस में मिलती हैं: पेमेंट का रिमाइंडर, एन्क्वायरी का पहला जवाब, और अपॉइंटमेंट की पुष्टि। तीनों मिलाकर एक छोटी टीम के रोज़ के लगभग दो घंटे ले जाते हैं।\\n\\nजहाँ फ़ैसला लेना है — दाम, छूट, कौन सी फ़ाइल बैंक जाएगी — वहाँ आदमी ही चाहिए। हम वो नहीं बेचते।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/ai-automation.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/ai-agents?utm_source=google-business&utm_medium=organic&utm_campaign=ai-automation\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "Udyam / MSME रजिस्ट्रेशन",
+    "card": "udyam-registration",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"Udyam (MSME) रजिस्ट्रेशन सरकार की तरफ़ से पूरी तरह मुफ़्त है। इसके लिए दो हज़ार माँगने वाले भी हैं — मत दीजिए।\\n\\nप्रक्रिया हम बता देते हैं, और कंपनी, LLP, पार्टनरशिप, सोसाइटी, ट्रस्ट रजिस्ट्रेशन या ट्रेडमार्क जैसा जो काग़ज़ी काम असल में लगता है, वो संभाल लेते हैं।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/udyam-registration.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services?utm_source=google-business&utm_medium=organic&utm_campaign=udyam-registration\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "SaaS डेवलपमेंट",
+    "card": "saas-development",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"दस लोग, पाँच सौ रुपये महीना प्रति यूज़र — साल का ₹60,000। पाँच साल में तीन लाख से ऊपर, और अंत में आपके पास कुछ नहीं बचता।\\n\\nअपना प्रोडक्ट माने अपना डेटा, अपने नियम, और कोई सीट गिनती नहीं। BizGST Pro हमने यहीं बनाया है और असली बिज़नेस उस पर चल रहे हैं।\\n\\nपर दस यूज़र से कम हैं तो बना-बनाया टूल सस्ता है — हम यही कहेंगे।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/saas-development.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/saas-development?utm_source=google-business&utm_medium=organic&utm_campaign=saas-development\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "इनकम टैक्स और TDS",
+    "card": "income-tax-tds",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"इनकम टैक्स रिटर्न, TDS और TCS की करेक्शन, और डिमांड नोटिस आने पर विभाग के सामने प्रतिनिधित्व — तीनों एक जगह।\\n\\nज़्यादातर नोटिस आरोप नहीं होते, सिस्टम का मिलान न होना होता है। घबराहट में लिया फ़ैसला नोटिस से ज़्यादा महँगा पड़ता है।\\n\\nपूरे भारत के लिए, कौशाम्बी के दफ़्तर से।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/income-tax-tds.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/fintech?utm_source=google-business&utm_medium=organic&utm_campaign=income-tax-tds\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "लीड जनरेशन",
+    "card": "lead-generation",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"ज़्यादातर बिज़नेस को और लीड नहीं चाहिए होतीं। जो आ रही हैं, उन पर फ़ॉलो अप चाहिए होता है।\\n\\nरास्ता चार क़दम का है — एन्क्वायरी, जवाब, फ़ॉलो अप, सौदा — और लगभग हमेशा तीसरे क़दम पर टूटता है।\\n\\nलैंडिंग पेज, सर्च और सोशल कैंपेन, WhatsApp से कैप्चर, और एक CRM पाइपलाइन ताकि फ़ॉलो अप चैट में दबकर न रह जाए। हम बाज़ार भाव पर verified लीड ख़रीदते-बेचते भी हैं।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/lead-generation.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=google-business&utm_medium=organic&utm_campaign=lead-generation\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "वेब ऐप और डैशबोर्ड",
+    "card": "web-apps",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"मार्केटिंग साइट और वेब ऐप — रफ़्तार, सर्च और कन्वर्ज़न के लिए बनाए हुए। टेम्पलेट पर नया लोगो चिपकाकर नहीं।\\n\\nNext.js और React, तकनीकी SEO, ज़रूरत हो तो असली 3D और मोशन, और अपना CMS ताकि कंटेंट बदलने के लिए हर बार किसी को फ़ोन न करना पड़े।\\n\\nकौशाम्बी से, पूरे भारत के लिए।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/web-apps.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services?utm_source=google-business&utm_medium=organic&utm_campaign=web-apps\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "CIBIL सुधार",
+    "card": "cibil-score",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"बिज़नेस लोन में CIBIL उतना ही मायने रखता है जितना बैलेंस शीट — और छोटी प्राइवेट लिमिटेड में अक्सर मालिक का निजी स्कोर देखा जाता है।\\n\\nआवेदन से पहले स्कोर की सफ़ाई, ग़लत एंट्री का सुधार, और कौन सा लोन कब लेना है — ये तय करने में मदद करते हैं।\\n\\nमंज़ूरी बैंक की मर्ज़ी है। हम फ़ाइल को उस लायक़ बनाते हैं।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/cibil-score.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/fintech?utm_source=google-business&utm_medium=organic&utm_campaign=cibil-score\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "सोशल मीडिया ऑटोमेशन",
+    "card": "social-automation",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"सोशल मीडिया पर सबसे मुश्किल काम पोस्ट बनाना नहीं है। रोज़ याद रखना है।\\n\\nपहले महीने सबको जोश रहता है। दूसरे महीने एक दिन छूटता है, फिर तीन, फिर पूरा हफ़्ता — और तीसरे महीने तक अकाउंट ठंडा।\\n\\nकंटेंट कैलेंडर, शेड्यूलिंग, पोस्टिंग और हर जवाब के लिए एक इनबॉक्स — ताकि लीड नोटिफ़िकेशन में दबकर न मरे।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/social-automation.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=google-business&utm_medium=organic&utm_campaign=social-automation\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "E-invoicing",
+    "card": "e-invoicing",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"E-invoicing की सीमा पार करने के बाद बिना IRN वाला इनवॉइस मान्य नहीं होता — और ख़रीदार का ITC उसी पर अटकता है।\\n\\nआप पर लागू है या नहीं, कब से, और सिस्टम में क्या बदलना होगा — ये देख कर बता देते हैं, और e-invoice जनरेशन भी संभालते हैं।\\n\\nआपकी सप्लाई पर कौन सी सीमा लगती है, ये GST पोर्टल या आपका CA तय करता है।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/e-invoicing.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/fintech?utm_source=google-business&utm_medium=organic&utm_campaign=e-invoicing\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "प्रॉपर्टी लोन और LAP",
+    "card": "property-loan",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"होम लोन, कमर्शियल प्रॉपर्टी लोन, प्रॉपर्टी पर लोन (LAP), कैश क्रेडिट और ओवरड्राफ़्ट लिमिट — ज़रूरत के हिसाब से सही वाला।\\n\\nमशीन के लिए टर्म लोन चाहिए और चालू पूँजी के लिए CC — दोनों को उलट देने से किश्त भारी पड़ती है। फ़ाइल बनाने से पहले ये तय करते हैं।\\n\\nहम लोन नहीं देते; बैंक और NBFC के साथ आवेदन और कागज़ात संभालते हैं।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/property-loan.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/fintech?utm_source=google-business&utm_medium=organic&utm_campaign=property-loan\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "ब्रांड आइडेंटिटी",
+    "card": "brand-identity",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"नाम, लोगो सिस्टम, टाइपोग्राफ़ी और रंग — एक डिज़ाइन भाषा जो नई कंपनी को भी वाजिब चुनाव दिखाती है।\\n\\nलेटरहेड, विज़िटिंग कार्ड, मोहर, होर्डिंग और सोशल के टेम्पलेट — सब एक ही भाषा में, ताकि जहाँ भी दिखें वही कंपनी लगे।\\n\\nकौशाम्बी से, पूरे भारत के लिए।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/brand-identity.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services?utm_source=google-business&utm_medium=organic&utm_campaign=brand-identity\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "BizGST Pro",
+    "card": "bizgst-pro",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"BizGST Pro — फ़ोन से GST इनवॉइस बनाइए और WhatsApp पर सीधे भेजिए।\\n\\nग्राहक का हिसाब, बकाया का अपने आप पीछा, स्टॉक, ख़र्चा, P&L, और GSTR-1 व 3B का सारांश — सब एक जगह। CA के लिए अलग पोर्टल।\\n\\nफ़्री टियर है, कार्ड की ज़रूरत नहीं। यही प्रोडक्ट हमने ख़ुद बनाया है।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/bizgst-pro.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/products?utm_source=google-business&utm_medium=organic&utm_campaign=bizgst-pro\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "नोटिस और असेसमेंट",
+    "card": "notice-support",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"GST या इनकम टैक्स का नोटिस आया है? सबसे पहले ये देखिए कि किस धारा में है, किस अवधि का है, और जवाब की आख़िरी तारीख़ क्या है।\\n\\nज़्यादातर नोटिस सिस्टम से बने मिलान के मामले होते हैं — GSTR-1 और 3B का फ़र्क़, या 2B और किताब का। घबराहट में लिया फ़ैसला नोटिस से महँगा पड़ता है।\\n\\nजवाब, दस्तावेज़ और विभाग के सामने प्रतिनिधित्व — तीनों संभालते हैं।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/notice-support.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/fintech?utm_source=google-business&utm_medium=organic&utm_campaign=notice-support\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "लैंडिंग पेज",
+    "card": "landing-pages",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"कैंपेन चल रहा है, ट्रैफ़िक आ रहा है, और फ़ॉर्म कोई नहीं भरता — दिक़्क़त लगभग हमेशा पेज में होती है, कैंपेन में नहीं।\\n\\nएक वादा, एक फ़ॉर्म, और वो सब कुछ हटा हुआ जो ध्यान बाँटता है। फ़ॉर्म भरते ही मैसेज फ़ोन पर।\\n\\nपेज, कैंपेन और पाइपलाइन तीनों एक साथ बनाते हैं, अलग-अलग नहीं।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/landing-pages.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=google-business&utm_medium=organic&utm_campaign=landing-pages\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "कंपनी रजिस्ट्रेशन",
+    "card": "company-registration",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"कंपनी, LLP, पार्टनरशिप, सोसाइटी और ट्रस्ट रजिस्ट्रेशन — और उसके बाद जो सालाना अनुपालन आता है, वो भी।\\n\\nरजिस्ट्रेशन आसान हिस्सा है। हर साल का बोर्ड रिकॉर्ड, फ़ाइलिंग और तारीख़ें — यही जगह है जहाँ ज़्यादातर नई कंपनियाँ फँसती हैं।\\n\\nट्रेडमार्क फ़ाइलिंग भी यहीं से।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/company-registration.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services?utm_source=google-business&utm_medium=organic&utm_campaign=company-registration\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "बीमा",
+    "card": "insurance",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"जीवन, स्वास्थ्य, वाहन और यात्रा बीमा — और सबसे ज़रूरी हिस्सा: क्लेम के वक़्त कागज़ात संभालना, जो आमतौर पर आप पर छोड़ दिया जाता है।\\n\\nमौजूदा पॉलिसी की समीक्षा भी करते हैं — अक्सर लोग वो ले चुके होते हैं जिसकी ज़रूरत नहीं थी, और जो चाहिए थी वो छूट जाती है।\\n\\nबीमा लाइसेंसधारी माध्यम से होता है। Zesst Now पॉलिसी अंडरराइट नहीं करती।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/insurance.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services?utm_source=google-business&utm_medium=organic&utm_campaign=insurance\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "CRM पाइपलाइन",
+    "card": "crm-pipeline",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"फ़नल कोई सॉफ़्टवेयर नहीं है जो आप ख़रीद लें। CRM ख़रीद लेने से फ़ॉलो अप नहीं होने लगता — वो सिर्फ़ न होने का रिकॉर्ड रखता है।\\n\\nफ़नल का मतलब है तीन चीज़ें अपने आप हों: एन्क्वायरी आते ही जवाब, तीसरे दिन याद, और सातवें दिन आख़िरी बार।\\n\\nपाइपलाइन बनाकर देते हैं और वो तीन काम अपने आप चलने लगते हैं।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/crm-pipeline.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=google-business&utm_medium=organic&utm_campaign=crm-pipeline\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "ई-कॉमर्स",
+    "card": "ecommerce",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"अपनी ऑनलाइन दुकान — कैटलॉग, पेमेंट गेटवे, ऑर्डर और शिपिंग, और हर ऑर्डर पर GST वाला सही इनवॉइस।\\n\\nमार्केटप्लेस पर कमीशन और नियम उनके होते हैं; अपनी दुकान पर ग्राहक और डेटा आपका रहता है। दोनों साथ चलाना भी ठीक है — बस दोनों का हिसाब एक जगह होना चाहिए।\\n\\nकौशाम्बी से, पूरे भारत के लिए।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/ecommerce.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/ecommerce?utm_source=google-business&utm_medium=organic&utm_campaign=ecommerce\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "Cognitive Capital Suite",
+    "card": "cognitive-capital-suite",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"Cognitive Capital Suite — लीड ढूँढ़ना, उन्हें समझना, और सही वक़्त पर बात करना, एक जगह।\\n\\nडिस्कवरी, रियल-टाइम एनरिचमेंट और पाइपलाइन — ताकि टीम अंदाज़े से नहीं, जानकारी से बात करे।\\n\\nकौशाम्बी से बना, छोटे और बढ़ते बिज़नेस के लिए बना। डेमो के लिए कहिए।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/cognitive-capital-suite.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/products?utm_source=google-business&utm_medium=organic&utm_campaign=cognitive-capital-suite\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "लोकल SEO",
+    "card": "local-seo",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"जो आदमी \\\"पास में GST consultant\\\" खोज रहा है, वो आज ख़रीदने वाला है। और उस तक पहुँचने का सबसे सस्ता रास्ता Google Business Profile है — जिसे ज़्यादातर लोग अधूरा छोड़ देते हैं।\\n\\nप्रोफ़ाइल पूरी करना, हर हफ़्ते पोस्ट, फ़ोटो, और हर संतुष्ट ग्राहक से रिव्यू माँगना — यही दस मिनट सबसे ज़्यादा लौटाते हैं।\\n\\nसेटअप और चलाना, दोनों करते हैं।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/local-seo.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=google-business&utm_medium=organic&utm_campaign=local-seo\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   },
+   {
+    "order": 0,
+    "at": "08:00 IST",
+    "platform": "Google Business post",
+    "account": "Zesst Now services private limited",
+    "service": "WhatsApp कैप्चर",
+    "card": "whatsapp-capture",
+    "tool": "google_business_profile_make_api_mutating_request",
+    "selected_api": "GoogleMyBusinessCLIAPI",
+    "action": "_zap_raw_request",
+    "params": {
+     "method": "POST",
+     "url": "https://mybusiness.googleapis.com/v4/accounts/112479523110015984027/locations/9244036794200648994/localPosts",
+     "headers": {
+      "Content-Type": "application/json"
+     },
+     "body": "{\"languageCode\": \"hi\", \"summary\": \"एन्क्वायरी आने के दस मिनट और दस घंटे के बीच का फ़र्क़ सीधे सौदे में दिखता है — और ये फ़र्क़ किसी को महँगा नहीं पड़ता, बस दिखता नहीं।\\n\\nWhatsApp से लीड कैप्चर, पहला जवाब अपने आप, और आगे की याद दिलाना तय क्रम में — ताकि कोई एन्क्वायरी चैट में दबकर न रह जाए।\\n\\nपूरे भारत के लिए, कौशाम्बी के दफ़्तर से।\", \"topicType\": \"STANDARD\", \"media\": [{\"mediaFormat\": \"PHOTO\", \"sourceUrl\": \"https://www.cognitivecapitalsuite.com/reels/img/whatsapp-capture.jpg\"}], \"callToAction\": {\"actionType\": \"LEARN_MORE\", \"url\": \"https://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=google-business&utm_medium=organic&utm_campaign=whatsapp-capture\"}}",
+     "fail_on_errors": "true"
+    },
+    "verify": "Read the post back afterwards. It returns PROCESSING and becomes LIVE or REJECTED a minute later, and a REJECTED post is invisible rather than an error."
+   }
+  ]
+ },
+ "weekday": {
+  "monday": {
+   "date": null,
+   "day": "Monday",
+   "reel": "mon-website",
+   "build_service": "Website design",
+   "desk_service": "GST & tax compliance",
+   "video": "https://www.cognitivecapitalsuite.com/reels/mon-website.mp4",
+   "morning": [],
+   "evening": [
+    {
+     "order": 1,
+     "at": "19:00 IST",
+     "platform": "Instagram Reel",
+     "account": "@zesstnowai",
+     "tool": "instagram_for_business_publish_video",
+     "selected_api": "InstagramBusinessCLIAPI",
+     "action": "publish_video",
+     "params": {
+      "instagramPageId": "17841475982008901",
+      "video": "https://www.cognitivecapitalsuite.com/reels/mon-website.mp4",
+      "caption": "आपकी वेबसाइट है, लेकिन एक भी कॉल नहीं आती?\n\nवजह लगभग हमेशा एक ही होती है — वो वेबसाइट एक ब्रोशर है, दुकान नहीं। उस पर या तो एन्क्वायरी फ़ॉर्म है ही नहीं, या है तो वो किसी तक पहुँचता नहीं।\n\nहम 48 घंटे में लाइव कर देते हैं। ये अंदाज़ा नहीं, तय है। होस्टिंग, कंटेंट एडिटर और एन्क्वायरी डेस्क — तीनों इसी में।\n\nज़्यादातर एजेंसियाँ डिज़ाइन बेचती हैं। हम एन्क्वायरी बेचते हैं।\n\nवेबसाइट चाहिए? DM कीजिए या नीचे नंबर पर कॉल।\n\nhttps://www.cognitivecapitalsuite.com/services?utm_source=instagram&utm_medium=organic&utm_campaign=mon-website\n\n#WebsiteDesign #वेबसाइट #DigitalIndia #ZesstNow #Kaushambi #UttarPradesh #SmallBusinessIndia\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 2,
+     "at": "19:05 IST",
+     "platform": "YouTube Short",
+     "account": "@sonu_sharma_entrepreneur",
+     "tool": "youtube_upload_video",
+     "selected_api": "YouTubeV4CLIAPI",
+     "action": "upload_video",
+     "params": {
+      "title": "आपकी वेबसाइट है, लेकिन कॉल नहीं आती — वजह ये है #Shorts",
+      "video": "https://www.cognitivecapitalsuite.com/reels/mon-website.mp4",
+      "description": "आपकी वेबसाइट है और फिर भी एक भी एन्क्वायरी नहीं आती — इसकी वजह डिज़ाइन नहीं होती। वजह ये होती है कि वेबसाइट एक ब्रोशर है, दुकान नहीं।\n\nइस वीडियो में:\n0:00 वेबसाइट है, कॉल नहीं आती\n0:08 ये दुकान नहीं, ब्रोशर है\n0:15 वो डिज़ाइन बेचते हैं, हम एन्क्वायरी\n0:22 फ़ॉर्म भरा जा रहा है\n0:25 एन्क्वायरी फ़ोन पर — इसी वक़्त\n0:35 48 घंटे: शुरू से लाइव तक\n0:42 होस्टिंग, एडिटर, एन्क्वायरी डेस्क\n0:49 वेबसाइट चाहिए?\n\nछोटे बिज़नेस की वेबसाइट में सबसे बड़ी कमी सुंदरता नहीं होती — एन्क्वायरी का रास्ता होता है। फ़ॉर्म भरने के बाद वो मैसेज किसी के फ़ोन तक पहुँचना चाहिए, उसी वक़्त। यही एक चीज़ वेबसाइट को ब्रोशर से दुकान बनाती है।\n\nZesst Now Services Private Limited — Kaushambi, Uttar Pradesh\nCIN U47110UP2025PTC217212\nवेबसाइट, ऐप, SaaS, AI ऑटोमेशन, सेल्स फ़नल, सोशल मीडिया ऑटोमेशन\nGST और टैक्स, लोन, कंपनी रजिस्ट्रेशन, इंश्योरेंस\n\nwww.cognitivecapitalsuite.com\n+91 77538 98481 · Mon–Sat, 10 AM – 7 PM IST\n\nhttps://www.cognitivecapitalsuite.com/services?utm_source=youtube&utm_medium=organic&utm_campaign=mon-website",
+      "tags": [
+       "website design",
+       "small business website",
+       "वेबसाइट कैसे बनाएं",
+       "business website india",
+       "website design kaushambi",
+       "enquiry form",
+       "website for small business",
+       "zesst now",
+       "uttar pradesh business",
+       "website design hindi"
+      ],
+      "privacy_status": "public",
+      "made_for_kids": "false",
+      "notify_subscribers": "true",
+      "default_language": "hi",
+      "default_audio_language": "hi"
+     }
+    },
+    {
+     "order": 3,
+     "at": "19:10 IST",
+     "platform": "Facebook Page video",
+     "account": "Zesst Now services private limited",
+     "tool": "facebook_pages_create_page_video",
+     "selected_api": "FacebookV2CLIAPI",
+     "action": "page_video",
+     "params": {
+      "page": "100709512133622",
+      "title": "आपकी वेबसाइट है, लेकिन कॉल नहीं आती — वजह ये है",
+      "source": "https://www.cognitivecapitalsuite.com/reels/mon-website.mp4",
+      "description": "आपकी वेबसाइट है, लेकिन एक भी कॉल नहीं आती।\n\nये सुनने में डिज़ाइन की समस्या लगती है। होती नहीं है।\n\nज़्यादातर छोटे बिज़नेस की वेबसाइट एक ब्रोशर होती है — देखने में ठीक, पर उस पर कोई एन्क्वायरी फ़ॉर्म नहीं होता। और जहाँ होता है, वहाँ अक्सर वो फ़ॉर्म किसी के पास पहुँचता ही नहीं। भरने वाला सोचता है उसने बात कर ली; आपको पता ही नहीं चलता।\n\nहम इसे उल्टा बनाते हैं। फ़ॉर्म भरते ही मैसेज फ़ोन पर आ जाता है, उसी वक़्त। और पूरी वेबसाइट 48 घंटे में लाइव — ये तय है, अंदाज़ा नहीं।\n\nहोस्टिंग, कंटेंट एडिटर (जिससे आप ख़ुद बदलाव कर सकें) और एन्क्वायरी डेस्क, तीनों इसी में।\n\nज़्यादातर एजेंसियाँ डिज़ाइन बेचती हैं। हम एन्क्वायरी बेचते हैं।\n\nhttps://www.cognitivecapitalsuite.com/services?utm_source=facebook&utm_medium=organic&utm_campaign=mon-website\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    }
+   ],
+   "total": 3
+  },
+  "tuesday": {
+   "date": null,
+   "day": "Tuesday",
+   "reel": "tue-app",
+   "build_service": "App development",
+   "desk_service": "Loan facilitation",
+   "video": "https://www.cognitivecapitalsuite.com/reels/tue-app.mp4",
+   "morning": [],
+   "evening": [
+    {
+     "order": 1,
+     "at": "19:00 IST",
+     "platform": "Instagram Reel",
+     "account": "@zesstnowai",
+     "tool": "instagram_for_business_publish_video",
+     "selected_api": "InstagramBusinessCLIAPI",
+     "action": "publish_video",
+     "params": {
+      "instagramPageId": "17841475982008901",
+      "video": "https://www.cognitivecapitalsuite.com/reels/tue-app.mp4",
+      "caption": "ऐप बनवाने से पहले ये एक सवाल पूछ लीजिए।\n\nक्या इसे सच में Play Store पर होना ज़रूरी है? या बस इतना चाहिए कि ग्राहक के फ़ोन पर खुल जाए?\n\nदूसरा वाला चार टैप में हो जाता है — स्टोर नहीं, रिव्यू नहीं, इंतज़ार नहीं। इंस्टॉल भी होता है, ऑफ़लाइन भी चलता है, नोटिफ़िकेशन भी भेजता है।\n\nस्टोर का रिव्यू दो हफ़्ते ले सकता है। ये उसी दिन लाइव।\n\nऔर हाँ — कभी-कभी स्टोर वाला ही सही होता है। ऐसा हो तो हम आपको यही कहेंगे। कौन सा चाहिए, पहली मीटिंग में तय।\n\nhttps://www.cognitivecapitalsuite.com/services?utm_source=instagram&utm_medium=organic&utm_campaign=tue-app\n\n#AppDevelopment #ऐप #PWA #ZesstNow #Kaushambi #UttarPradesh #SmallBusinessIndia\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 2,
+     "at": "19:05 IST",
+     "platform": "YouTube Short",
+     "account": "@sonu_sharma_entrepreneur",
+     "tool": "youtube_upload_video",
+     "selected_api": "YouTubeV4CLIAPI",
+     "action": "upload_video",
+     "params": {
+      "title": "ऐप बनवाने से पहले ये सवाल पूछिए — पैसा बच जाएगा #Shorts",
+      "video": "https://www.cognitivecapitalsuite.com/reels/tue-app.mp4",
+      "description": "हर बिज़नेस को Play Store वाला ऐप नहीं चाहिए। ज़्यादातर को बस इतना चाहिए कि ग्राहक के फ़ोन पर चीज़ खुल जाए — और उसका रास्ता सस्ता भी है और तेज़ भी।\n\nइस वीडियो में:\n0:00 ऐप बनवाने से पहले\n0:05 प्ले स्टोर पर ज़रूरी है?\n0:15 चार टैप में होम स्क्रीन पर\n0:22 इंस्टॉल, ऑफ़लाइन, नोटिफ़िकेशन\n0:30 स्टोर: दो हफ़्ते। ये: उसी दिन\n0:34 लागत लगभग तीन गुना कम\n0:40 कभी कभी स्टोर वाला ही सही\n0:53 पहली मीटिंग में तय\n\nइंस्टॉल होने वाली वेब ऐप (PWA) होम स्क्रीन पर आइकन बनाती है, ऑफ़लाइन चलती है और नोटिफ़िकेशन भेजती है — बिना स्टोर के रिव्यू का इंतज़ार किए। जहाँ कैमरा, बैकग्राउंड लोकेशन या पेमेंट SDK चाहिए, वहाँ नेटिव ऐप ही सही है, और हम वो भी बनाते हैं।\n\nZesst Now Services Private Limited — Kaushambi, Uttar Pradesh\nCIN U47110UP2025PTC217212\n\nwww.cognitivecapitalsuite.com\n+91 77538 98481 · Mon–Sat, 10 AM – 7 PM IST\n\nhttps://www.cognitivecapitalsuite.com/services?utm_source=youtube&utm_medium=organic&utm_campaign=tue-app",
+      "tags": [
+       "app development",
+       "PWA",
+       "progressive web app",
+       "ऐप कैसे बनाएं",
+       "play store app cost",
+       "app development india",
+       "native vs web app",
+       "business app",
+       "zesst now",
+       "app development hindi"
+      ],
+      "privacy_status": "public",
+      "made_for_kids": "false",
+      "notify_subscribers": "true",
+      "default_language": "hi",
+      "default_audio_language": "hi"
+     }
+    },
+    {
+     "order": 3,
+     "at": "19:10 IST",
+     "platform": "Facebook Page video",
+     "account": "Zesst Now services private limited",
+     "tool": "facebook_pages_create_page_video",
+     "selected_api": "FacebookV2CLIAPI",
+     "action": "page_video",
+     "params": {
+      "page": "100709512133622",
+      "title": "ऐप बनवाने से पहले ये सवाल पूछिए — पैसा बच जाएगा",
+      "source": "https://www.cognitivecapitalsuite.com/reels/tue-app.mp4",
+      "description": "\"ऐप बनवाना है\" — ये सुनते ही ज़्यादातर लोग Play Store सोचते हैं।\n\nपर एक सवाल पहले पूछ लीजिए: क्या इसे सच में स्टोर पर होना ज़रूरी है, या बस इतना चाहिए कि ग्राहक के फ़ोन पर खुल जाए?\n\nअगर दूसरा है, तो रास्ता आसान है। इंस्टॉल होने वाली वेब ऐप चार टैप में होम स्क्रीन पर आ जाती है। आइकन बनता है, ऑफ़लाइन चलती है, नोटिफ़िकेशन भेजती है — और स्टोर के रिव्यू का दो हफ़्ते का इंतज़ार नहीं करना पड़ता। उसी दिन लाइव।\n\nकब स्टोर वाला ऐप ही सही है? जब कैमरा, बैकग्राउंड लोकेशन, या पेमेंट का SDK चाहिए। ऐसा हो तो हम आपसे यही कहेंगे — भले उसमें हमें ज़्यादा काम मिलता हो।\n\nकौन सा चाहिए, ये पहली मीटिंग में तय हो जाता है।\n\nhttps://www.cognitivecapitalsuite.com/services?utm_source=facebook&utm_medium=organic&utm_campaign=tue-app\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 4,
+     "at": "19:15 IST",
+     "platform": "LinkedIn company update",
+     "account": "Cognitive Capital-Global",
+     "tool": "linkedin_create_company_update",
+     "selected_api": "LinkedInCLIAPI",
+     "action": "create_company_update",
+     "params": {
+      "company_id": "117373922",
+      "comment": "हर तीसरे क्लाइंट से यही बात होती है: \"ऐप बनवाना है, Play Store पर।\"\n\nपहला सवाल हम ये पूछते हैं — स्टोर क्यों?\n\nअक्सर जवाब मिलता है कि ऐप का मतलब ही स्टोर होता है। वो सच नहीं है, और ये ग़लतफ़हमी लोगों के लाखों रुपये और कई हफ़्ते ले जाती है।\n\nइंस्टॉल होने वाली वेब ऐप होम स्क्रीन पर आइकन बनाती है, ऑफ़लाइन चलती है, नोटिफ़िकेशन भेजती है — और उसी दिन लाइव हो जाती है। स्टोर का रिव्यू, अपडेट का चक्कर, दोनों प्लेटफ़ॉर्म का अलग कोड — कुछ नहीं।\n\nनेटिव ऐप कब चाहिए? जब कैमरा गहराई से चाहिए, बैकग्राउंड लोकेशन चाहिए, या कोई पेमेंट SDK चाहिए। तब हम नेटिव ही बनाते हैं और यही कहते हैं।\n\nये फ़र्क़ पहली मीटिंग का काम है, तीसरे महीने का नहीं।\n\nhttps://www.cognitivecapitalsuite.com/services?utm_source=linkedin&utm_medium=organic&utm_campaign=tue-app",
+      "submitted_url": "https://www.cognitivecapitalsuite.com/services?utm_source=linkedin&utm_medium=organic&utm_campaign=tue-app",
+      "title": "ऐप बनवाने से पहले ये सवाल पूछिए — पैसा बच जाएगा"
+     }
+    }
+   ],
+   "total": 4
+  },
+  "wednesday": {
+   "date": null,
+   "day": "Wednesday",
+   "reel": "wed-saas",
+   "build_service": "SaaS development",
+   "desk_service": "Registration & insurance",
+   "video": "https://www.cognitivecapitalsuite.com/reels/wed-saas.mp4",
+   "morning": [],
+   "evening": [
+    {
+     "order": 1,
+     "at": "19:00 IST",
+     "platform": "Instagram Reel",
+     "account": "@zesstnowai",
+     "tool": "instagram_for_business_publish_video",
+     "selected_api": "InstagramBusinessCLIAPI",
+     "action": "publish_video",
+     "params": {
+      "instagramPageId": "17841475982008901",
+      "video": "https://www.cognitivecapitalsuite.com/reels/wed-saas.mp4",
+      "caption": "सॉफ़्टवेयर किराए पर मत लीजिए। अपना बनवाइए।\n\nदस लोग, पाँच सौ रुपये महीना प्रति यूज़र = साल का ₹60,000। हर साल। और हर साल बढ़ता हुआ।\n\nBizGST Pro हमने यहीं बनाया है और असली बिज़नेस इस पर चल रहे हैं। अपना प्रोडक्ट माने अपना डेटा, अपने नियम, और कोई सीट गिनती नहीं।\n\nऔर जिस दिन आप किराए वाला टूल छोड़ेंगे — आपका डेटा उन्हीं के पास रह जाएगा।\n\nएक बात साफ़: अगर आपके दस यूज़र से कम हैं, तो बना-बनाया टूल सस्ता है। हम यही कहेंगे।\n\nhttps://www.cognitivecapitalsuite.com/services/saas-development?utm_source=instagram&utm_medium=organic&utm_campaign=wed-saas\n\n#SaaS #BizGSTPro #MadeInIndia #ZesstNow #Kaushambi #UttarPradesh #SmallBusinessIndia\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 2,
+     "at": "19:05 IST",
+     "platform": "YouTube Short",
+     "account": "@sonu_sharma_entrepreneur",
+     "tool": "youtube_upload_video",
+     "selected_api": "YouTubeV4CLIAPI",
+     "action": "upload_video",
+     "params": {
+      "title": "सॉफ़्टवेयर किराए पर क्यों नहीं — साल का ₹60,000 का हिसाब #Shorts",
+      "video": "https://www.cognitivecapitalsuite.com/reels/wed-saas.mp4",
+      "description": "हर महीने, हर यूज़र का किराया। साल भर जोड़िए तो आँकड़ा चौंकाता है — और जिस दिन आप वो टूल छोड़ेंगे, डेटा उन्हीं के पास रह जाएगा।\n\nइस वीडियो में:\n0:00 सॉफ़्टवेयर किराए पर मत लीजिए\n0:08 दस यूज़र = ₹60,000 साल का\n0:14 आख़िर में कुछ नहीं बचता\n0:21 टूल छोड़ेंगे तो डेटा उन्हीं के पास\n0:24 BizGST Pro — यहीं बना है\n0:29 असली बिज़नेस, असली डेटा\n0:41 दस से कम? तो मत बनवाइए\n0:49 अपना प्रोडक्ट चाहिए?\n\nअपना प्रोडक्ट बनवाने का फ़ैसला भावना का नहीं, हिसाब का है। दस या उससे ज़्यादा यूज़र और कोई ऐसी ज़रूरत जो बना-बनाया टूल पूरी न करता हो — तब अपना बनवाना सस्ता पड़ता है। उससे कम पर नहीं, और हम आपको यही बताएँगे।\n\nZesst Now Services Private Limited — Kaushambi, Uttar Pradesh\nCIN U47110UP2025PTC217212\n\nwww.cognitivecapitalsuite.com\n+91 77538 98481 · Mon–Sat, 10 AM – 7 PM IST\n\nhttps://www.cognitivecapitalsuite.com/services/saas-development?utm_source=youtube&utm_medium=organic&utm_campaign=wed-saas",
+      "tags": [
+       "saas development",
+       "custom software",
+       "अपना सॉफ्टवेयर",
+       "software subscription cost",
+       "bizgst pro",
+       "gst software india",
+       "build vs buy software",
+       "saas india",
+       "zesst now",
+       "custom saas hindi"
+      ],
+      "privacy_status": "public",
+      "made_for_kids": "false",
+      "notify_subscribers": "true",
+      "default_language": "hi",
+      "default_audio_language": "hi"
+     }
+    },
+    {
+     "order": 3,
+     "at": "19:10 IST",
+     "platform": "Facebook Page video",
+     "account": "Zesst Now services private limited",
+     "tool": "facebook_pages_create_page_video",
+     "selected_api": "FacebookV2CLIAPI",
+     "action": "page_video",
+     "params": {
+      "page": "100709512133622",
+      "title": "सॉफ़्टवेयर किराए पर क्यों नहीं — साल का ₹60,000 का हिसाब",
+      "source": "https://www.cognitivecapitalsuite.com/reels/wed-saas.mp4",
+      "description": "हर महीने, हर यूज़र का किराया। साल भर का जोड़ कीजिए।\n\nदस लोग, पाँच सौ रुपये महीना प्रति यूज़र — साल का ₹60,000। हर साल। और हर साल थोड़ा-थोड़ा बढ़ता हुआ। पाँच साल में तीन लाख से ऊपर, और आख़िर में आपके पास कुछ नहीं बचता।\n\nइससे भी बड़ी बात ये है कि जिस दिन आप वो टूल छोड़ेंगे, आपका डेटा उन्हीं के पास रह जाएगा। एक्सपोर्ट का बटन जितना अच्छा दिखता है, असल में उतना काम नहीं आता।\n\nअपना प्रोडक्ट माने अपना डेटा, अपने नियम, और कोई सीट गिनती नहीं। BizGST Pro हमने यहीं बनाया है और असली बिज़नेस उस पर चल रहे हैं — यानी ये सिर्फ़ बात नहीं है।\n\nपर एक बात साफ़ रखते हैं: अगर आपके दस यूज़र से कम हैं, तो बना-बनाया टूल सस्ता है। हम यही कहेंगे, भले आपसे काम न मिले।\n\nhttps://www.cognitivecapitalsuite.com/services/saas-development?utm_source=facebook&utm_medium=organic&utm_campaign=wed-saas\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 4,
+     "at": "19:15 IST",
+     "platform": "LinkedIn company update",
+     "account": "Cognitive Capital-Global",
+     "tool": "linkedin_create_company_update",
+     "selected_api": "LinkedInCLIAPI",
+     "action": "create_company_update",
+     "params": {
+      "company_id": "117373922",
+      "comment": "\"अपना सॉफ़्टवेयर बनवाना चाहिए या सब्सक्रिप्शन ही ठीक है?\"\n\nये फ़ैसला भावना का नहीं, हिसाब का है। तीन चीज़ें देखिए।\n\nपहली — यूज़र कितने हैं। दस लोग × ₹500 महीना = ₹60,000 साल। पाँच साल में तीन लाख से ऊपर, और अंत में मालिकाना कुछ भी नहीं।\n\nदूसरी — क्या टूल आपके तरीक़े से चलता है या आप उसके तरीक़े से चल रहे हैं। हर महीने वही एक्सपोर्ट, वही मैनुअल जोड़-घटाव — वो भी लागत है, बस बिल में नहीं दिखती।\n\nतीसरी — छोड़ते वक़्त क्या साथ जाएगा। ज़्यादातर मामलों में डेटा उन्हीं के पास रह जाता है।\n\nतीनों जवाब भारी पड़ें तभी अपना बनवाना सही है। दस यूज़र से कम पर हम ख़ुद मना करते हैं — बना-बनाया टूल तब सस्ता है।\n\nBizGST Pro हमने यही सोचकर बनाया, और वो अब असली बिज़नेस चला रहा है।\n\nhttps://www.cognitivecapitalsuite.com/services/saas-development?utm_source=linkedin&utm_medium=organic&utm_campaign=wed-saas",
+      "submitted_url": "https://www.cognitivecapitalsuite.com/services/saas-development?utm_source=linkedin&utm_medium=organic&utm_campaign=wed-saas",
+      "title": "सॉफ़्टवेयर किराए पर क्यों नहीं — साल का ₹60,000 का हिसाब"
+     }
+    }
+   ],
+   "total": 4
+  },
+  "thursday": {
+   "date": null,
+   "day": "Thursday",
+   "reel": "thu-ai",
+   "build_service": "AI for business",
+   "desk_service": "Leads & marketing",
+   "video": "https://www.cognitivecapitalsuite.com/reels/thu-ai.mp4",
+   "morning": [],
+   "evening": [
+    {
+     "order": 1,
+     "at": "19:00 IST",
+     "platform": "Instagram Reel",
+     "account": "@zesstnowai",
+     "tool": "instagram_for_business_publish_video",
+     "selected_api": "InstagramBusinessCLIAPI",
+     "action": "publish_video",
+     "params": {
+      "instagramPageId": "17841475982008901",
+      "video": "https://www.cognitivecapitalsuite.com/reels/thu-ai.mp4",
+      "caption": "ये जवाब किसी ने टाइप नहीं किया। रात के ग्यारह बजे अपने आप गया।\n\nएक काम, एक जगह — पेमेंट का रिमाइंडर। वही काम जो एक आदमी दिन में चालीस बार करता था।\n\nपेमेंट रिमाइंडर, एन्क्वायरी का जवाब, अपॉइंटमेंट की पुष्टि — तीनों एक जैसे हैं। रोज़ होते हैं, और सोचना नहीं पड़ता। एक छोटी टीम के ये रोज़ दो घंटे बचा देते हैं।\n\nऔर जहाँ सोचना पड़ता है, वहाँ आदमी ही चाहिए। हम वो नहीं बेचते।\n\nAI आदमी की जगह नहीं लेता। दोहराव की जगह लेता है।\n\nआपके यहाँ रोज़ क्या दोहराया जाता है? कमेंट में बताइए।\n\nhttps://www.cognitivecapitalsuite.com/services/ai-agents?utm_source=instagram&utm_medium=organic&utm_campaign=thu-ai\n\n#AIforBusiness #Automation #ऑटोमेशन #ZesstNow #Kaushambi #UttarPradesh #SmallBusinessIndia\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 2,
+     "at": "19:05 IST",
+     "platform": "YouTube Short",
+     "account": "@sonu_sharma_entrepreneur",
+     "tool": "youtube_upload_video",
+     "selected_api": "YouTubeV4CLIAPI",
+     "action": "upload_video",
+     "params": {
+      "title": "ये मैसेज किसी ने नहीं भेजा — रात 11 बजे अपने आप गया #Shorts",
+      "video": "https://www.cognitivecapitalsuite.com/reels/thu-ai.mp4",
+      "description": "AI का सबसे काम का इस्तेमाल कोई जादू नहीं है। वो एक ऐसा काम है जो रोज़ चालीस बार होता है और जिसमें सोचना नहीं पड़ता।\n\nइस वीडियो में:\n0:00 किसी ने टाइप नहीं किया\n0:05 अपने आप गया\n0:11 असल में एक छोटा काम\n0:15 एन्क्वायरी → जवाब → रिमाइंडर\n0:20 तीन जगह, हर बिज़नेस में\n0:31 रोज़ के दो घंटे\n0:36 जहाँ सोचना है, वहाँ आदमी\n0:49 दोहराव की जगह लेता है\n\nबिज़नेस में AI लगाने का सही तरीक़ा ये है कि पहले वो काम ढूँढ़िए जो रोज़ दोहराया जाता है और जिसमें फ़ैसला नहीं लेना पड़ता। पेमेंट का पीछा, एन्क्वायरी का पहला जवाब, अपॉइंटमेंट की पुष्टि — ये तीन जगह लगभग हर छोटे बिज़नेस में मिलती हैं।\n\nZesst Now Services Private Limited — Kaushambi, Uttar Pradesh\nCIN U47110UP2025PTC217212\n\nwww.cognitivecapitalsuite.com\n+91 77538 98481 · Mon–Sat, 10 AM – 7 PM IST\n\nhttps://www.cognitivecapitalsuite.com/services/ai-agents?utm_source=youtube&utm_medium=organic&utm_campaign=thu-ai",
+      "tags": [
+       "ai for business",
+       "business automation",
+       "AI ऑटोमेशन",
+       "whatsapp automation",
+       "payment reminder automation",
+       "ai for small business",
+       "automation india",
+       "zesst now",
+       "ai business hindi",
+       "lead response automation"
+      ],
+      "privacy_status": "public",
+      "made_for_kids": "false",
+      "notify_subscribers": "true",
+      "default_language": "hi",
+      "default_audio_language": "hi"
+     }
+    },
+    {
+     "order": 3,
+     "at": "19:10 IST",
+     "platform": "Facebook Page video",
+     "account": "Zesst Now services private limited",
+     "tool": "facebook_pages_create_page_video",
+     "selected_api": "FacebookV2CLIAPI",
+     "action": "page_video",
+     "params": {
+      "page": "100709512133622",
+      "title": "ये मैसेज किसी ने नहीं भेजा — रात 11 बजे अपने आप गया",
+      "source": "https://www.cognitivecapitalsuite.com/reels/thu-ai.mp4",
+      "description": "रात के ग्यारह बजे थे। जवाब चला गया। किसी ने टाइप नहीं किया।\n\nAI को लेकर सबसे ज़्यादा गलतफ़हमी यही है कि वो कुछ बड़ा और जादुई करेगा। असल में उसका सबसे काम का इस्तेमाल बहुत छोटा है — एक ऐसा काम जो रोज़ चालीस बार होता है और जिसमें सोचना नहीं पड़ता।\n\nतीन जगह लगभग हर बिज़नेस में मिलती हैं:\n• पेमेंट का रिमाइंडर\n• एन्क्वायरी का पहला जवाब\n• अपॉइंटमेंट की पुष्टि\n\nतीनों रोज़ होते हैं। तीनों में फ़ैसला नहीं लेना पड़ता। और तीनों मिलाकर एक छोटी टीम के रोज़ के लगभग दो घंटे खा जाते हैं।\n\nजहाँ सोचना पड़ता है — क्या दाम लगाना है, किस ग्राहक को कितनी छूट देनी है, कौन सी फ़ाइल बैंक भेजनी है — वहाँ आदमी ही चाहिए। हम वो नहीं बेचते, और जो बेचता है उससे सावधान रहिए।\n\nAI आदमी की जगह नहीं लेता। दोहराव की जगह लेता है।\n\nआपके यहाँ रोज़ क्या दोहराया जाता है?\n\nhttps://www.cognitivecapitalsuite.com/services/ai-agents?utm_source=facebook&utm_medium=organic&utm_campaign=thu-ai\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 4,
+     "at": "19:15 IST",
+     "platform": "LinkedIn company update",
+     "account": "Cognitive Capital-Global",
+     "tool": "linkedin_create_company_update",
+     "selected_api": "LinkedInCLIAPI",
+     "action": "create_company_update",
+     "params": {
+      "company_id": "117373922",
+      "comment": "AI का सबसे काम का इस्तेमाल वो नहीं है जो सबसे ज़्यादा बेचा जा रहा है।\n\nहम क्लाइंट के साथ हमेशा एक ही सवाल से शुरू करते हैं: आपके यहाँ रोज़ ऐसा कौन सा काम होता है जिसमें कोई फ़ैसला नहीं लेना पड़ता?\n\nजवाब लगभग हमेशा तीन में से एक होता है — पेमेंट का पीछा, एन्क्वायरी का पहला जवाब, या अपॉइंटमेंट की पुष्टि। तीनों रोज़ होते हैं, तीनों में सोचना नहीं पड़ता, और तीनों मिलाकर एक छोटी टीम के रोज़ के लगभग दो घंटे ले जाते हैं।\n\nयही वो जगह है जहाँ ऑटोमेशन का हिसाब पहले महीने में बैठ जाता है।\n\nजहाँ फ़ैसला लेना है — दाम, छूट, कौन सी फ़ाइल बैंक जाएगी — वहाँ आदमी ही चाहिए। हम वहाँ AI नहीं बेचते, और मेरी सलाह है कि जो बेचे उससे बचिए।\n\nAI आदमी की जगह नहीं लेता। दोहराव की जगह लेता है। ये फ़र्क़ बजट का फ़र्क़ है।\n\nhttps://www.cognitivecapitalsuite.com/services/ai-agents?utm_source=linkedin&utm_medium=organic&utm_campaign=thu-ai",
+      "submitted_url": "https://www.cognitivecapitalsuite.com/services/ai-agents?utm_source=linkedin&utm_medium=organic&utm_campaign=thu-ai",
+      "title": "ये मैसेज किसी ने नहीं भेजा — रात 11 बजे अपने आप गया"
+     }
+    }
+   ],
+   "total": 4
+  },
+  "friday": {
+   "date": null,
+   "day": "Friday",
+   "reel": "fri-funnel",
+   "build_service": "Development funnel",
+   "desk_service": "BizGST Pro",
+   "video": "https://www.cognitivecapitalsuite.com/reels/fri-funnel.mp4",
+   "morning": [],
+   "evening": [
+    {
+     "order": 1,
+     "at": "19:00 IST",
+     "platform": "Instagram Reel",
+     "account": "@zesstnowai",
+     "tool": "instagram_for_business_publish_video",
+     "selected_api": "InstagramBusinessCLIAPI",
+     "action": "publish_video",
+     "params": {
+      "instagramPageId": "17841475982008901",
+      "video": "https://www.cognitivecapitalsuite.com/reels/fri-funnel.mp4",
+      "caption": "लीड आती है, और मर जाती है। बीच में कुछ है ही नहीं।\n\nएन्क्वायरी → जवाब → फ़ॉलो अप → सौदा। टूटता कहाँ है? लगभग हमेशा तीसरे दिन — फ़ॉलो अप किसी ने किया ही नहीं।\n\nऔर पहला जवाब कितनी देर में गया, यही सबसे बड़ा फ़र्क़ डालता है।\n\nफ़नल कोई सॉफ़्टवेयर नहीं है जो आप ख़रीद लें। फ़नल का मतलब है ये तीन क़दम अपने आप हों: तुरंत जवाब, तीसरे दिन याद, सातवें दिन आख़िरी बार।\n\nएक असली केस — वही लीड, वही टीम, सिर्फ़ फ़ॉलो अप अपने आप: 41% ज़्यादा सौदे।\n\nआपकी लीड कहाँ रुक रही है? हम देखकर बता देंगे।\n\nhttps://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=instagram&utm_medium=organic&utm_campaign=fri-funnel\n\n#SalesFunnel #LeadFollowUp #BusinessGrowth #ZesstNow #Kaushambi #UttarPradesh #SmallBusinessIndia\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 2,
+     "at": "19:05 IST",
+     "platform": "YouTube Short",
+     "account": "@sonu_sharma_entrepreneur",
+     "tool": "youtube_upload_video",
+     "selected_api": "YouTubeV4CLIAPI",
+     "action": "upload_video",
+     "params": {
+      "title": "लीड आती है और मर जाती है — बीच में कुछ है ही नहीं #Shorts",
+      "video": "https://www.cognitivecapitalsuite.com/reels/fri-funnel.mp4",
+      "description": "ज़्यादातर बिज़नेस को और लीड नहीं चाहिए। जो लीड पहले से आ रही हैं, उन पर फ़ॉलो अप चाहिए।\n\nइस वीडियो में:\n0:00 लीड आती है\n0:04 और मर जाती है\n0:07 रास्ता चार क़दम का\n0:22 दस मिनट बनाम दस घंटे\n0:28 फ़नल कोई सॉफ़्टवेयर नहीं\n0:35 फ़नल का मतलब ये तीन\n0:41 एक असली केस: +41%\n0:45 आपकी लीड कहाँ रुकी?\n\nसेल्स फ़नल कोई सॉफ़्टवेयर नहीं है। वो तीन आदतें हैं जो अपने आप चलनी चाहिए — एन्क्वायरी आते ही पहला जवाब, तीसरे दिन एक याद, और सातवें दिन आख़िरी बार। यही तीन चीज़ें ज़्यादातर छोटे बिज़नेस में नहीं होतीं, और यही वजह है कि लीड आकर मर जाती है।\n\nZesst Now Services Private Limited — Kaushambi, Uttar Pradesh\nCIN U47110UP2025PTC217212\n\nwww.cognitivecapitalsuite.com\n+91 77538 98481 · Mon–Sat, 10 AM – 7 PM IST\n\nhttps://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=youtube&utm_medium=organic&utm_campaign=fri-funnel",
+      "tags": [
+       "sales funnel",
+       "lead follow up",
+       "सेल्स फनल",
+       "lead management",
+       "crm for small business",
+       "follow up automation",
+       "business development",
+       "zesst now",
+       "sales funnel hindi",
+       "lead conversion"
+      ],
+      "privacy_status": "public",
+      "made_for_kids": "false",
+      "notify_subscribers": "true",
+      "default_language": "hi",
+      "default_audio_language": "hi"
+     }
+    },
+    {
+     "order": 3,
+     "at": "19:10 IST",
+     "platform": "Facebook Page video",
+     "account": "Zesst Now services private limited",
+     "tool": "facebook_pages_create_page_video",
+     "selected_api": "FacebookV2CLIAPI",
+     "action": "page_video",
+     "params": {
+      "page": "100709512133622",
+      "title": "लीड आती है और मर जाती है — बीच में कुछ है ही नहीं",
+      "source": "https://www.cognitivecapitalsuite.com/reels/fri-funnel.mp4",
+      "description": "लीड आती है, और मर जाती है। बीच में कुछ है ही नहीं।\n\nरास्ता चार क़दम का है: एन्क्वायरी → जवाब → फ़ॉलो अप → सौदा।\n\nटूटता कहाँ है? लगभग हमेशा तीसरे दिन। फ़ॉलो अप किसी ने किया ही नहीं — इसलिए नहीं कि आलस है, बल्कि इसलिए कि किसी की ज़िम्मेदारी नहीं थी और कहीं लिखा नहीं था।\n\nदूसरी बात इससे भी बड़ी है: पहला जवाब कितनी देर में गया? दस मिनट और दस घंटे के बीच का फ़र्क़ सौदे का फ़र्क़ है।\n\nयहाँ एक बात साफ़ कर दूँ — फ़नल कोई सॉफ़्टवेयर नहीं है जो आप ख़रीद लें और काम हो जाए। फ़नल का मतलब है कि ये तीन चीज़ें अपने आप हों:\n• एन्क्वायरी आते ही जवाब\n• तीसरे दिन एक याद\n• सातवें दिन आख़िरी बार\n\nएक असली केस, बिना नाम के: वही लीड, वही टीम, सिर्फ़ फ़ॉलो अप अपने आप — 41% ज़्यादा सौदे।\n\nज़्यादातर बिज़नेस को और लीड नहीं चाहिए होतीं। जो आ रही हैं, उन पर फ़ॉलो अप चाहिए होता है।\n\nhttps://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=facebook&utm_medium=organic&utm_campaign=fri-funnel\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    }
+   ],
+   "total": 3
+  },
+  "saturday": {
+   "date": null,
+   "day": "Saturday",
+   "reel": "sat-social",
+   "build_service": "Social media automation",
+   "desk_service": "Cognitive Capital Suite",
+   "video": "https://www.cognitivecapitalsuite.com/reels/sat-social.mp4",
+   "morning": [],
+   "evening": [
+    {
+     "order": 1,
+     "at": "19:00 IST",
+     "platform": "Instagram Reel",
+     "account": "@zesstnowai",
+     "tool": "instagram_for_business_publish_video",
+     "selected_api": "InstagramBusinessCLIAPI",
+     "action": "publish_video",
+     "params": {
+      "instagramPageId": "17841475982008901",
+      "video": "https://www.cognitivecapitalsuite.com/reels/sat-social.mp4",
+      "caption": "ये पोस्ट मैंने आज नहीं डाली। तीन हफ़्ते पहले डाली थी — और ये अभी जा रही है।\n\nपूरे महीने की पोस्ट कतार में लगी हुई है। कैप्शन, हैशटैग और पोस्ट का समय — तीनों पहले से तय। छह दिन, सात प्लेटफ़ॉर्म, एक ही सुबह का काम।\n\nसबसे मुश्किल काम पोस्ट बनाना नहीं है। रोज़ याद रखना है।\n\nमहीने में 26 पोस्ट, और एक भी दिन छूटता नहीं।\n\nफ़ायदा रीच नहीं है। फ़ायदा ये है कि नागा नहीं पड़ता — और ऑर्गैनिक में यही एक चीज़ काम करती है।\n\nयही सिस्टम आपके लिए भी लग सकता है।\n\nhttps://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=instagram&utm_medium=organic&utm_campaign=sat-social\n\n#SocialMediaAutomation #ContentStrategy #OrganicGrowth #ZesstNow #Kaushambi #UttarPradesh #SmallBusinessIndia\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    },
+    {
+     "order": 2,
+     "at": "19:05 IST",
+     "platform": "YouTube Short",
+     "account": "@sonu_sharma_entrepreneur",
+     "tool": "youtube_upload_video",
+     "selected_api": "YouTubeV4CLIAPI",
+     "action": "upload_video",
+     "params": {
+      "title": "ये पोस्ट मैंने आज नहीं डाली — तीन हफ़्ते पहले डाली थी #Shorts",
+      "video": "https://www.cognitivecapitalsuite.com/reels/sat-social.mp4",
+      "description": "सोशल मीडिया पर सबसे मुश्किल काम पोस्ट बनाना नहीं है। रोज़ याद रखना है। और यही वो जगह है जहाँ लगभग हर छोटा बिज़नेस दूसरे महीने में रुक जाता है।\n\nइस वीडियो में:\n0:00 ये पोस्ट आज नहीं डाली\n0:08 पूरा महीना कतार में\n0:16 हफ़्ते में 42 पोस्ट\n0:21 मुश्किल बनाना नहीं है\n0:25 रोज़ याद रखना है\n0:31 तीसरे महीने अकाउंट ठंडा\n0:41 फ़ायदा: नागा नहीं पड़ता\n0:50 यही सिस्टम आपके लिए भी\n\nशेड्यूलिंग का असली फ़ायदा रीच नहीं है — नागा न पड़ना है। ऑर्गैनिक ग्रोथ में सबसे ज़्यादा नुक़सान गैप से होता है, आइडिया से नहीं। एक सुबह में पूरा महीना तय कर लेना उस गैप को हटा देता है।\n\nZesst Now Services Private Limited — Kaushambi, Uttar Pradesh\nCIN U47110UP2025PTC217212\n\nwww.cognitivecapitalsuite.com\n+91 77538 98481 · Mon–Sat, 10 AM – 7 PM IST\n\nhttps://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=youtube&utm_medium=organic&utm_campaign=sat-social",
+      "tags": [
+       "social media automation",
+       "content scheduling",
+       "सोशल मीडिया",
+       "organic growth",
+       "content calendar",
+       "instagram scheduling",
+       "social media for business",
+       "zesst now",
+       "social media hindi",
+       "reels strategy"
+      ],
+      "privacy_status": "public",
+      "made_for_kids": "false",
+      "notify_subscribers": "true",
+      "default_language": "hi",
+      "default_audio_language": "hi"
+     }
+    },
+    {
+     "order": 3,
+     "at": "19:10 IST",
+     "platform": "Facebook Page video",
+     "account": "Zesst Now services private limited",
+     "tool": "facebook_pages_create_page_video",
+     "selected_api": "FacebookV2CLIAPI",
+     "action": "page_video",
+     "params": {
+      "page": "100709512133622",
+      "title": "ये पोस्ट मैंने आज नहीं डाली — तीन हफ़्ते पहले डाली थी",
+      "source": "https://www.cognitivecapitalsuite.com/reels/sat-social.mp4",
+      "description": "ये पोस्ट मैंने आज नहीं लिखी। तीन हफ़्ते पहले लिखी थी।\n\nपूरे महीने की पोस्ट कतार में लगी हुई है — कैप्शन, हैशटैग और पोस्ट का समय, तीनों पहले से तय। छह दिन, सात प्लेटफ़ॉर्म, और ये सब एक ही सुबह का काम है।\n\nअब असली बात। सोशल मीडिया पर सबसे मुश्किल काम पोस्ट बनाना नहीं है। रोज़ याद रखना है।\n\nपहले महीने में सबको जोश रहता है। दूसरे महीने में एक दिन छूटता है, फिर तीन दिन, फिर पूरा हफ़्ता — और तीसरे महीने तक अकाउंट ठंडा पड़ जाता है। आइडिया की कमी से नहीं। बस याद नहीं रहा।\n\nमहीने में 26 पोस्ट, और एक भी दिन छूटता नहीं।\n\nशेड्यूलिंग का फ़ायदा रीच नहीं है। फ़ायदा ये है कि नागा नहीं पड़ता — और ऑर्गैनिक में यही एक चीज़ काम करती है। बाक़ी सब उसके बाद आता है।\n\nयही सिस्टम आपके बिज़नेस के लिए भी लग सकता है।\n\nhttps://www.cognitivecapitalsuite.com/services/digital-marketing?utm_source=facebook&utm_medium=organic&utm_campaign=sat-social\n\nZesst Now Services Private Limited — Kaushambi, UP\nWebsites · Apps · SaaS · AI for business · Sales funnels · Social media automation\nGST & tax · Loans · Company registration · Insurance\nwww.cognitivecapitalsuite.com · +91 77538 98481"
+     }
+    }
+   ],
+   "total": 3
+  },
+  "sunday": {
+   "rest_day": true,
+   "note": "Sunday. Nothing goes out — a rest day that is planned survives; one taken out of guilt does not."
+  }
+ }
+}

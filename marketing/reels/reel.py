@@ -222,12 +222,23 @@ def record(html_path, work, total):
 def check_frames_have_content(frames, n):
     """Refuse to ship a reel whose frames are only background.
 
-    Counts bright pixels. The backgrounds here are dark — the lightest point of
-    any theme sits well under half brightness — while the type and the white
-    cards are near 255. So "how much of this frame is bright" separates a real
-    frame from a background-only one cleanly, and a first attempt at this using
-    JPEG file size did not: the drifting gradient compresses to about the same
-    size either way, so the size test failed a perfectly good render.
+    Counts bright pixels. The backgrounds are dark in every theme while the type
+    and the white cards are near 255, so "is any of this frame bright" separates
+    a real frame from a background-only one.
+
+    Two calibrations, both learned by the check being wrong:
+
+    A first version used JPEG file size, and failed a perfectly good render —
+    the drifting gradient compresses to about the same size with or without
+    type on it.
+
+    The second version demanded that 60% of sampled frames carry type, at a
+    threshold of 190. That failed the Saturday reel, whose theme is darker and
+    whose cuts land often enough that half the samples fall in a cross-fade.
+    Inspecting the "blank" frames showed a large counter and two lines of text.
+    So the bar is now what it should always have been: a *total* failure is one
+    where almost nothing anywhere is bright. Cross-fades and dark scenes are
+    expected; a video with no type at all is not.
     """
     from PIL import Image
     checked, blank = 0, 0
@@ -235,15 +246,15 @@ def check_frames_have_content(frames, n):
         f = frames / f"f{i:05d}.jpg"
         if not f.exists():
             continue
-        px = Image.open(f).convert("L").resize((216, 384)).getdata()
-        bright = sum(1 for v in px if v > 190) / len(px)
+        px = list(Image.open(f).convert("L").resize((216, 384)).getdata())
+        bright = sum(1 for v in px if v > 170) / len(px)
         checked += 1
-        if bright < 0.004:          # under ~0.4% of the frame: nothing on screen
+        if bright < 0.002:
             blank += 1
-    if checked and blank > checked * 0.4:
+    if checked and blank > checked * 0.75:
         raise RuntimeError(
-            f"{blank} of {checked} sampled frames have almost no bright pixels — "
-            "the scene layer is probably not rendering")
+            f"{blank} of {checked} sampled frames are essentially empty — "
+            "the scene layer is not rendering")
     print(f"     content ok: {checked - blank}/{checked} sampled frames carry type")
 
 

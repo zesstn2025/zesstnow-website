@@ -95,7 +95,10 @@ body{font-family:var(--ui);color:var(--ink);}
 @keyframes tick{0%{opacity:1;}100%{opacity:0;}}
 @keyframes land{0%{opacity:0;transform:scale(.7);}100%{opacity:1;transform:none;}}
 .bignum .unit{font-family:var(--dev);font-weight:500;font-size:84px;
-  color:var(--ink);opacity:.72;margin-left:44px;}
+  color:var(--ink);opacity:.72;margin-left:44px;
+  /* .bignum tightens tracking for the digits; Devanagari must not inherit it,
+     or conjuncts overlap and the words run together. */
+  letter-spacing:normal;white-space:nowrap;}
 .undertext{font-family:var(--dev);font-weight:500;font-size:50px;line-height:1.4;
   color:rgba(255,255,255,.78);max-width:880px;}
 
