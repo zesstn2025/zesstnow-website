@@ -12,3 +12,7 @@ yarn-error.log*
 .vercel
 *.tsbuildinfo
 next-env.d.ts
+
+# Prospect lists carry third-party names and phone numbers. The scripts in
+# marketing/funnel/ regenerate them in minutes; the data itself stays local.
+marketing/funnel/*.csv
