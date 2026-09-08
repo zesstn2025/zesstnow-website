@@ -11,9 +11,15 @@
  * identical for every client, so the only work that scales with the number of
  * clients is the work that is genuinely different between them.
  *
- * The site is created *outside* this repository. Each client gets their own
- * repository and their own Vercel project, because they own it — and because
- * one client's site should never be able to break another's.
+ * The generated project is created *outside* this repository and is disposable.
+ * What is kept is `clients/<slug>/` — the four content modules and nothing
+ * else. A session runs in a fresh container that is thrown away afterwards, so
+ * a client's work has to live somewhere that survives that, and the four
+ * modules are the only part that is actually theirs; everything else is the
+ * starter, byte for byte, and can be regenerated in a second.
+ *
+ * Run it again with the same slug and it restores that client's saved modules
+ * into a fresh project, which is how you come back to a site months later.
  */
 import { execFileSync } from "node:child_process";
 import { cpSync, existsSync, readFileSync, writeFileSync, rmSync } from "node:fs";
@@ -47,6 +53,9 @@ if (phone && !/^[6-9]\d{9}$/.test(phone)) {
 }
 
 const dest = resolve(REPO, "..", slug);
+const saved = join(REPO, "clients", slug);
+const returning = existsSync(saved);
+
 if (existsSync(dest)) {
   console.error(`  ${dest} already exists — refusing to overwrite it`);
   process.exit(1);
@@ -60,10 +69,16 @@ cpSync(STARTER, dest, {
 });
 rmSync(join(dest, "package-lock.json"), { force: true });
 
+// A client we have built before: their saved modules replace the blank ones.
+if (returning) {
+  cpSync(saved, join(dest, "content/site"), { recursive: true });
+  console.log(`\n  restored ${slug} from clients/${slug}/ — this is not a new site`);
+}
+
 const companyFile = join(dest, "content/site/company.ts");
 let company = readFileSync(companyFile, "utf8");
-company = company.replace('name: "CONFIRM: व्यवसाय का नाम"', `name: ${JSON.stringify(name)}`);
-if (phone) {
+if (!returning) company = company.replace('name: "CONFIRM: व्यवसाय का नाम"', `name: ${JSON.stringify(name)}`);
+if (phone && !returning) {
   company = company
     .replace('phone: "CONFIRM"', `phone: "${phone}"`)
     .replace('whatsapp: "CONFIRM"', `whatsapp: "${phone}"`);
@@ -85,7 +100,7 @@ try {
 }
 
 console.log(`
-  ${name} → ${dest}
+  ${name} → ${dest}${returning ? "  (restored)" : ""}
 
   1. cd ${dest} && npm install
   2. content/site/brand.ts     रंग और फ़ॉन्ट
@@ -95,4 +110,8 @@ console.log(`
   3. असली फ़ोटो public/gallery/ में — stock कभी नहीं
   4. npm run check   हर CONFIRM पकड़ेगा
   5. npm run build   फिर Vercel पर deploy
+
+  काम ख़त्म होने पर — यह सबसे ज़रूरी क़दम है:
+     node scripts/save-client.mjs ${slug}
+     container मिट जाएगा; बिना इसके क्लाइंट का काम चला जाएगा।
 `);

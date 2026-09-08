@@ -78,13 +78,27 @@ There is no test suite. The build is the gate.
 node scripts/new-client.mjs <slug> "<नाम>" [phone]
 ```
 
-Creates `../<slug>/` from `starter/`, fills in the name and number, and makes
-the first commit. Each client gets their own repository and Vercel project —
-they own it, and one client's site must never be able to break another's.
+Creates `../<slug>/` from `starter/` and fills in the name and number. Then
+fill the four content modules, `npm run check`, `npm run build`, and deploy to
+Vercel — files go straight up, no repository needed.
 
-After that the work is four content modules and real photographs. Nothing in
-the client's `app/` or `components/` should need touching; if it does, fix
-`starter/` so every future client gets the fix too.
+**Then save it, or it is gone:**
+
+```
+node scripts/save-client.mjs <slug>
+```
+
+The generated project lives in a container that is destroyed with the session.
+`clients/<slug>/` keeps the four content modules — the only part that is
+actually the client's; everything else is `starter/` byte for byte. Running
+`new-client.mjs` again with the same slug restores them.
+
+`CLIENT-BRIEF.md` has the brief to paste into a fresh session, and one client
+per session is the rule — an unrelated client earlier in the conversation is
+re-sent with every turn.
+
+Nothing in a client's `app/` or `components/` should need touching. If it does,
+fix `starter/` so every future client gets the fix too.
 
 ## Working cheaply — what actually costs tokens
 
