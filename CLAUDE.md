@@ -31,6 +31,8 @@ lib/content.ts       reads the markdown in content/
 marketing/reels/     the daily Reel + Google Business system (Python)
 marketing/funnel/    prospect harvest + outreach scripts (Python)
 marketing/blog/      the blog topic queue
+starter/             the client-site template — has its own CLAUDE.md
+scripts/new-client.mjs   stands up a client site outside this repo
 public/reels/        built videos, service card images, plan.json
 ```
 
@@ -70,6 +72,20 @@ There is no test suite. The build is the gate.
   changing any post copy.
 - **Funnel** — `marketing/funnel/`. State is on Drive, never here.
 
+## Building a client site
+
+```
+node scripts/new-client.mjs <slug> "<नाम>" [phone]
+```
+
+Creates `../<slug>/` from `starter/`, fills in the name and number, and makes
+the first commit. Each client gets their own repository and Vercel project —
+they own it, and one client's site must never be able to break another's.
+
+After that the work is four content modules and real photographs. Nothing in
+the client's `app/` or `components/` should need touching; if it does, fix
+`starter/` so every future client gets the fix too.
+
 ## Working cheaply — what actually costs tokens
 
 Ranked by what has actually burned budget on this project:
@@ -84,13 +100,19 @@ Ranked by what has actually burned budget on this project:
 3. **One long session covering unrelated work.** Everything earlier in the
    conversation is re-sent with every turn. Finish a piece of work, then
    `/clear`. One client site per session.
-4. **Re-establishing context that should have been written down.** If a fact
+4. **Grepping the repo to find what uses something.** There is a code graph
+   for that — see the `graphify` skill in `.claude/skills/`. Asking it who uses
+   a component costs ~320 tokens; reading the component and grepping for its
+   importers costs closer to 5,000 and answers less.
+5. **Re-establishing context that should have been written down.** If a fact
    had to be explained twice, it belongs in this file or in a module's header
    comment — that is what they are for.
 
-Do not add a "knowledge graph" tool for this. Claude Code does not read the
-codebase at session start; it searches on demand. A tool that indexes 560 files
-to avoid a read that never happens costs more than it saves.
+One thing a code graph does **not** buy you here: Claude Code does not read the
+codebase at session start, it searches on demand, so there is no startup read to
+optimise away and no "70% saving" to be had from indexing. What the graph is
+actually good for is the narrower question in point 4 — who touches what — and
+on that it was measured and it pays.
 
 ## House style
 
