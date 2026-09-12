@@ -114,6 +114,20 @@ def record():
             print(f"  ! {l['id']} has no post URL — cannot be de-duplicated")
             continue
         if k in have:
+            # An existing row with no first_pitched was logged but never
+            # actually pitched — the old file carried the `skip` rows that way.
+            # Today it IS being pitched, so arm its clock now instead of
+            # leaving it as a row that can never come up for follow-up. This is
+            # not a re-pitch: it is the first one, recorded late.
+            for r in rows:
+                if r["key"] == k and not r["first_pitched"]:
+                    r["first_pitched"] = t.isoformat()
+                    r["track"] = l.get("track", "build")
+                    r["nudge_due"] = (t + dt.timedelta(days=NUDGE_DAYS)).isoformat()
+                    r["close_due"] = (t + dt.timedelta(days=CLOSE_DAYS)).isoformat()
+                    r["status"] = "pitched"
+                    print(f"  armed {r['id']} {r['name'][:28]} — logged "
+                          f"earlier but never pitched")
             skipped += 1
             continue
         have.add(k)
