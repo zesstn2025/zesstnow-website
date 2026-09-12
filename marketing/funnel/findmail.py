@@ -19,21 +19,26 @@ site, it rejected info@williamjohnspizza.com sitting on williamjohnspizza.com.
 Its two-word requirement exists because one word alone was too loose: it
 accepted a bookshop, sapnaonline.com, for "Sapna Hospital" in Naini.
 
-WHAT THIS FOUND, AND WHY IT MATTERS BEFORE YOU RUN IT AGAIN
+⚠ THE 12 SEPTEMBER "0 OF 23" RESULT IS VOID — THE SEARCH WAS BROKEN
 
-On 12 September 2026 this was run over all 23 prospects that had no email, in
-two passes, opening 362 pages between them. It found **nothing**. Not one of
-those businesses publishes an email anywhere reachable.
+This was run twice over 23 prospects, opened 362 pages, and reported that not
+one of them publishes an email. That number was written into the playbook and a
+commit message as a finding about this market. It was not a finding. It was a
+broken instrument.
 
-That is not a bug in this file. Those rows all carry the signal `no_site`, and
-a business with no website almost never has a published address either —
-Facebook sits behind a login wall, IndiaMART storefronts show no email, and
-Google Maps has no such field at all.
+Bing, hit from here without cookies or JavaScript, serves a degraded results
+page that matches single words instead of the query. Asked for "William Johns
+Pizza Prayagraj" it returns the Wikipedia article for the given name "William".
+So the 362 pages opened were mostly unrelated pages, and of course none of them
+carried our phone numbers. The rule was never exercised.
 
-So: run this on `no_form` and `dead_site` rows, which have their own websites
-and therefore something to find. Running it on `no_site` rows is half an hour
-of requests for a result already known. For those, the email column fills from
-replies — ask for the address when somebody answers on WhatsApp.
+Use Exa instead (mcp__Exa__web_search_exa) — checked against the same queries,
+it returns real, on-topic results. The first one tried surfaced that "Nihit
+Diagnostics" is a registered company with an MCA record, which is itself a
+route to an email that this file never looked at.
+
+Whether these businesses publish emails is therefore still an OPEN QUESTION.
+Do not quote the zero.
 
     python3 findmail.py            → dry run, prints what it would accept
     python3 findmail.py --write    → writes accepted emails into pipeline.csv
