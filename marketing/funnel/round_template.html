@@ -1,0 +1,95 @@
+<title>LinkedIn Round</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{--paper:#f7f6f3;--sunk:#eeebe4;--line:#dbd6ca;--ink:#17160f;--soft:#57534a;
+ --faint:#8b8578;--accent:#1b3a5c;--accent-ink:#f7f6f3;--wa:#0d5b52;
+ --fresh:#1b3a5c;--warm:#7a4512;--cold:#7d766a;--flag:#8a2b1f;--flagbg:#f5e8e5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --paper:#111209;--sunk:#1a1c12;--line:#333527;--ink:#edeade;--soft:#a5a094;
+ --faint:#787265;--accent:#86b6e4;--accent-ink:#111209;--wa:#5fbfa8;
+ --fresh:#86b6e4;--warm:#dca771;--cold:#999387;
+ --flag:#e79a8e;--flagbg:#2b1a16}}
+:root[data-theme="dark"]{--paper:#111209;--sunk:#1a1c12;--line:#333527;--ink:#edeade;
+ --soft:#a5a094;--faint:#787265;--accent:#86b6e4;--accent-ink:#111209;--wa:#5fbfa8;
+ --fresh:#86b6e4;--warm:#dca771;--cold:#999387;--flag:#e79a8e;--flagbg:#2b1a16}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);margin:0;padding:0 1rem 5rem;
+ font-family:Inter,system-ui,sans-serif;line-height:1.6}
+.wrap{max-width:48rem;margin:0 auto}
+header.top{padding:2.5rem 0 1.5rem;border-bottom:2px solid var(--ink)}
+h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+ font-size:clamp(2rem,7vw,3.1rem);line-height:1.04;letter-spacing:-.025em;margin:0;text-wrap:balance}
+.sub{color:var(--soft);margin:.6rem 0 0}
+.rates{background:var(--sunk);border-radius:2px;padding:1.2rem 1.3rem;margin:1.6rem 0 2.2rem}
+h3.band{font-family:"Bricolage Grotesque",sans-serif;font-size:.76rem;letter-spacing:.11em;
+ text-transform:uppercase;color:var(--faint);margin:0 0 .6rem;font-weight:800}
+h3.band+table+h3.band{margin-top:1.4rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+td{padding:.55rem 0;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;white-space:nowrap;font-family:"IBM Plex Mono",monospace;
+ font-size:.84rem;padding-left:1rem}
+.fits{color:var(--faint);font-size:.82rem}
+.terms{margin:1rem 0 0;font-size:.86rem;color:var(--soft)}
+.card{border:1px solid var(--line);border-radius:2px;padding:1.3rem;margin:0 0 1.2rem}
+.card.skip{opacity:.72;background:var(--sunk)}
+.card header{display:flex;gap:1rem;justify-content:space-between;align-items:flex-start;
+ border:0;padding:0}
+h2{font-family:"Bricolage Grotesque",sans-serif;font-size:1.16rem;font-weight:700;margin:0}
+.meta{margin:.25rem 0 0;font-size:.82rem;color:var(--soft)}
+.meta i{color:var(--faint);font-style:normal;margin:0 .4rem}
+.meta .id{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--faint)}
+.chip{flex:none;font-size:.7rem;letter-spacing:.06em;padding:.26rem .62rem;border-radius:99px;
+ border:1px solid currentColor;white-space:nowrap;text-transform:uppercase}
+.chip.fresh{color:var(--fresh)}.chip.warm{color:var(--warm)}
+.chip.cold{color:var(--cold)}.chip.s{color:var(--flag)}
+.need{margin:.9rem 0 0;font-size:.9rem;color:var(--soft)}
+.tier{margin:.55rem 0 0;font-size:.88rem}
+.flag{margin:.8rem 0 0;background:var(--flagbg);color:var(--flag);padding:.7rem .9rem;
+ border-radius:2px;font-size:.86rem}
+details{margin-top:1rem}
+summary{cursor:pointer;font-size:.84rem;color:var(--faint);font-weight:700;
+ letter-spacing:.02em}
+.msg{background:var(--sunk);border-left:2px solid var(--line);padding:.9rem 1rem;
+ margin:.7rem 0 0;font-size:.84rem;font-family:inherit;white-space:pre-wrap;
+ word-break:break-word;color:var(--soft);overflow-x:auto}
+.act{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-top:1.1rem}
+.btn{text-decoration:none;padding:.72rem 1.05rem;border-radius:2px;font-weight:700;font-size:.88rem}
+.btn.li{background:var(--accent);color:var(--accent-ink)}
+.btn.wa{background:var(--wa);color:var(--accent-ink)}
+.btn.ghost{border:1px solid var(--line);color:var(--soft)}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.sent{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--wa)}
+footer{margin-top:2.5rem;padding-top:1.3rem;border-top:1px solid var(--line);
+ font-size:.86rem;color:var(--faint)}
+footer b{color:var(--soft);font-weight:500}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <h1>LinkedIn Round</h1>
+  <p class="sub">12 September 2026 · __N__ people who publicly asked for a developer ·
+  __MAILED__ emailed · __SKIP__ deliberately skipped</p>
+</header>
+
+<div class="rates">
+  __TIERS__
+  <p class="terms"><b>25% to start, balance on delivery.</b> One year of hosting
+  included with every website. An app is never inside a website price.</p>
+</div>
+
+__CARDS__
+
+<footer>
+  <p><b>Every one of these threads already has 6–12 agency comments</b>, all the
+  same shape: “we specialize in…” followed by a list. That shape is invisible.
+  Three things are not — a number, a date, and one sentence proving the post was
+  actually read. That is why each comment opens on their project and states the
+  band.</p>
+  <p>Comments and DMs have to be pasted by hand: there is no LinkedIn tool in
+  this session, and Zapier — the only route that ever existed — is out of tasks.
+  The writing is done; the clicking is not.</p>
+</footer>
+</div>
