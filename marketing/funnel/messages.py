@@ -109,6 +109,22 @@ def link(phone, text):
     return f"https://wa.me/{num}?text=" + urllib.parse.quote(text)
 
 
+
+def followup2(r):
+    """The day-2 WhatsApp. It must not repeat the first message.
+
+    Short on purpose: this touch is a nudge, not a second pitch. The one thing
+    it adds is an explicit way out — "वरना कोई बात नहीं" — because giving
+    somebody permission to say no is what makes the ones who are interested
+    actually answer instead of going quiet.
+    """
+    return "\n\n".join([
+        f'नमस्ते 🙏 मैंने {r["business"]} की website के बारे में लिखा था।',
+        "देख लिया हो तो बता दीजिए — वरना कोई बात नहीं, मैं दोबारा परेशान नहीं करूँगा।",
+        "— सोनू शर्मा, Zesst Now, कौशाम्बी",
+    ])
+
+
 def main():
     rows = list(csv.DictReader(PIPE.open(encoding="utf-8")))
     fresh = [r for r in rows if r["stage"] == "new"]
