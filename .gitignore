@@ -16,6 +16,11 @@ next-env.d.ts
 # Prospect lists carry third-party names and phone numbers. The scripts in
 # marketing/funnel/ regenerate them in minutes; the data itself stays local.
 marketing/funnel/*.csv
+# leads.py is the prospect list itself — names, emails, phone numbers of
+# people who never agreed to be in a public repository. It was tracked here
+# by mistake and four addresses reached the published history before anyone
+# noticed. The scripts stay public; the list does not.
+marketing/funnel/leads.py
 
 # The code graph: about 5 MB, rebuilt in a minute by the graphify skill.
 graphify-out/
