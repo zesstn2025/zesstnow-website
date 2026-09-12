@@ -85,7 +85,7 @@ LEADS = [
       hook="Perishable delivery makes slot booking and live tracking core, not nice-to-have."),
  dict(id="LI013", name="K. Ayush", first="Ayush", asked="2026-03-09",
       where="India", who="Maa Vindhwasini Enterprises — fabrication",
-      email="", wa="", tier="starter",
+      email="", wa="", tier="business",
       li="https://www.linkedin.com/posts/k-ayush-962b7b177_websitedeveloper-freelancer-webdevelopment-activity-7436695256651264000-Erfu",
       need="Company profile, product showcase, enquiry form, mobile-friendly, basic SEO.",
       hook="For a fabrication unit the site is a catalogue a buyer can forward to his own boss."),
@@ -98,7 +98,7 @@ LEADS = [
       need="Freelance website developer for an upcoming project.", hook=""),
  dict(id="LI015", name="Daya (darebyte)", first="Daya", asked="2026-07-19",
       where="Aligarh, UP", who="Founder, darebyte", email="", wa="",
-      tier="starter", skip=
+      tier="business", skip=
       "Budget ₹12,000 for Apple-style 3D scroll animation. A stranger already "
       "told him in his own comments that it is not possible at that price. "
       "Taking it means losing money or disappointing him.",

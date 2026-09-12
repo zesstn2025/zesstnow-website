@@ -14,14 +14,19 @@ much of the work is *building software* versus *presenting a business*.
 Terms are fixed and stated up front, because nobody else in those threads
 states them: 25% to start, the balance on delivery, one year of hosting
 included with every website.
+
+THE FLOOR IS ₹25,000 AND THERE IS NOTHING BELOW IT.
+
+An earlier version carried a ₹5,000–15,000 "starter" band. It was removed, and
+not for positioning. At that price a year of hosting, a domain, an enquiry path
+that actually reaches a phone, real photographs and the hours to get a client's
+copy right cannot all be paid for — so it is either a loss or a worse site than
+the client was promised. Quoting it also anchors every later conversation
+against our own cheapest number. If a prospect cannot reach ₹25,000, the honest
+answer is to say so and leave; it is not to invent a tier that loses money.
 """
 
 WEBSITE = [
-    dict(id="starter", low=5_000, high=15_000, days=4,
-         name="Starter site",
-         fits="A business that has no site at all and needs to exist online",
-         has=["Up to 5 pages", "Mobile-first", "Enquiry form that reaches a phone",
-              "WhatsApp button", "Google Business + maps", "1 year hosting"]),
     dict(id="business", low=25_000, high=50_000, days=7,
          name="Business site",
          fits="A firm that sells on credibility — consultants, clinics, manufacturers",
@@ -59,6 +64,21 @@ APP = [
 TERMS = dict(advance_pct=25, hosting_years=1,
              note="25% to start, balance on delivery. One year of hosting "
                   "included with every website.")
+
+# Three ways to reach us, in the order people actually use them. WhatsApp is
+# first because it is the one that gets answered the same hour; a form is the
+# one people fill in when they are not ready to talk yet.
+WHATSAPP = "917753898481"
+WHATSAPP_SHOWN = "+91 77538 98481"
+BOOK_SITE = "https://www.cognitivecapitalsuite.com/contact"
+BOOK_LI = "https://www.linkedin.com/company/117373922/"
+
+
+def booking_block():
+    return (f"To book a call, whichever is easiest:\n"
+            f"  WhatsApp {WHATSAPP_SHOWN} — https://wa.me/{WHATSAPP}\n"
+            f"  {BOOK_SITE}\n"
+            f"  or just reply on LinkedIn")
 
 
 def inr(n):

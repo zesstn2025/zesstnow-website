@@ -13,8 +13,13 @@ without a question ends the thread.
 
 Nothing here claims a capability we cannot show. The two portfolio links are
 both live and both openable in ten seconds, which is the point of them.
+
+Both versions end on a booking route rather than "happy to connect". Three are
+offered because people differ: WhatsApp gets answered the same hour, the site's
+contact page suits somebody not ready to talk yet, and a LinkedIn reply costs
+them nothing since they are already there.
 """
-from pricing import WEBSITE, APP, TERMS, band
+from pricing import WEBSITE, APP, TERMS, band, booking_block, WHATSAPP, WHATSAPP_SHOWN, BOOK_SITE
 
 TIERS = {t["id"]: t for t in WEBSITE + APP}
 
@@ -42,7 +47,9 @@ Two things you can open rather than take on trust:
 {PORT_CLIENT} — a client's site with online payments, a dues check and appointment booking
 {PORT_OWN} — our own product, which we run and support ourselves
 
-{SIGN_CO}, a registered company. Happy to scope it properly if the brief is still open.""")
+{SIGN_CO}, a registered company.
+
+If the brief is still open, book a call whichever way suits — WhatsApp {WHATSAPP_SHOWN} (wa.me/{WHATSAPP}), {BOOK_SITE}, or just reply here.""")
 
 
 def email(lead):
@@ -74,6 +81,8 @@ Who you would be working with: {SIGN_CO}, a registered company in Kaushambi, Utt
   {PORT_OWN} — our own GST product, which we run and support ourselves. Support is not a line item we added to win work.
 
 One question so the next mail is a real quote rather than a guess: {lead.get('question', 'what does the business need the site to actually do for a visitor — enquire, buy, or book?')}
+
+{booking_block()}
 
 — {SIGN_NAME}
 {SIGN_CO}
