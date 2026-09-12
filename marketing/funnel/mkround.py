@@ -14,7 +14,7 @@ from pricing import WEBSITE, APP, band
 
 HERE = pathlib.Path(__file__).parent
 TODAY = dt.date(2026, 9, 12)
-SENT = {"LI001", "LI003"}          # emailed today
+SENT = {"LI001", "LI003", "LI017", "LI020"}   # emailed today
 
 def age(d): return (TODAY - dt.date.fromisoformat(d)).days
 

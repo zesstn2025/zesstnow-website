@@ -89,7 +89,59 @@ LEADS = [
       li="https://www.linkedin.com/posts/k-ayush-962b7b177_websitedeveloper-freelancer-webdevelopment-activity-7436695256651264000-Erfu",
       need="Company profile, product showcase, enquiry form, mobile-friendly, basic SEO.",
       hook="For a fabrication unit the site is a catalogue a buyer can forward to his own boss."),
+ dict(id="LI016", name="Naveen Sharma — Baisaa Fashion", first="Naveen", asked="2026-09-02",
+      where="Delhi", who="Founder, BAISAA FASHION", email="", wa="", tier="platform",
+      li="https://www.linkedin.com/posts/naveensharmaofficial_wearehiring-hiring-appdeveloper-activity-7500956585314328576-Q07b",
+      need="Fashion e-commerce: website + Android + iOS, payments, orders and tracking, stock sync, admin panel, Play Store and App Store, plus long-term maintenance. Wants monthly engagement, not a build-and-vanish.",
+      hook="\"App bana ke chala jaye\" is the failure you named, and it is the right one to fear — the maintenance year costs more than the build and is where most quotes go quiet."),
+ dict(id="LI017", name="Naveen Alagendran", first="Naveen", asked="2026-07-07",
+      where="India", who="Building a company's first digital identity",
+      email="naveenalagendrancompany@gmail.com", wa="", tier="business",
+      li="https://www.linkedin.com/posts/naveen-alagendran-3460b297_hiring-webdevelopment-websitedesigner-activity-7480097917572370432-0sMR",
+      need="Corporate website plus logo and brand identity; asked explicitly for pricing, timeline, process and portfolio in the reply.",
+      hook="You asked for pricing, timeline and process in writing — so this is all three, in that order."),
+ dict(id="LI018", name="Nitant Mittal — Nitara Primes", first="Nitant", asked="2026-08-18",
+      where="India", who="Building a functional beverage line",
+      email="", wa="", tier="business",
+      li="https://www.linkedin.com/posts/nitantmittal_nitaraprimes-functionalbeverages-designhiring-activity-7495364977566916608-Vr6I",
+      need="Brand identity, packaging and website for a new beverage line, milestone by milestone. Bootstrapped, paying for outcomes rather than retainers.",
+      hook="Paying per milestone rather than per month is the right instinct for a bootstrapped launch, and it happens to be how we price anyway."),
+ dict(id="LI019", name="Shruti Jain — Vedakosh", first="Shruti", asked="2026-07-10",
+      where="Raipur, Chhattisgarh", who="Founder, Vedakosh — personal care",
+      email="", wa="", tier="commerce",
+      li="https://www.linkedin.com/posts/shruti-jain-7228a0347_currently-looking-for-someone-to-build-a-activity-7481325551589154816-Ehrv",
+      need="First website for a personal care D2C brand; asking founders whether WordPress is the right platform.",
+      hook="Your thread turned into eight people arguing WordPress versus Shopify, which is the wrong first question — the right one is whether the site's job is selling or explaining, and for personal care it is usually explaining first."),
+ dict(id="LI020", name="Avinash Kumar Jha — Ckarfe", first="Avinash", asked="2026-08-02",
+      where="Faridabad, Haryana", who="Launching apparel brand Ckarfe",
+      email="ckarfe.clothing@gmail.com", wa="", tier="commerce",
+      li="https://www.linkedin.com/posts/avinash-kumar-jha-8851b9178_shopifydeveloper-ecommerce-d2c-activity-7489778681523949568-gwaF",
+      need="Turn-key Shopify store for ckarfe.com: theme, Razorpay/Cashfree with COD verification, Shiprocket/NimbusPost, mobile-first, SEO, policy pages.",
+      hook="COD verification is the line item that decides whether this store is profitable — without OTP confirmation, Indian apparel routinely sees a quarter of COD orders returned undelivered."),
+ dict(id="LI021", name="Ritesh Singh — Attire World", first="Ritesh", asked="2026-06-28",
+      where="Mumbai", who="Head of Sourcing, ATTIRE WORLD",
+      email="", wa="", tier="commerce",
+      li="https://www.linkedin.com/posts/ritesh-singh-7b648718_looking-for-a-freelance-website-developer-activity-7476816028170244096-v5n3",
+      need="Conversion-focused e-commerce site for a men's ethnic fashion brand: catalogue with categories, filters and search, payment gateway. Asked for quotation.",
+      hook="Filters are where ethnic fashion sites lose the sale — size, fabric and occasion, not just category, because that is how the customer actually shops."),
  # ── not pitching, and the reason ──────────────────────────────────────────
+ dict(id="LI022", name="Recruiters and agencies (7 found this week)", first="", asked="2026-09-07",
+      where="Patna, Kolkata, Delhi", who="", email="", wa="", tier="business", skip=
+      "Saurabh Kumar (Taskmitra/Digilabss), Bhaskar Mishra (Intineri Infosol), "
+      "Prashant Sharma (Team Sapco), Savan Seth, Zahid Raza, Chintan Shah "
+      "(3i Web Experts), Heet Kanabar. Every one is HIRING a developer — salary "
+      "₹15,000–30,000 a month in one case — not buying a website. These are "
+      "employers and competitors. Most 'urgent hiring web developer' posts in "
+      "any given week are this, which is why raw volume is a bad measure.",
+      li="https://www.linkedin.com/posts/bhaskar-mishra-714a51226_hiring-webdeveloper-wordpressdeveloper-activity-7502611123867701248-MbRH",
+      need="Recruitment posts, not client demand.", hook=""),
+ dict(id="LI023", name="Prateek Midha / Vinay Sattu", first="", asked="2026-09-04",
+      where="Gurgaon / India", who="", email="", wa="", tier="platform", skip=
+      "Both are seeking a technical CO-FOUNDER with equity, and Vinay Sattu "
+      "writes it outright: 'I'm not looking to outsource this to an agency.' "
+      "Pitching a build to someone who said that reads as not having read it.",
+      li="https://www.linkedin.com/posts/prateekmidha_seeking-a-technical-co-foundercto-i-am-activity-7501560950173433856-pwvm",
+      need="Technical co-founder, equity, not a paid build.", hook=""),
  dict(id="LI014", name="Shivani Joshi", first="Shivani", asked="2026-09-02",
       where="India", who="", email="", wa="", tier="business", skip=
       "Her post ends 'PS: no agencies.' Pitching as a company is ignoring the "
