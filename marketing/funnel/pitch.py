@@ -462,6 +462,87 @@ The middle option, and the one I would take: build the ₹25,000 version now, sh
 Either way you are better off knowing the three numbers than being told no. WhatsApp {WHATSAPP_SHOWN} (wa.me/{WHATSAPP}) if you want the detail.""")
 
 
+# ── the correction ────────────────────────────────────────────────────────────
+#
+# On 12 September three agencies were emailed a rate card that was two to five
+# times the Indian market. Sending them the same pitch again with different
+# numbers would read as spam and would deserve to. Sending a correction does
+# not: it is a different message, it is shorter, and the thing it is correcting
+# is the one number they actually looked at.
+#
+# It is also the strongest email in this file, and not because it is clever.
+# Nobody writes to say their own price was wrong. An agency owner has been
+# quoted by a hundred suppliers and has never once had one come back
+# unprompted to say the quote was off — so the message gets read on novelty
+# alone, and what it demonstrates is the only thing that matters in a
+# subcontracting relationship: that we say the inconvenient thing early rather
+# than letting it surface in week three.
+#
+# Rules this keeps, and they are what separate a correction from a re-pitch:
+#   1. Say what was wrong in the first sentence. Not "following up".
+#   2. Say WHY it was wrong, with the number that proves it.
+#   3. Be shorter than the original. A correction that is longer than the
+#      thing it corrects is a second pitch wearing a coat.
+#   4. Do not re-argue the case. They already have it.
+
+def partner_correction(lead):
+    """The second email to an agency already sent a wrong rate card."""
+    who = lead["first"] or lead["name"]
+    book = _book(lead)
+    # The day name is derived, never typed. The first draft said "on Friday"
+    # about a Saturday — a one-word error in the subject line of a message
+    # whose entire argument is that we catch our own mistakes.
+    import datetime as _dt
+    sent = _dt.date.fromisoformat(lead["mailed_on"])
+    subject = (f"Correction — the rate I sent you on "
+               f"{sent.strftime('%A')} was wrong")
+
+    rows = "\n".join(f"  {t['name']:<38} {rate(t)}" for t in book)
+
+    body = (
+f"""Hi {who},
+
+{_w(f"I wrote to you on {sent.strftime('%A %-d %B')} about white-label "
+     f"development and quoted a rate. That rate was wrong, and high. This is "
+     f"the corrected one.")}
+
+{_w("What I got wrong: I priced our hours against what agencies outside India "
+     "pay Indian partners, and sent that number to an Indian agency. Checking "
+     "what Indian white-label shops actually publish — ₹20,000 to ₹50,000 a "
+     "month for 20 to 60 hours — our quote was two to five times the going "
+     "rate. That is not a number anybody negotiates; it is a number people "
+     "stop reading at.")}
+
+THE CORRECTED CARD
+
+{rows}
+
+  Full card, the non-compete, and who we are NOT right for:
+  {PARTNERS_PAGE}
+
+{_w("Nothing else changes. Your brand on everything, ours on nothing. We do "
+     "not contact your client, are not named to them, and do not take work "
+     "from them afterwards — in writing before anything starts.")}
+
+{_w("I am writing this rather than quietly hoping you had not opened the "
+     "first one, because the whole arrangement I am proposing depends on you "
+     "hearing the inconvenient thing from us early. A supplier who will not "
+     "correct his own quote is not one you want holding your client's "
+     "deadline.")}
+
+ONE QUESTION, SAME AS BEFORE
+
+What is the piece you are currently pushing out because nobody is free? Ten
+hours is a sensible first block — not a retainer, not a contract.
+
+{booking_block()}
+
+— {SIGN_NAME}
+{SIGN_CO}
+{SITE}""")
+    return subject, body
+
+
 if __name__ == "__main__":
     import sys
     from leads import LEADS

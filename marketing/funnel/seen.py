@@ -29,6 +29,7 @@ next happened to look.
     python3 seen.py record     merge today's LEADS in (idempotent)
     python3 seen.py due        who needs a follow-up today
     python3 seen.py new <url>  1 if this post is unseen, 0 if already pitched
+    python3 seen.py remailed <id>...  restart the clock after a corrected mail
 """
 import csv
 import datetime as dt
@@ -181,12 +182,48 @@ def due():
         print(f"  ({len(nudge)} marked nudged — send the nudge, then it is done)")
 
 
+
+def remailed(ids):
+    """Restart the follow-up clock on rows that were written to again.
+
+    Not a loophole for a second pitch — the rule that one prospect gets one
+    pitch and one nudge still holds. This is for the case where WE had to write
+    again because the first message was wrong: on 13 September three agencies
+    were re-mailed because the rate card they had been sent was two to five
+    times the market.
+
+    Without this their nudge stayed due on the clock set by the FIRST message,
+    which would have put a third message in front of them four days after the
+    first — indistinguishable from spam, and from their side worse than never
+    correcting the price at all. The clock restarts from the message that
+    carries the real offer.
+
+    first_pitched is deliberately NOT changed. It records when contact began,
+    and moving it would erase that this account took two attempts to get right.
+    """
+    rows, t = load(), today()
+    hit = 0
+    for r in rows:
+        if r["id"] in ids:
+            r["nudge_due"] = (t + dt.timedelta(days=NUDGE_DAYS)).isoformat()
+            r["close_due"] = (t + dt.timedelta(days=CLOSE_DAYS)).isoformat()
+            r["status"] = "pitched"
+            r["note"] = (r["note"] + " · " if r["note"] else "") + \
+                f"re-mailed {t.isoformat()} with the corrected rate card"
+            hit += 1
+            print(f"  {r['id']}  {r['name'][:26]:26} nudge {r['nudge_due']}  "
+                  f"close {r['close_due']}")
+    save(rows)
+    print(f"{hit} of {len(ids)} rows re-armed")
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "due"
     if cmd == "record":
         record()
     elif cmd == "due":
         due()
+    elif cmd == "remailed":
+        remailed(set(sys.argv[2:]))
     elif cmd == "new":
         k = key(sys.argv[2])
         print(0 if k in {r["key"] for r in load()} else 1)
