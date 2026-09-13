@@ -95,29 +95,54 @@ TERMS = dict(advance_pct=25, hosting_years=1,
 
 FX_USD_INR = 95.55          # Alpha Vantage spot, 2026-09-12. Restate if requoting.
 
-PARTNER = [
-    dict(id="partner-hourly", low=1_800, high=2_600, unit="per hour",
+# ── the white-label rate card, in TWO tiers, and the reason there are two ────
+#
+# A single partner rate was wrong and the market said so. A real Noida
+# white-label shop publishes its agency rate card openly: monthly retainer
+# ₹20,000–50,000 for 20–60 hours, which is ₹333–1,000 an hour. Quoting an
+# Indian agency ₹1,800–2,600 an hour — as this file did until 13 September —
+# is two to five times the going domestic rate. Nobody argues with a number
+# that far out; they just stop replying, and the silence gets misread as a bad
+# pitch rather than a bad price.
+#
+# But the same hour sold to a Western agency is a different market entirely.
+# They bill their own client $75–150/hr and pay Indian partners $25–45/hr, and
+# 73% of them report they cannot hire developers fast enough — over 42 days to
+# hire, more than $15,000 to do it. That is where the money is: the same work,
+# three to ten times the rate.
+#
+# So: INDIA is the easier first close and the proof-builder. EXPORT is where
+# the cash flow actually lives. Both are real; only one of them was priced.
+#
+# SOURCES, 13 September 2026, USD at 95.55 (Alpha Vantage spot, 12 Sep):
+#   · Western agencies bill $75–150/hr; India premium firms charge them
+#     $25–45/hr — a 60–70% saving for the agency
+#   · Indian domestic agency-partner rates, published: business site
+#     ₹20,000–40,000, e-commerce ₹30,000–55,000, Figma→Next.js ₹15,000–35,000,
+#     Laravel backend ₹40,000–1,20,000, retainer ₹20,000–50,000 / 20–60 hrs
+#   · Dedicated India engineer billed to Western agencies $3,000–6,000/month;
+#     some quote $8,000–12,000 for a fully embedded engineer
+#   · Agencies mark subcontracted work up 40–80% to their client
+#   · 73% of agencies cannot hire; >42 days to hire; >$15,000 per hire
+
+PARTNER_IN = [
+    dict(id="in-hourly", low=900, high=1_400, unit="per hour",
          name="Hourly, white-labelled",
-         fits="Overflow work, a sprint you are short-handed for, a specialism",
+         fits="Overflow, a sprint you are short-handed for, a specialism",
          has=["Minimum 10 hours", "Your brand on everything, ours on nothing",
               "We never contact or are named to your client",
               "Daily written standup", "Code in your repository from day one"]),
-    dict(id="partner-part", low=48_000, high=76_000, unit="per month",
-         name="Retainer — 10 to 20 hours a month",
-         fits="A steady trickle of fixes and small features across your accounts",
+    dict(id="in-retainer", low=45_000, high=90_000, unit="per month",
+         name="Retainer — 40 to 80 hours a month",
+         fits="One live project plus maintenance across your other accounts",
          has=["Named developer", "Unused hours roll one month",
-              "48-hour response on anything logged", "Monthly hour statement"]),
-    dict(id="partner-half", low=1_15_000, high=1_90_000, unit="per month",
-         name="Retainer — 30 to 50 hours a month",
-         fits="One live project plus maintenance on the rest",
-         has=["Named developer", "Your sprint board, your ceremonies",
               "Same-day response", "Monthly hour statement"]),
-    dict(id="partner-dedicated", low=2_85_000, high=5_75_000, unit="per month",
+    dict(id="in-dedicated", low=1_40_000, high=2_20_000, unit="per month",
          name="Dedicated developer — full time",
-         fits="A developer who is yours, on your stack, for as long as you need",
+         fits="A developer who is yours, on your stack, as long as you need",
          has=["160 hours a month", "Works your hours, joins your calls",
               "Direct to your project manager", "One month's notice either way"]),
-    dict(id="partner-build", low=25_000, high=1_05_000, unit="per build",
+    dict(id="in-build", low=25_000, high=1_05_000, unit="per build",
          name="Per build, white-labelled",
          fits="You sold it, we build it, your client never knows we exist",
          has=["Our retail band less 30% — you keep the margin and the client",
@@ -125,6 +150,35 @@ PARTNER = [
               "Delivered in your repository, your hosting, your name",
               "We do not hold the client relationship, ever"]),
 ]
+
+# Quoted in USD because that is the currency the buyer thinks in. Converting
+# to rupees on their invoice makes us look like a vendor being converted from,
+# rather than a partner they can compare against their local options.
+PARTNER_EX = [
+    dict(id="ex-hourly", low=25, high=40, unit="USD per hour",
+         name="Hourly, white-labelled",
+         fits="Overflow when your own team is booked and the deadline is not",
+         has=["Minimum 10 hours", "You bill your client $75–150 for the same hour",
+              "Under NDA before anything starts",
+              "4–6 hours of overlap with US Eastern, 3–4 with the UK",
+              "Your repo, your Slack, your standup — we join as your team"]),
+    dict(id="ex-retainer", low=1_600, high=3_200, unit="USD per month",
+         name="Retainer — 60 to 100 hours a month",
+         fits="A steady stream of client work you would otherwise turn down",
+         has=["Named developer", "Same-day response",
+              "Monthly hour statement", "No long-term contract"]),
+    dict(id="ex-dedicated", low=3_000, high=5_000, unit="USD per month",
+         name="Dedicated developer — full time",
+         fits="Engineering capacity without the 42 days and $15,000 to hire",
+         has=["160 hours a month, one engineer, only your work",
+              "Invisible to your client — NDA, unbranded staging, your email",
+              "Mark it up 40–80% and the spread is yours",
+              "One month's notice either way"]),
+]
+
+# Kept as an alias so nothing that already imports PARTNER breaks. India is the
+# default because it is who we can close first, not who pays best.
+PARTNER = PARTNER_IN
 
 # Three shapes, and a founder picks one. The first is the one the market data
 # actually recommends, which is why it is listed first even though it is the
@@ -216,6 +270,13 @@ def rate(tier):
     reads it."""
     if tier["unit"].endswith("% equity"):
         return f"{tier['low']}–{tier['high']}% equity"
+    # The export tier is quoted in dollars because that is the currency the
+    # buyer thinks in. Running it through band() stamped a rupee sign on a
+    # dollar figure — "₹25 USD per hour" — which reads as carelessness on the
+    # one line a buyer actually checks.
+    if "USD" in tier["unit"]:
+        per = tier["unit"].replace("USD ", "")
+        return f"${tier['low']:,} – ${tier['high']:,} {per}"
     return f"{band(tier['low'], tier['high'])} {tier['unit']}"
 
 

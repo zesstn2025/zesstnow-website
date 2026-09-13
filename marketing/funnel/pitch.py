@@ -26,7 +26,8 @@ Three rules this file keeps:
   3. Say what is excluded. It is the single most credible paragraph available,
      because no one else writes it.
 """
-from pricing import (WEBSITE, APP, PARTNER, EQUITY, EQUITY_BENCHMARK, TERMS,
+from pricing import (WEBSITE, APP, PARTNER_IN, PARTNER_EX, EQUITY,
+                     EQUITY_BENCHMARK, TERMS,
                      band, rate, booking_block,
                      WHATSAPP, WHATSAPP_SHOWN, BOOK_SITE)
 
@@ -215,7 +216,21 @@ Answer that and the next mail is a fixed quote with a delivery date, not a band.
 # subcontractor eventually takes the account. Saying so first, unprompted, is
 # the whole pitch.
 
-PARTNER_TIERS = {t["id"]: t for t in PARTNER}
+PARTNER_TIERS = {t["id"]: t for t in PARTNER_IN + PARTNER_EX}
+
+# The one page on the site written for this reader. Everything else on
+# cognitivecapitalsuite.com sells websites to businesses — the same thing the
+# agency sells — so linking an agency to the home page makes us a competitor in
+# one click, and three separate lines there argue against agencies outright.
+PARTNERS_PAGE = "https://www.cognitivecapitalsuite.com/partners"
+
+
+def _book(lead):
+    """India or export. An Indian agency pays Indian rates and a Western agency
+    pays dollar rates; quoting either one the other's number loses the deal for
+    opposite reasons. Default is India because that is the safer error — too
+    cheap gets a reply, too expensive gets silence."""
+    return PARTNER_EX if lead.get("region") == "export" else PARTNER_IN
 
 NON_COMPETE = (
     "We do not contact your client, are not named to your client, and do not "
@@ -227,8 +242,8 @@ NON_COMPETE = (
 
 def partner_comment(lead):
     who = lead["first"] or lead["name"]
-    h = PARTNER_TIERS["partner-hourly"]
-    d = PARTNER_TIERS["partner-dedicated"]
+    book = _book(lead)
+    h, d = book[0], book[-2] if len(book) > 3 else book[-1]
     return (
 f"""{who} — you are hiring, not buying, so this is not a pitch for your project. It is a line you can call when a deadline lands and the hire has not started yet.
 
@@ -236,8 +251,8 @@ We work white-label for agencies: {rate(h)} for overflow, {rate(d)} for a full-t
 
 {NON_COMPETE}
 
-{PORT_CLIENT} — a client build with online payments and appointment booking
-{PORT_OWN} — our own product, which we run and support ourselves
+Full rate card, and the non-compete in writing: {PARTNERS_PAGE}
+{PORT_OWN} — our own product, which we built, run and support ourselves
 
 {SIGN_CO}, a registered company. WhatsApp {WHATSAPP_SHOWN} (wa.me/{WHATSAPP}) or reply here.""")
 
@@ -248,7 +263,7 @@ def partner_email(lead):
                f"rates, and the non-compete in writing")
     rows = "\n".join(
         f"  {t['name']:<38} {rate(t)}\n      {t['fits']}"
-        for t in PARTNER)
+        for t in _book(lead))
     body = (
 f"""Hi {who},
 
@@ -263,11 +278,8 @@ WHAT WE CHARGE AGENCIES
 
 {rows}
 
-  Per-build work is our retail band less 30%. You keep the margin and you keep
-  the client. ₹25,000 is the floor and it does not move — below that a year of
-  hosting, a working enquiry path and real hours on the client's copy cannot
-  all be paid for, and a supplier who pretends otherwise becomes your problem
-  in week three.
+  The full card, the non-compete and what we will NOT take on:
+  {PARTNERS_PAGE}
 
 THE PART THAT ACTUALLY MATTERS
 

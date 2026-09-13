@@ -18,6 +18,7 @@
  *   ./service-pages  the full copy of each service page (the big one)
  *   ./products       BizGST Pro, the suite, the roadmap
  *   ./pages          home, work, about, FAQ, contact, footer, legal, nav
+ *   ./partners       /partners — the one page written for agencies, not buyers
  *
  * Anything still marked `CONFIRM:` is NOT verified — replace before launch.
  */
@@ -27,3 +28,4 @@ export * from "./services";
 export * from "./service-pages";
 export * from "./products";
 export * from "./pages";
+export * from "./partners";
