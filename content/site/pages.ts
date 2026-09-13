@@ -272,6 +272,14 @@ export const footer = {
         { label: "Blog", href: "/blog" },
         { label: "Announcements", href: "/announcements" },
         { label: "Contact", href: "/contact" },
+        // Deliberately in the footer and not the top nav. The main navigation
+        // speaks to a business owner choosing a supplier; "Partners" sitting
+        // next to Services and Work reads as a badge list to that reader and
+        // confuses the one decision the nav exists to support. An agency, by
+        // contrast, is a footer reader — and a page with no internal link
+        // anywhere is one Google treats as an orphan no matter what the
+        // sitemap says.
+        { label: "For agencies — white label", href: "/partners" },
       ],
     },
     {
