@@ -35,6 +35,11 @@ never the headline.
 
     python3 story.py <slug>        write public/web-stories/<slug>.html
     python3 story.py --all         every post that has no story yet
+    python3 story.py --check       run the OFFICIAL AMP validator over all of
+                                   them. Never push without this: an invalid
+                                   story is not a degraded story, Google drops
+                                   it, and nothing else in the pipeline can
+                                   tell you.
 """
 import html
 import json
@@ -59,6 +64,35 @@ INK = (5, 6, 15)               # #05060F
 
 # Portrait, the only aspect ratio Google accepts for the poster.
 W, H = 640, 853
+
+# THE AMP BOILERPLATE IS A FIXED STRING AND IS CHECKED BYTE FOR BYTE.
+#
+# The first version of this file wrote the boilerplate inline in the f-string
+# with every brace doubled, and dropped the -moz-, -ms- and -o- prefixed rules
+# because they look like dead weight in 2026. They are not optional: the AMP
+# validator compares this block against one exact expected string, and all
+# fourteen stories failed with "the mandatory text inside tag
+# 'head > style[amp-boilerplate]' is missing or incorrect". Google does not
+# degrade an invalid story, it drops it — the pages were live, in the sitemap,
+# and could never have been shown.
+#
+# So it lives here as a plain string, never inside an f-string. Doubling braces
+# by hand across 700 characters of CSS is exactly how the first one broke, and
+# nothing in the output would have said so.
+AMP_BOILERPLATE = (
+    "<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) "
+    "0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal "
+    "both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;"
+    "animation:-amp-start 8s steps(1,end) 0s 1 normal both}"
+    "@-webkit-keyframes -amp-start{from{visibility:hidden}"
+    "to{visibility:visible}}"
+    "@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}"
+    "@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}"
+    "@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}"
+    "@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}"
+    "</style><noscript><style amp-boilerplate>body{-webkit-animation:none;"
+    "-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>"
+)
 
 
 def front_matter(text):
@@ -217,7 +251,7 @@ def build(slug):
     "author":{{"@type":"Organization","name":"{BRAND}"}},
     "publisher":{{"@type":"Organization","name":"{BRAND}"}}}}
   </script>
-  <style amp-boilerplate>body{{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}}@-webkit-keyframes -amp-start{{from{{visibility:hidden}}to{{visibility:visible}}}}@keyframes -amp-start{{from{{visibility:hidden}}to{{visibility:visible}}}}</style><noscript><style amp-boilerplate>body{{-webkit-animation:none;animation:none}}</style></noscript>
+  {AMP_BOILERPLATE}
   <style amp-custom>
     .pad{{padding:2.2rem 1.8rem;justify-content:center}}
     .h{{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:2rem;
@@ -243,7 +277,57 @@ def build(slug):
     return p, len(pages) + 1
 
 
+def validate(paths):
+    """Run the official AMP validator over the generated stories.
+
+    This is not a nicety, it is the gate. Fourteen stories were generated,
+    committed, deployed and listed in the sitemap while every one of them was
+    invalid, and every signal available without the validator said they were
+    fine: they rendered in a browser, the HTML looked correct, the files were
+    live and returned 200. Google publishes no error for an invalid story — it
+    simply never surfaces it — so nothing downstream would ever have reported
+    this.
+
+    Returns (passed, failed, note). A missing validator is reported as a
+    missing validator, never as a pass.
+    """
+    import subprocess
+    paths = [str(p) for p in paths]
+    try:
+        r = subprocess.run(["npx", "--yes", "amphtml-validator", *paths],
+                           capture_output=True, text=True, timeout=600)
+    except FileNotFoundError:
+        return 0, 0, "npx not found — validator did NOT run"
+    except subprocess.TimeoutExpired:
+        return 0, 0, "validator timed out — treat as NOT validated"
+    out = (r.stdout or "") + (r.stderr or "")
+    # The validator writes one line per file; strip the ANSI colour it adds.
+    clean = re.sub(r"\x1b\[[0-9;]*m", "", out)
+    passed = [l for l in clean.split("\n") if l.rstrip().endswith(": PASS")]
+    fails = [l for l in clean.split("\n")
+             if l.strip() and not l.rstrip().endswith(": PASS")]
+    for l in fails:
+        print(f"  ✗ {l.strip()}")
+    if not passed and not fails:
+        return 0, 0, "validator produced no output — treat as NOT validated"
+    return len(passed), len(fails), ""
+
+
 def main():
+    if "--check" in sys.argv:
+        files = sorted(OUT.glob("*.html"))
+        if not files:
+            print("no stories to check")
+            return
+        ok, bad, note = validate(files)
+        if note:
+            print(f"\n{note}")
+            raise SystemExit(2)
+        print(f"\n{ok} passed, {bad} failed, of {len(files)} stories")
+        if bad:
+            raise SystemExit(1)
+        return
+
     if "--all" in sys.argv:
         made = 0
         for src in sorted(POSTS.glob("*.md")):
