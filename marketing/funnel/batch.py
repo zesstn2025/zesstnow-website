@@ -14,6 +14,19 @@ EXCLUDE ANYONE WHOSE DEV CAPACITY IS THE PRODUCT. A 200-person offshore shop is
 not short of developers. The fit is a small team that sells websites and does
 not employ the people who build them.
 
+EVERY ROW MUST PASS active.py BEFORE IT IS MAILED, NOT AFTER.
+
+On 14 September this list was mailed and only then checked. Frosi + Bair came
+back at 5 out of 100 — copyright 2020, no date anywhere on the site after 2020
+— and had already been sent to. Two more, North Fork and Side By Side, scored
+zero because their sites do not respond at all; they escaped only because
+agencymail could not reach a dead site to find an address. That is luck, not a
+method, and it works exactly until a dormant agency keeps paying for hosting.
+
+A dormant agency is worse than a bounce. A bounce tells you something. Silence
+from a dead inbox is indistinguishable from silence from a live agency that
+ignored you, so it quietly poisons the only number that matters.
+
 `asked` is deliberately absent on these rows. They did not ask for anything —
 they were found — and partner_cold() is the only writer that may be used on
 them. partner_email() opens by citing a post, which for this list would be a
