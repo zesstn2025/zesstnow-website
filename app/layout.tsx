@@ -70,6 +70,21 @@ export const metadata: Metadata = {
   creator: company.legalName,
   publisher: company.legalName,
   robots: { index: true, follow: true },
+  // Google Search Console ownership. The value comes from an environment
+  // variable rather than being hardcoded so that verifying the property is a
+  // Vercel setting, not a code change and a deploy — and so the token, which
+  // is account-specific, is not committed to a public repository.
+  //
+  // To verify: Search Console → Add property → URL prefix
+  // https://www.cognitivecapitalsuite.com → HTML tag. Google shows
+  // <meta name="google-site-verification" content="XXXX" />. Put only the XXXX
+  // into GOOGLE_SITE_VERIFICATION on Vercel, redeploy, then press Verify.
+  //
+  // Next renders nothing when the variable is unset, so an unverified site
+  // carries no empty tag claiming ownership it does not have.
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+    : {}),
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
