@@ -31,11 +31,24 @@ they are not negotiable:
 - Never state a rate, a threshold or a due date as legal advice. Point at the
   portal or a CA. The site's existing posts do this consistently — match them.
 - 900–1,500 words. Three to six `##` sections. Three FAQ entries in front matter.
+  The section range has one exception, and only one: a post whose **title
+  promises an enumerated list** ("seven questions to ask") gets one `##` per
+  item, however many that is. Collapsing seven questions into five headings to
+  satisfy a rule makes the post worse and breaks the promise the title made.
+  The rule exists to stop a post fragmenting into ten half-thoughts, not to
+  override its own structure. `website-developer-red-flags` is the first post
+  to use this, at eight.
 - Front matter fields exactly as the existing posts use them: `title`,
   `description`, `date`, `category`, `tags`, `author`, `faq`. `author` is always
   "Zesst Now".
-- `category` must be one already in use: GST & Tax, Loans & Credit,
-  Registration, Software, Marketing, Web.
+- `category` must be one ALREADY IN USE. Read from the posts, not from memory —
+  this list was wrong until 14 September and named four categories that have
+  never existed on this site ("Loans & Credit", "Registration", "Software",
+  "Web"), which would have created a one-post orphan category the first time a
+  run trusted it. The six real ones, as of 14 September 2026:
+  **AI & Automation, Compliance, GST & Tax, Loans & Funding, Sales & Growth,
+  Web & Design.** Verify with
+  `grep -h '^category:' content/blog/*.md | sort | uniq -c` before using one.
 - Link to two or three of the existing posts where genuinely relevant, and to at
   most one service page. More than that and it reads as a funnel.
 

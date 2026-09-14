@@ -10,6 +10,15 @@ cost here.
 - **Never touch `advnitinkumar-website` or `bizgst-pro`** — not their code, not
   their Supabase databases, not their deploys. They are separate projects with
   separate owners. Only their *portfolio entries* live on this site.
+- **Another session's Routines are not this session's business.** `list_triggers`
+  returns every Routine on the account, including ones belonging to sessions
+  working on other projects. Do not disable, update, delete or fire any Routine
+  this session did not create — **and do not report them either.** They are not
+  a finding; raising them is the same interruption as touching them, and it has
+  been raised more than once. This session owns exactly two:
+  *Agency white-label — daily* and *SEO — 2 blog posts + 2 Web Stories daily*.
+  Anything else in that list is somebody else's work and is already accounted
+  for. The owner runs several sessions on purpose.
 - **The advocate's live domain is `adnitinkumar.in`** — no "v". `advnitinkumar.in`
   does not resolve; it has been checked repeatedly. Never "correct" it.
 - **Zero yellow, zero gold**, anywhere in the palette.
