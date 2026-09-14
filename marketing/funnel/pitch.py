@@ -543,6 +543,92 @@ hours is a sensible first block — not a retainer, not a contract.
     return subject, body
 
 
+# ── cold, and honest about being cold ─────────────────────────────────────────
+#
+# partner_email opens "You posted on <date> looking for a developer." That is
+# true for an agency found through a hiring post and a LIE for one found by
+# fit — a three-person studio that sells websites and employs no developers
+# never asked us for anything.
+#
+# The distinction matters more than it sounds. The whole pitch rests on being
+# the supplier who says the inconvenient thing early; opening with a fabricated
+# premise destroys that in the first line, and an agency owner who does not
+# remember writing the post we cite knows immediately what they are reading.
+#
+# So this version says plainly how we found them and why we think it fits. It
+# is a cold email and it does not pretend otherwise. What earns the read is the
+# rate being in the message rather than behind a "custom quote in 48 hours",
+# and the non-compete being answered before it is asked.
+
+# Hoisted: a backslash cannot appear inside an f-string expression, and this
+# sentence needs its quotation marks.
+PRICE_UPFRONT = (
+    'You can price a client proposal against those today. Nobody can '
+    'price one against "custom quote within 48 hours", which is what the '
+    'last supplier who wrote to you probably said.'
+)
+
+
+def partner_cold(lead):
+    """For an agency found by FIT, not by a post. Never claims they asked."""
+    # Falling back to the company name gives "Hi Kreative Splash," — which
+    # reads as a mail merge that could not find a field, on a message whose
+    # whole claim is that a person wrote it. "Hi there" is plainly a greeting
+    # to a stranger, which is what this is.
+    who = lead["first"] or "there"
+    firm = lead.get("firm") or lead["name"]
+    book = _book(lead)
+    subject = f"Development capacity for {firm}, at ${book[0]['low']}–{book[0]['high']}/hr" \
+        if lead.get("region") == "export" else \
+        f"Development capacity for {firm} — rates and the non-compete"
+
+    rows = "\n".join(f"  {t['name']:<38} {rate(t)}" for t in book)
+
+    body = (
+f"""Hi {who},
+
+{_w(f"This is a cold email and I will not pretend otherwise. I found {firm} "
+     f"because you sell websites and your team is small — which usually means "
+     f"development is either the bottleneck or the thing you turn work down "
+     f"over. If neither is true, say so and I will not write again.")}
+
+{_w("We build under other agencies' brands. Your client never learns we "
+     "exist, and — the part that actually matters — we do not contact them, "
+     "are not named to them, and do not take work from them afterwards. In "
+     "writing before anything starts.")}
+
+THE RATES, IN THIS EMAIL RATHER THAN BEHIND A FORM
+
+{rows}
+
+  Everything, including who we are NOT right for:
+  {PARTNERS_PAGE}
+
+{_w(PRICE_UPFRONT)}
+
+TWO THINGS TO OPEN INSTEAD OF TAKING MY WORD
+
+  {PORT_OWN}
+      Our own product. We designed, built, run and support it. For an agency
+      deciding whether we can actually build, that is the honest thing to look
+      at rather than a deck.
+
+  {PORT_CLIENT}
+      A client build — online payment, a dues check, appointment booking.
+
+ONE QUESTION
+
+What is the piece you are pushing out right now because nobody is free? Ten
+hours is a sensible first block. Not a retainer, not a contract.
+
+{booking_block()}
+
+— {SIGN_NAME}
+{SIGN_CO}
+{SITE}""")
+    return subject, body
+
+
 if __name__ == "__main__":
     import sys
     from leads import LEADS
