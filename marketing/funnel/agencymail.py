@@ -122,6 +122,38 @@ def cf_decode(html):
     return out
 
 
+def sibling(email_domain, site_domain):
+    """Is this address on a domain the same agency also owns?
+
+    digitopia.design publishes hello@digitopiadesign.com. Both are theirs —
+    one drops the dot. The strict own-domain rule rejected it, which is a
+    false negative on a real prospect, and the same shape recurs constantly:
+    a studio on studio.co and hello@studioco.com, or example.design and
+    hello@example.com.
+
+    The test is whether the two names are the same word with punctuation and
+    the TLD removed. That accepts a genuine sibling and still refuses an
+    unrelated domain, which is what the rule is actually for — an address on
+    somebody else's domain is a client, a partner, or a footer credit.
+    """
+    def core(d):
+        # Strip the TLD (and a second-level one like .co.uk), then every
+        # separator, so "digitopia.design" and "digitopiadesign.com" both
+        # reduce to "digitopiadesign" / "digitopia".
+        parts = d.lower().split(".")
+        if len(parts) > 2 and parts[-2] in {"co", "com", "org", "net", "ac", "gov"}:
+            parts = parts[:-2]
+        else:
+            parts = parts[:-1]
+        return "".join(parts).replace("-", "")
+    a, b = core(email_domain), core(site_domain)
+    if not a or not b:
+        return False
+    # One contains the other: "digitopiadesign" vs "digitopiadesign" after the
+    # site's TLD ("design") is folded back in by core().
+    return a == b or a in b or b in a
+
+
 def emails_on(html, domain):
     """Only addresses on the agency's OWN domain. An address on someone else's
     domain sitting on this page is a partner, a client, or a footer credit —
@@ -132,7 +164,7 @@ def emails_on(html, domain):
         if JUNK.search(e) or FREEMAIL.search(e) or len(e) > 80:
             continue
         d = e.split("@")[1]
-        if d == domain or d.endswith("." + domain):
+        if d == domain or d.endswith("." + domain) or sibling(d, domain):
             out.add(e)
     # Cloudflare-obfuscated addresses, decoded back into the same funnel and
     # held to the same own-domain rule as everything else.
@@ -140,7 +172,7 @@ def emails_on(html, domain):
         e = e.lower().strip().rstrip(".")
         if EMAIL.fullmatch(e) and not JUNK.search(e) and not FREEMAIL.search(e):
             d = e.split("@")[1]
-            if d == domain or d.endswith("." + domain):
+            if d == domain or d.endswith("." + domain) or sibling(d, domain):
                 out.add(e)
     # mailto: links are more reliable than loose text — a string in the page
     # body can be an example; a mailto is something a human meant to be clicked.
@@ -148,7 +180,7 @@ def emails_on(html, domain):
         e = urllib.parse.unquote(m.group(1)).lower().strip().rstrip(".")
         if EMAIL.fullmatch(e) and not JUNK.search(e) and not FREEMAIL.search(e):
             d = e.split("@")[1]
-            if d == domain or d.endswith("." + domain):
+            if d == domain or d.endswith("." + domain) or sibling(d, domain):
                 out.add(e)
     return out
 
