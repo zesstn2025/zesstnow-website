@@ -1,14 +1,16 @@
 # Daily blog queue
 
-One post a day, published by a Routine at 07:00 IST. The queue is deliberately a
+Two posts a day, published by a Routine. Each post also produces a
+Web Story via `marketing/blog/story.py`, so two posts means two stories
+with no extra writing. The queue is deliberately a
 plain file rather than a database: publishing here is a git commit, so the queue
 belongs in the same place as the posts it produces, and anyone can reorder it by
 editing a line.
 
-**How the daily job uses it.** Read this file top to bottom, take the first entry
-whose `content/blog/<slug>.md` does not exist yet, write that post, commit,
-push. Nothing else. That makes the job idempotent — running it twice in a day
-produces one post, not two — and it stops on its own when the queue empties
+**How the daily job uses it.** Read this file top to bottom, take the first TWO entries
+whose `content/blog/<slug>.md` does not exist, write them, build their stories,
+commit, push. Nothing else. That makes the job idempotent — running it twice in a day
+produces two posts, not four — and it stops on its own when the queue empties
 rather than inventing filler.
 
 **What each entry has to earn.** Every topic below is a question somebody with a
@@ -38,6 +40,53 @@ they are not negotiable:
   most one service page. More than that and it reads as a funnel.
 
 ---
+
+## PRIORITY BLOCK — website buyers. Take these first.
+
+Added 14 September 2026, and placed above the older list on purpose.
+
+The thirty topics below this block are good, and most of them are for a
+different reader: somebody with a GST notice or a loan file. They were written
+when this site's job was to support BizGST Pro. They will not bring a website
+client, because a person searching "GSTR-2B और किताब में फ़र्क़" is not about to
+commission a website.
+
+Outbound now goes to agencies — white-label, the only sourcing loop we run.
+This block is the other half: **inbound from people who are about to pay for a
+website and are still deciding.** Outbound buys attention; this earns it, and
+only one of the two keeps working after you stop paying for it.
+
+Every entry is a question somebody types into Google in the weeks BEFORE they
+hire anyone. That is the entire filter. "Top 10 web design trends" is not here
+and never will be — nobody who reads it is buying.
+
+**Language: English, like the posts already on the site.** The older block
+below is titled in Hindi; those posts should still be written in English to
+match the fourteen already published, or the site reads as two different sites.
+
+| slug | question it answers | angle |
+|---|---|---|
+| `website-cost-india-2026` | What does a website actually cost in India? | Publish the real bands and what moves a quote between them. Almost every competing page hides this; the one that answers it earns the link. Prices from `marketing/funnel/pricing.py`, never memory. |
+| `website-developer-red-flags` | How do I tell if a developer will waste my money? | Seven questions to ask before paying, and what a straight answer to each sounds like. |
+| `who-owns-my-website` | Who owns the domain, the code and the hosting? | The most expensive thing Indian small businesses get wrong. Name exactly what to ask for in writing. |
+| `website-or-instagram-page` | I have an Instagram page — do I need a website? | For some businesses the honest answer is no. Saying which ones is what makes the yes believable. |
+| `how-long-does-a-website-take` | How long does it take? | Where the weeks actually go, and the three client-side delays that cause nearly all overruns. |
+| `what-to-give-your-web-developer` | What do I send before work starts? | Content, photos, logo, access, one decision-maker. The post that saves the reader a month. |
+| `website-no-enquiries` | Traffic but no enquiries — why? | Four fixable causes, none of them design. |
+| `domain-hosting-explained` | What am I paying for every year? | Domain, hosting, SSL, email: what each costs and what breaks when one lapses. |
+| `google-business-profile-vs-website` | Is a Google listing enough? | Where the listing wins, where it cannot go, how they work together. |
+| `wordpress-vs-custom-website` | WordPress or custom-built? | Decide by who edits it and how often — not by technology. |
+| `website-maintenance-cost` | What does it cost to keep running? | The year-two bill nobody quotes at the start. |
+| `free-website-builders-truth` | Can I just use Wix? | Sometimes yes. Say exactly when, and what leaving costs later. |
+| `moving-website-new-developer` | How do I move away from my current developer? | What to collect before you say a word, in order. |
+| `app-or-website-first` | Do I need an app? | For most Indian SMBs, no — and the reason is distribution, not cost. |
+| `website-for-a-clinic` | What does a clinic's site need? | One job: make somebody book. Everything else serves that button. |
+| `website-for-a-manufacturer` | What does a factory's site need? | A catalogue a buyer can forward to his own boss. |
+| `website-for-a-coaching-centre` | What does a coaching centre's site need? | Parents decide on a phone now: who teaches, which batch, what fee. |
+| `local-seo-small-town-india` | How do I show up in my own town? | What actually moves local rank with no budget. |
+| `stock-photos-vs-real-photos` | Do I need real photographs? | In a small town a customer recognises stock instantly, and the site stops proving anything. |
+| `advance-payment-website-project` | Is an advance normal? | 25% is standard and why. What a milestone schedule should look like. |
+
 
 | # | Slug | Title | Category | Angle — the thing this post argues |
 |---|---|---|---|---|
