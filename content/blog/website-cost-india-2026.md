@@ -33,13 +33,23 @@ rather you knew before the call.
 | **Platform** — B2B and B2C together, dealer logins and tiered pricing, admin dashboard and roles, third-party integrations | ₹1,00,000 – ₹1,50,000 | about 28 days |
 | **App, one platform** — Android or iOS, backend, admin panel, store submission | ₹1,00,000 – ₹1,50,000 | about 35 days |
 | **App, Android + iOS** — both stores, shared backend with the site, in-app payments | ₹1,50,000 – ₹2,50,000 | about 56 days |
+| **Product build** — the software the business *sells*: accounts, payments, customer dashboard, admin, integrations | ₹3,50,000 – ₹10,00,000 | 9–16 weeks, in milestones |
 
 One year of hosting is included with every website. Terms are 25% to start and
 the balance on delivery.
 
-The single thing that moves you between bands is not page count and not design
-quality. It is **how much of the work is building software versus presenting a
-business.** A twelve-page site for a manufacturer with beautiful photography is
+The last row is a different kind of purchase from the rest, and the difference
+is not size. Everything above it is a business *presenting* itself. A product
+build is the software the business *sells* — if it stops working the company
+has no product, not a broken website. That is why a funded startup pays four
+times what a twelve-page manufacturer site costs for something that can look
+smaller from the outside. It is also always quoted in milestones: each one
+ships something you can judge, you pay after it ships, and you can stop at any
+boundary and keep the code.
+
+The single thing that moves you between the first five bands is not page count
+and not design quality. It is **how much of the work is building software
+versus presenting a business.** A twelve-page site for a manufacturer with beautiful photography is
 a business site. A six-page site where one of the pages lets a dealer log in and
 see their own pricing is a platform, and it costs four times as much, because
 the login, the roles and the pricing rules are software.

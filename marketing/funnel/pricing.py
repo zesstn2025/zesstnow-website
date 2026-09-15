@@ -61,6 +61,60 @@ APP = [
               "Post-launch support"]),
 ]
 
+# ── the tier above the rate card, and why it had to exist ────────────────────
+#
+# Added 15 September 2026. Everything above tops out at ₹2.5L, and that ceiling
+# was quietly deciding who we could sell to: a funded startup that needs its
+# actual PRODUCT built is a ₹5–10L buyer, and a founder about to spend that
+# much looks the vendor up. Finding "₹1–1.5L for a platform" published on our
+# own site ends the conversation before it starts — we would have negotiated
+# against ourselves using our own website.
+#
+# This is deliberately NOT a price rise on the bands above. A ₹25,000 shop
+# website and a ₹6L product build are different products for different buyers,
+# and losing the first to reach the second would be a bad trade. The floor
+# stays ₹25,000.
+#
+# What separates this tier from "Platform" is not size, it is who the software
+# is FOR. A platform is a business presenting itself with some logic behind it.
+# This is the thing the business sells — if it stops working the company has no
+# product, not a broken website. That difference is what a founder is actually
+# buying, and it is why the number is different.
+#
+# Always quoted as milestones, never as one number. A ₹6L lump sum from an
+# unknown vendor is a decision a founder postpones; ₹1.2L for a first milestone
+# that ships in two weeks is a decision they can make on a call. Same project,
+# same total — one of them closes.
+PRODUCT = [
+    dict(id="mvp", low=3_50_000, high=6_00_000, days=63,
+         name="Product build — MVP",
+         fits="A funded startup whose product does not exist yet, or exists "
+              "as a no-code prototype it has outgrown",
+         has=["Accounts and authentication", "Payments and subscriptions",
+              "Customer-facing dashboard", "Admin panel and roles",
+              "APIs and third-party integrations",
+              "Their GitHub from day one", "Milestone delivery"]),
+    dict(id="platform-plus", low=6_00_000, high=10_00_000, days=112,
+         name="Product build — platform + apps",
+         fits="Web product plus Android and iOS on one backend, with the "
+              "operational tooling a real customer base needs",
+         has=["Everything in MVP", "Android and iOS on a shared backend",
+              "Role-based operations tooling", "Reporting and analytics",
+              "Scale and monitoring work", "Handover and documentation"]),
+]
+
+# The milestone shape a PRODUCT quote is always presented in. The split matters
+# more than the total: each milestone ships something they can judge, they pay
+# after it ships, and they can stop at any boundary and keep the code. That
+# removes the only real objection — which is never price, but "what happens to
+# my money if this person disappears" — and it costs us nothing to offer.
+MILESTONES = [
+    ("M1", "Auth + accounts", 0.20, 2),
+    ("M2", "Payments + subscriptions", 0.25, 2),
+    ("M3", "Customer dashboard", 0.33, 3),
+    ("M4", "Admin + reporting", 0.22, 2),
+]
+
 TERMS = dict(advance_pct=25, hosting_years=1,
              note="25% to start, balance on delivery. One year of hosting "
                   "included with every website.")
