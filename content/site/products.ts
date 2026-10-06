@@ -37,10 +37,146 @@ export type Product = {
   features: { title: string; body: string }[];
   steps: { title: string; body: string }[];
   pricing?: { title: string; sub: string; tiers: PricingTier[] };
+  /** Fixed published prices replace the "quoted after a call" footer. */
+  pricingNote?: string;
+  /** Hero buttons, for a product sold directly (WhatsApp / payment page) rather than via /contact. */
+  ctas?: { label: string; href: string; primary?: boolean }[];
   faq: { q: string; a: string }[];
 };
 
 export const products: Product[] = [
+  /**
+   * Zesst AI Staff — the four WhatsApp/Google agents sold to local businesses.
+   *
+   * Prices are the live Razorpay pages (₹49 webinar, ₹3,999 + GST setup,
+   * ₹1,499 + GST monthly) and the owner's founding offer (first month free,
+   * first 50 businesses). Meta's WhatsApp charges are disclosed because the
+   * customer pays them to Meta directly. No ranking or sales guarantee is made
+   * anywhere — the agents answer and follow up; they do not create demand.
+   * The bot number +91 74979 43981 is the live production WhatsApp number.
+   */
+  {
+    slug: "zesst-ai-staff",
+    name: "Zesst AI Staff",
+    domain: "cognitivecapitalsuite.com",
+    status: "Live",
+    accent: "violet",
+    kicker: "4 AI STAFF FOR LOCAL BUSINESS",
+    headline: "Four AI staff who reply, follow up, collect reviews and post — 24×7.",
+    sub: "For shops, clinics, salons, coaching centres and every business on Google Maps: an AI that answers every WhatsApp enquiry in Hindi or English, follows up until the customer decides, asks happy customers for Google reviews, and keeps your Instagram posting on schedule. Live in 7–15 days.",
+    audience:
+      "Built for Indian local businesses in any of Google's 4,000+ business categories that get enquiries on WhatsApp and lose them to slow replies and forgotten follow-ups.",
+    ctas: [
+      {
+        label: "Chat with the AI on WhatsApp",
+        href: "https://wa.me/917497943981?text=Hi%2C%20mujhe%20Zesst%20AI%20Staff%20ke%20baare%20mein%20jaankari%20chahiye",
+        primary: true,
+      },
+      { label: "Join the ₹49 live webinar", href: "https://rzp.io/rzp/Zxryqg9l" },
+    ],
+    features: [
+      {
+        title: "AI Salesman — WhatsApp",
+        body: "Replies to every enquiry in seconds, day or night, in the customer's own language. Answers from your services, prices and FAQs, notes the customer's name and need, and alerts you the moment a lead is ready to buy.",
+      },
+      {
+        title: "AI Follow-up",
+        body: "Reminds the people who went quiet — enquiries, bookings, renewals, payments, festival offers — politely and on schedule, and stops the moment someone says STOP.",
+      },
+      {
+        title: "AI Review Manager",
+        body: "Asks every happy customer for a Google review with your own review link, drafts replies to reviews, and gives you a full Google Business Profile pack: categories, services, attributes and posts.",
+      },
+      {
+        title: "AI Social Poster",
+        body: "Publishes your Instagram posts on schedule with captions and hashtags written for your business and city, so your page never goes quiet.",
+      },
+      {
+        title: "Your assistant on WhatsApp",
+        body: "Type MENU on WhatsApp for a Google post, a review reply, an offer message or an exact GST calculation — ready to copy and paste.",
+      },
+      {
+        title: "Weekly report",
+        body: "Every Monday: new enquiries, conversations handled, hot leads, follow-ups sent and reviews requested — so you can see whether it is working.",
+      },
+    ],
+    steps: [
+      {
+        title: "See it working",
+        body: "Join the live Hindi webinar (Sundays, 10 AM, Google Meet, ₹49) and watch the four staff handle real conversations.",
+      },
+      {
+        title: "Tell us about your business",
+        body: "After setup payment, type SETUP on WhatsApp. A five-minute form captures your services, prices, timings and FAQs.",
+      },
+      {
+        title: "Connect WhatsApp and Google",
+        body: "A ten-minute call connects your business number, and you add us as a manager on your Google Business Profile. The bot guides every step with links.",
+      },
+      {
+        title: "Go live",
+        body: "We test everything with you and switch it on — usually in 7–15 days. The monthly plan starts after the first month.",
+      },
+    ],
+    pricing: {
+      title: "Simple, published pricing",
+      sub: "Founding offer for the first 50 businesses: the first month is free.",
+      tiers: [
+        {
+          name: "Live webinar",
+          price: "₹49",
+          period: "one-time",
+          note: "Sundays, 10 AM, Hindi, Google Meet",
+          features: ["Live demo of all four AI staff", "Questions answered live", "Founding offer for attendees"],
+        },
+        {
+          name: "Setup",
+          price: "₹3,999",
+          period: "+ GST, one-time",
+          note: "Everything configured for your business",
+          features: [
+            "All four AI staff set up",
+            "WhatsApp number connected",
+            "Google Business Profile pack",
+            "First month free (founding members)",
+          ],
+          highlight: true,
+        },
+        {
+          name: "Monthly",
+          price: "₹1,499",
+          period: "+ GST / month",
+          note: "Starts after the first month",
+          features: ["All four AI staff running 24×7", "Weekly report", "Updates when your prices or services change", "Support on WhatsApp"],
+        },
+      ],
+    },
+    pricingNote:
+      "Prices exclude 18% GST. WhatsApp message charges are set by Meta and billed by Meta to your own WhatsApp Business account; replies to customers who message you are free. No one can guarantee Google rankings or sales — the AI staff make sure no enquiry goes unanswered or unfollowed.",
+    faq: [
+      {
+        q: "Will my number still work in the WhatsApp app?",
+        a: "The number connected to the AI stops working in the WhatsApp phone app, because the AI now answers on it. Most businesses use a new SIM for it, or move their business number across. We explain the choice on the setup call.",
+      },
+      {
+        q: "Do you guarantee more customers or a higher Google ranking?",
+        a: "No. Nobody honest can. What the AI staff guarantee is that every enquiry gets a reply within seconds, every quiet lead gets followed up, and every happy customer is asked for a review — the parts most businesses lose today.",
+      },
+      {
+        q: "What does Meta charge?",
+        a: "Meta charges for messages your business starts — reminders, offers, renewals — at its published per-message rates, billed to your own account. Replying to a customer who messaged you is free. We set your account up so you can see every charge.",
+      },
+      {
+        q: "Which businesses is it for?",
+        a: "Any local business that customers find on Google or WhatsApp — shops, clinics, salons, gyms, coaching centres, restaurants, CA offices, service providers — across Google's 4,000+ business categories.",
+      },
+      {
+        q: "What if the AI does not know an answer?",
+        a: "It says so plainly, tells the customer someone will call, and alerts you immediately. It never invents prices, offers or promises.",
+      },
+    ],
+  },
+
   {
     slug: "bizgstpro",
     name: "BizGST Pro",
