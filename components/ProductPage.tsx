@@ -62,7 +62,19 @@ export default function ProductPage({ product }: { product: Product }) {
               <div className="hero-ctas reveal" data-delay={230}>
                 {/* Products that live on this domain have nowhere external to
                     send the visitor, so the enquiry becomes the primary action. */}
-                {product.url ? (
+                {product.ctas?.length ? (
+                  product.ctas.map((c) => (
+                    <a
+                      key={c.href}
+                      href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={c.primary ? "pill pill-primary" : "pill pill-ghost"}
+                    >
+                      {c.label}
+                    </a>
+                  ))
+                ) : product.url ? (
                   <>
                     <a
                       href={product.url}
@@ -216,7 +228,9 @@ export default function ProductPage({ product }: { product: Product }) {
                 ))}
               </div>
 
-              {product.url ? (
+              {product.pricingNote ? (
+                <p className="tier-foot">{product.pricingNote}</p>
+              ) : product.url ? (
                 <p className="tier-foot">
                   Prices are {product.name}&rsquo;s published rates and may change —{" "}
                   <a
