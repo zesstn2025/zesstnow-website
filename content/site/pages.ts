@@ -297,6 +297,7 @@ export const footer = {
         { label: "Privacy Policy", href: "/legal/privacy" },
         { label: "Terms of Service", href: "/legal/terms" },
         { label: "Refund Policy", href: "/legal/refunds" },
+        { label: "Data Deletion", href: "/legal/data-deletion" },
       ],
     },
   ],
@@ -312,13 +313,13 @@ export const footer = {
  */
 
 export const legal = {
-  updated: "20 August 2026",
+  updated: "7 October 2026",
   pages: [
     {
       slug: "privacy",
       title: "Privacy Policy",
       intro:
-        "This policy covers www.cognitivecapitalsuite.com, the website of Zesst Now Services Private Limited. It does not cover BizGST Pro, which is a separate product with its own policy at bizgstpro.com.",
+        "This policy covers www.cognitivecapitalsuite.com, the website of Zesst Now Services Private Limited, and Zesst AI Staff, our WhatsApp, Instagram, Facebook and Google automation service. It does not cover BizGST Pro, which is a separate product with its own policy at bizgstpro.com.",
       sections: [
         {
           heading: "What this site collects",
@@ -332,6 +333,29 @@ export const legal = {
           body: [
             "If you send us a message on WhatsApp, email us, or call, we hold what you send in order to reply to you and to deliver any service you engage us for. That includes your name, contact details and whatever you choose to tell us about your business.",
             "We do not sell your details, and we do not share them with anyone except where it is necessary to deliver a service you asked for — for example, submitting a loan application to the bank you asked us to approach, or filing a return with the GST or Income Tax department on your instruction.",
+          ],
+        },
+        {
+          heading: "Zesst AI Staff: what we process for a business",
+          body: [
+            "Zesst AI Staff works on accounts a business owns and connects to us itself: its WhatsApp Business number, its Instagram professional account, its Facebook Page and its Google Business Profile. We only reach these accounts through the official Meta and Google APIs, with the permissions the business grants, and the business can withdraw them at any time.",
+            "Through those connections we process messages that people send to that business on WhatsApp or Instagram, comments on its own posts, reviews on its own Google profile, and the business's own posts and their statistics. We use this only to do what the business has engaged us for: replying to its customers, sending follow-ups and reminders those customers have agreed to receive, asking for and replying to reviews, publishing its posts and sending the owner a weekly report.",
+            "For this data we act on the business's instructions. The business is responsible for its relationship with its own customers; we do not contact them for our own purposes.",
+          ],
+        },
+        {
+          heading: "Where it is stored and who else sees it",
+          body: [
+            "Conversation records and settings are kept on a server we operate and in a Google Sheet in our Google Workspace account. To write a reply, the text of the incoming message and the business's own information are sent to Google's Gemini API, which generates the reply text.",
+            "We do not sell this data, use it for advertising, or share it with anyone other than the business it belongs to and the service providers named here. We do not use it to train AI models.",
+            "Data received from Meta platforms is used in line with the Meta Platform Terms. Data received from Google APIs is used in line with the Google API Services User Data Policy, including its Limited Use requirements.",
+          ],
+        },
+        {
+          heading: "Stopping messages and deleting data",
+          body: [
+            "Anyone who receives automated WhatsApp messages from a business using Zesst AI Staff can reply STOP, and automated messages to that number stop.",
+            "A business can disconnect its accounts at any time from its Meta or Google settings, and can ask us to delete everything we hold for it. A person who messaged such a business can ask us to delete their conversation. How to ask, and what happens next, is set out on our data deletion page at /legal/data-deletion.",
           ],
         },
         {
@@ -397,6 +421,33 @@ export const legal = {
           heading: "Governing law",
           body: [
             "These terms are governed by the laws of India. Courts at Kaushambi, Uttar Pradesh have jurisdiction.",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "data-deletion",
+      title: "Data Deletion",
+      intro:
+        "How to ask Zesst Now Services Private Limited to delete data held by Zesst AI Staff or this website, and what we do when you ask.",
+      sections: [
+        {
+          heading: "If you are a business using Zesst AI Staff",
+          body: [
+            `Write to ${company.email} from the email address on your account, or message ${company.phone}, with the words "Delete my data" and your business name. We stop all automation for your accounts, delete your settings, conversation records, posts and reports from our server and our Google Sheet, and confirm to you in writing once it is done, within 30 days of your request. Invoices we are required to keep under Indian tax law are kept for the period the law requires.`,
+            "You can also withdraw our access yourself at any time: remove the Zesst app from your Facebook and Instagram settings (Business integrations, or Apps and websites), remove our access to your WhatsApp Business account in Meta Business Settings, and remove us as a manager of your Google Business Profile.",
+          ],
+        },
+        {
+          heading: "If you messaged a business that uses Zesst AI Staff",
+          body: [
+            `Reply STOP on WhatsApp to stop automated messages. To have your conversation deleted, write to ${company.email} with the phone number or Instagram username you used and the name of the business. We delete the record within 30 days and tell the business it has been deleted.`,
+          ],
+        },
+        {
+          heading: "If you signed in with Facebook or Instagram",
+          body: [
+            `If you connected your Facebook or Instagram account to our app and want what we received from Meta deleted, remove the app from your Facebook or Instagram settings and write to ${company.email}. We delete the data within 30 days and confirm by email.`,
           ],
         },
       ],
