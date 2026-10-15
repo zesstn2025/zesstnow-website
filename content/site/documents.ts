@@ -13,8 +13,9 @@
  * The SPICe+ DIN approval letter is not published and should not be. It
  * carries the director's date of birth, father's name and full residential
  * address on one page — the exact combination used for identity fraud in
- * India. The DIN itself is public on the MCA register, so the number is
- * listed below and the letter is not.
+ * India. The DIN number itself was listed among the identifiers below for one
+ * commit and was removed at the owner's instruction: it identifies a person,
+ * not the company, and nothing here needs it.
  *
  * Documents are being re-issued as the company's details are updated. When a
  * newer copy arrives, replace the file in `public/documents/` under the same
@@ -161,7 +162,14 @@ export const documents: CompanyDocument[] = [
   },
 ];
 
-/** Identifiers worth stating even where the document itself stays private. */
+/**
+ * The company's registration numbers, for anyone checking us against a
+ * government portal.
+ *
+ * COMPANY IDENTIFIERS ONLY. The director's DIN was listed here briefly and was
+ * removed at the owner's instruction. It is a person's identifier rather than
+ * the company's, and nothing on this page needs it — do not add it back.
+ */
 export const identifiers = [
   { label: "CIN", value: "U47110UP2025PTC217212" },
   { label: "GSTIN", value: "09AACCZ5676Q1Z8" },
@@ -170,7 +178,4 @@ export const identifiers = [
   { label: "Udyam", value: "UDYAM-UP-46-0015392" },
   { label: "DPIIT", value: "DIPP199952" },
   { label: "ESIC", value: "21000983730000999" },
-  // Public on the MCA register. The approval letter that carries it is not
-  // published — see the note at the top of this file.
-  { label: "Director DIN", value: "10962228" },
 ];
