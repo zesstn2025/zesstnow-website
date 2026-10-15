@@ -294,6 +294,11 @@ export const footer = {
     {
       title: "Legal",
       links: [
+        // Sits with the policies rather than in the top nav, for the same
+        // reason /partners does: a business owner choosing a supplier is not
+        // shopping for certificates, but the moment they start checking us
+        // out this is the column they scroll to.
+        { label: "Company documents", href: "/documents" },
         { label: "Privacy Policy", href: "/legal/privacy" },
         { label: "Terms of Service", href: "/legal/terms" },
         { label: "Refund Policy", href: "/legal/refunds" },
