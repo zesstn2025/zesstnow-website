@@ -2,11 +2,11 @@
 """
 Crop the leadership photographs to a consistent 3:4 headshot.
 
-The photographs arrive as phone snaps — one square close-up, two full-length
-standing shots. Dropped into a 3:4 card with `object-fit: cover` they crop from
+The photographs arrive as phone snaps — square close-ups, full-length standing
+shots, whatever the person happened to send. Dropped into a 3:4 card with `object-fit: cover` they crop from
 the centre of the frame, which on a full-length photo lands on the torso rather
 than the face. This finds the face and composes a proper portrait crop around
-it, so the three cards match each other instead of matching whatever the camera
+it, so the cards match each other instead of matching whatever the camera
 happened to frame.
 
 Run from the repo root:  python3 scripts/portraits.py

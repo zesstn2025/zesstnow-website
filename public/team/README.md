@@ -1,15 +1,14 @@
 # Leadership photographs
 
-`sonu-sharma.jpg`, `rani-devi.jpg` and `nitin-kumar.jpg` are **generated** — do
-not edit or replace them by hand. They are produced from the originals in
-`_originals/` by:
+Every `.jpg` directly in this folder is **generated** — do not edit or replace
+them by hand. They are produced from the originals in `_originals/` by:
 
 ```
 python3 scripts/portraits.py
 ```
 
 which finds the face and composes a 3:4 headshot around it (900×1200, face at
-42% of frame height, centred at 44% down). Two of the three originals are
+42% of frame height, centred at 44% down). Some of the originals are
 full-length standing photos; dropped straight into the card they would crop to
 the torso, which is what this exists to prevent.
 

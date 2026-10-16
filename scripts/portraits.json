@@ -1,5 +1,6 @@
 [
-  { "source": "sonu-sharma.jpeg", "output": "sonu-sharma.jpg" },
-  { "source": "rani-devi.jpeg",   "output": "rani-devi.jpg" },
-  { "source": "nitin-kumar.jpeg", "output": "nitin-kumar.jpg" }
+  { "source": "sonu-sharma.jpeg",    "output": "sonu-sharma.jpg" },
+  { "source": "rani-devi.jpeg",      "output": "rani-devi.jpg" },
+  { "source": "nitin-kumar.jpeg",    "output": "nitin-kumar.jpg" },
+  { "source": "dipanshu-kumar.jpeg", "output": "dipanshu-kumar.jpg" }
 ]

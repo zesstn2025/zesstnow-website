@@ -42,6 +42,10 @@ export const company = {
   // Both directors on the MCA record. Naming them is deliberate — an anonymous
   // company converts badly with the clients this site is aimed at.
   directors: ["Sonu Sharma", "Rani Devi"],
+  // Co-founder, not a director — so he is listed separately from `directors`
+  // rather than folded into it. The MCA record is the MCA record.
+  coFounder: "Dipanshu Kumar",
+  coFounderRole: "Sales & growth",
   legalAdvisor: "Adv. Nitin Kumar",
   // This site ships on cognitivecapitalsuite.com — the company's own domain,
   // which doubles as its portfolio. The www host is the canonical one; Vercel
@@ -121,8 +125,13 @@ export type Person = {
 
 export const leadership = {
   eyebrow: "WHO YOU'RE WORKING WITH",
-  title: "Three people, named.",
-  sub: "A private limited company is a legal person, but the work is done by these three. Their names are on the MCA record and on every project we take.",
+  title: "Four people, named.",
+  // The old line said all three names were "on the MCA record". Two are — the
+  // directors — and the legal advisor and the sales co-founder are not, so the
+  // claim stopped being true the moment the fourth card went in. Naming the
+  // directors separately keeps the verifiable part verifiable instead of
+  // stretching it to cover everyone.
+  sub: "A private limited company is a legal person, but the work is done by these four. Sonu Sharma and Rani Devi are the directors on the MCA record; all four are on every project we take.",
   people: <Person[]>[
     {
       name: "Sonu Sharma",
@@ -146,6 +155,14 @@ export const leadership = {
       photo: "/team/rani-devi.jpg",
       monogram: "RD",
       bio: "On the board since incorporation. Oversees the company's own statutory compliance — the filings, registers and records that let us tell a client honestly how their compliance should be run.",
+    },
+    {
+      name: "Dipanshu Kumar",
+      role: "Co-founder",
+      scope: "Sales & growth",
+      photo: "/team/dipanshu-kumar.jpg",
+      monogram: "DK",
+      bio: "Runs sales and growth. The first person most clients speak to, and the one who works out what a project actually needs before a price is put on it.",
     },
     {
       name: "Adv. Nitin Kumar",

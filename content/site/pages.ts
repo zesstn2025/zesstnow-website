@@ -191,6 +191,7 @@ export const about = {
   ],
   facts: [
     { label: "Founder & CEO", value: company.founder },
+    { label: "Co-founder", value: `${company.coFounder} — ${company.coFounderRole}` },
     { label: "Directors", value: company.directors.join(" · ") },
     { label: "Legal advisor", value: company.legalAdvisor },
     { label: "Legal name", value: company.legalName },
