@@ -2948,6 +2948,37 @@ a {
   border-bottom-color: var(--chrome);
 }
 
+/* A direct line on the one card that carries one. Not styled like .lead-link:
+   those are uppercase mono labels for a network name, whereas a phone number
+   and an address have to stay readable as the literal string somebody is
+   about to dial or copy. */
+.lead-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.lead-contact-link {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  /* 0.72rem matches .lead-link, and it is the size at which a 22-character
+     address still fits the narrow three-column card. At 0.78rem it wrapped
+     after "gmail.co", dropping a lone "m" onto the next line. */
+  font-size: 0.72rem;
+  color: var(--chrome);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(232, 238, 246, 0.2);
+  padding-bottom: 1px;
+  /* An e-mail address is long enough to push a narrow card sideways. */
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+.lead-contact-link:hover {
+  border-bottom-color: var(--chrome);
+}
+
 @media (max-width: 560px) {
   .lead {
     grid-template-columns: 104px 1fr;

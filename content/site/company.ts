@@ -121,6 +121,18 @@ export type Person = {
   monogram: string;
   bio: string;
   links?: Profile[];
+  /**
+   * A direct line, for the one or two people whose job is to be reached.
+   * Optional on purpose: most cards should not carry a personal number, and
+   * putting one here publishes it to anyone who opens the page.
+   */
+  contact?: {
+    /** As a human reads it. */
+    phone?: string;
+    /** Digits only, for the tel: href. */
+    phoneE164?: string;
+    email?: string;
+  };
 };
 
 export const leadership = {
@@ -163,6 +175,14 @@ export const leadership = {
       photo: "/team/dipanshu-kumar.jpg",
       monogram: "DK",
       bio: "Runs sales and growth. The first person most clients speak to, and the one who works out what a project actually needs before a price is put on it.",
+      // The only card carrying a direct line. He is the person a prospective
+      // client is meant to reach first, so the number is the point rather
+      // than an oversight.
+      contact: {
+        phone: "+91 82998 61762",
+        phoneE164: "918299861762",
+        email: "dipanshu0802@gmail.com",
+      },
     },
     {
       name: "Adv. Nitin Kumar",

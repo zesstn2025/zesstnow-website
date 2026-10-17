@@ -6,13 +6,17 @@ import { company, leadership, type Person } from "@/content/site";
 /**
  * The leadership cards — photograph, name and role in a glass panel.
  *
- * The photograph is checked on disk at build time rather than trusted. Three
- * real people are named here, and a card is the wrong place to discover that a
- * file was never committed: a missing image would otherwise render as a broken
- * frame on the section a client looks at hardest. When the file is absent the
- * card falls back to a monogram, which reads as a considered placeholder
- * instead of a mistake. Commit the photograph at the path named in
+ * The photograph is checked on disk at build time rather than trusted. Real,
+ * named people are listed here, and a card is the wrong place to discover that
+ * a file was never committed: a missing image would otherwise render as a
+ * broken frame on the section a client looks at hardest. When the file is
+ * absent the card falls back to a monogram, which reads as a considered
+ * placeholder instead of a mistake. Commit the photograph at the path named in
  * content/site.ts and it appears on the next build, no code change needed.
+ *
+ * `contact` is optional and deliberately rare — it publishes a personal number
+ * to anyone who opens the page, so it belongs only on the card of someone
+ * whose job is to be reached directly.
  */
 function hasPhoto(publicPath: string) {
   try {
@@ -76,6 +80,27 @@ export default function Leadership() {
                 <span className="mono-label lead-role">{person.role}</span>
                 <span className="lead-scope">{person.scope}</span>
                 <p className="lead-bio">{person.bio}</p>
+
+                {person.contact && (
+                  <div className="lead-contact">
+                    {person.contact.phone && person.contact.phoneE164 && (
+                      <a
+                        className="lead-contact-link"
+                        href={`tel:+${person.contact.phoneE164}`}
+                      >
+                        {person.contact.phone}
+                      </a>
+                    )}
+                    {person.contact.email && (
+                      <a
+                        className="lead-contact-link"
+                        href={`mailto:${person.contact.email}`}
+                      >
+                        {person.contact.email}
+                      </a>
+                    )}
+                  </div>
+                )}
 
                 {person.links?.some((l) => l.url) && (
                   <div className="lead-links">
