@@ -42,10 +42,6 @@ export const company = {
   // Both directors on the MCA record. Naming them is deliberate — an anonymous
   // company converts badly with the clients this site is aimed at.
   directors: ["Sonu Sharma", "Rani Devi"],
-  // Co-founder, not a director — so he is listed separately from `directors`
-  // rather than folded into it. The MCA record is the MCA record.
-  coFounder: "Dipanshu Kumar",
-  coFounderRole: "Sales & growth",
   legalAdvisor: "Adv. Nitin Kumar",
   // This site ships on cognitivecapitalsuite.com — the company's own domain,
   // which doubles as its portfolio. The www host is the canonical one; Vercel
@@ -121,29 +117,14 @@ export type Person = {
   monogram: string;
   bio: string;
   links?: Profile[];
-  /**
-   * A direct line, for the one or two people whose job is to be reached.
-   * Optional on purpose: most cards should not carry a personal number, and
-   * putting one here publishes it to anyone who opens the page.
-   */
-  contact?: {
-    /** As a human reads it. */
-    phone?: string;
-    /** Digits only, for the tel: href. */
-    phoneE164?: string;
-    email?: string;
-  };
 };
 
 export const leadership = {
   eyebrow: "WHO YOU'RE WORKING WITH",
-  title: "Four people, named.",
-  // The old line said all three names were "on the MCA record". Two are — the
-  // directors — and the legal advisor and the sales co-founder are not, so the
-  // claim stopped being true the moment the fourth card went in. Naming the
-  // directors separately keeps the verifiable part verifiable instead of
-  // stretching it to cover everyone.
-  sub: "A private limited company is a legal person, but the work is done by these four. Sonu Sharma and Rani Devi are the directors on the MCA record; all four are on every project we take.",
+  title: "Three people, named.",
+  // Names the directors separately rather than claiming all three are "on the
+  // MCA record": two of them are, and the legal advisor is not.
+  sub: "A private limited company is a legal person, but the work is done by these three. Sonu Sharma and Rani Devi are the directors on the MCA record; all three are on every project we take.",
   people: <Person[]>[
     {
       name: "Sonu Sharma",
@@ -167,22 +148,6 @@ export const leadership = {
       photo: "/team/rani-devi.jpg",
       monogram: "RD",
       bio: "On the board since incorporation. Oversees the company's own statutory compliance — the filings, registers and records that let us tell a client honestly how their compliance should be run.",
-    },
-    {
-      name: "Dipanshu Kumar",
-      role: "Co-founder",
-      scope: "Sales & growth",
-      photo: "/team/dipanshu-kumar.jpg",
-      monogram: "DK",
-      bio: "Runs sales and growth. The first person most clients speak to, and the one who works out what a project actually needs before a price is put on it.",
-      // The only card carrying a direct line. He is the person a prospective
-      // client is meant to reach first, so the number is the point rather
-      // than an oversight.
-      contact: {
-        phone: "+91 82998 61762",
-        phoneE164: "918299861762",
-        email: "dipanshu0802@gmail.com",
-      },
     },
     {
       name: "Adv. Nitin Kumar",

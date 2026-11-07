@@ -13,10 +13,6 @@ import { company, leadership, type Person } from "@/content/site";
  * absent the card falls back to a monogram, which reads as a considered
  * placeholder instead of a mistake. Commit the photograph at the path named in
  * content/site.ts and it appears on the next build, no code change needed.
- *
- * `contact` is optional and deliberately rare — it publishes a personal number
- * to anyone who opens the page, so it belongs only on the card of someone
- * whose job is to be reached directly.
  */
 function hasPhoto(publicPath: string) {
   try {
@@ -81,26 +77,6 @@ export default function Leadership() {
                 <span className="lead-scope">{person.scope}</span>
                 <p className="lead-bio">{person.bio}</p>
 
-                {person.contact && (
-                  <div className="lead-contact">
-                    {person.contact.phone && person.contact.phoneE164 && (
-                      <a
-                        className="lead-contact-link"
-                        href={`tel:+${person.contact.phoneE164}`}
-                      >
-                        {person.contact.phone}
-                      </a>
-                    )}
-                    {person.contact.email && (
-                      <a
-                        className="lead-contact-link"
-                        href={`mailto:${person.contact.email}`}
-                      >
-                        {person.contact.email}
-                      </a>
-                    )}
-                  </div>
-                )}
 
                 {person.links?.some((l) => l.url) && (
                   <div className="lead-links">
